@@ -8,5 +8,8 @@ public class HanbaiTest {
 		builder.append("HanbaiTest []");
 		return builder.toString();
 	}
+	public void test(){
+		return;
+	}
 
 }
