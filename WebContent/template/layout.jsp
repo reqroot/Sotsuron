@@ -5,9 +5,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Insert title here</title>
+<title>${param.title}</title>
 </head>
 <body>
-
+	<jsp:include page="header.jsp"/>
+	<jsp:include page="navigator.jsp" />
+	<div id="content">
+	${param.content}
+	</div>
+	<jsp:include page="footer.jsp"/>
 </body>
 </html>
