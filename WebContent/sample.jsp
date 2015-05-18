@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%> --%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="java.util.List, java.util.ArrayList"  %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%-- javascriptの追加ここから --%>
  <%
  	List<String> list = new ArrayList<String>();
@@ -17,6 +18,11 @@
 <%-- コンテンツの編集ここから --%>
 
 <p>表示テスト</p>
+<c:if test="${js != null}">
+<c:forEach var="item" items="${js}">
+<p>${item}</p>
+</c:forEach>
+</c:if>
 
 <%-- コンテンツの編集ここまで --%>
 </jsp:attribute>
