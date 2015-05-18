@@ -11,7 +11,6 @@
 <%-- javascriptの追加ここまで --%>
 <jsp:include page="./template/layout.jsp">
 <jsp:param name="title" value="ログインページ"/>
-<%-- javascriptを追加する場合、追加処理のほかに以下を追加する --%>
 <jsp:param name="js" value="${js}"/>
 <jsp:param name="content">
 <jsp:attribute name="value">
