@@ -26,6 +26,21 @@ public class Login extends HttpServlet {
 	 * GETメソッド処理
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String page_title="ログインページ";
+		String content_page = "/index.jsp";
+		String disp = "/template/layout.jsp";
+
+		// 今はザル
+		if (request.getAttribute("auth") != null && request.getAttribute("auth").toString().equals("1")) {
+			disp ="/Home";
+		}
+
+		request.setAttribute("page_title", page_title);
+		request.setAttribute("content_page", content_page);
+
+
+		RequestDispatcher rd = request.getRequestDispatcher(disp);
+		rd.forward(request, response);
 	}
 
 	/**
@@ -33,10 +48,7 @@ public class Login extends HttpServlet {
 	 * @author 1211089 鈴木翔
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 今はザル
-		String disp = "/Home";
-		RequestDispatcher rd = request.getRequestDispatcher(disp);
-		rd.forward(request, response);
+
 	}
 
 }
