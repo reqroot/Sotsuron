@@ -9,7 +9,7 @@
 <c:if test="${js != null}">
 <meta http-equiv="content-script-type" content="text/javascript" />
 </c:if>
-<title>${param.title}</title>
+<title>${page_title}</title>
 <c:if test="${js != null}">
 <c:forEach var="item" items="${js}">
 <script type="text/javascript" src="${item}"></script>
@@ -20,7 +20,7 @@
 	<jsp:include page="header.jsp"/>
 	<jsp:include page="navigator.jsp" />
 	<div id="content">
-	${param.content}
+	<jsp:include page="${content_page}" />
 	</div>
 	<jsp:include page="footer.jsp"/>
 </body>

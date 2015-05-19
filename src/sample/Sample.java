@@ -1,3 +1,5 @@
+package sample;
+
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -8,27 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 統合システムのホームページです。
- * ログイン後に最初に表示されるページです。
- * @author 1211089 鈴木翔
+ * Servlet implementation class Sample
  */
-@WebServlet("/Home")
-public class Home extends HttpServlet {
+@WebServlet("/Sample")
+public class Sample extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
-     * コンストラクタ
+     * @see HttpServlet#HttpServlet()
      */
-    public Home() {
+    public Sample() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
-	 * GETメソッド処理
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page_title="統合システム - ホームページ";
-		String content_page = "/home.jsp";
+		String page_title="サンプルページ";
+		String content_page = "/sample.jsp";
 
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
@@ -39,10 +40,10 @@ public class Home extends HttpServlet {
 	}
 
 	/**
-	 * ポストメソッド処理
-	 * @author 1211089 鈴木翔
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 	}
 
 }
