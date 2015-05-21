@@ -5,6 +5,6 @@
 ここらへんにメニューを記入
  --%>
  <ul>
-   <li>項目１</li>
+   <li><a href="/Kaikei/Jigyosyo">事業所情報</a></li>
  </ul>
 </div>
