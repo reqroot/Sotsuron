@@ -8,7 +8,7 @@ import db.DBAccess;
 
 public class SupplierDBManager extends DBAccess {
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
-	private final static String ID = "id";
+	private final static String ID = "supplier_id";
 	private final static String NAME = "name";
 	private final static String KAIKAKE = "kaikake_zangaku";
 
@@ -16,9 +16,9 @@ public class SupplierDBManager extends DBAccess {
 
 	public SupplierDBManager() {
 		super(DRIVER_NAME);
-		selectSQL = "SELECT supplier_id, kaikake_zangaku from supplier "
+		selectSQL = "SELECT supplier_id,name, kaikake_zangaku from supplier "
 				+   "WHERE supplier_id BETWEEN ? AND ? AND "
-				+   "name like ? AND"
+				+   "name like ? AND "
 				+   "kaikake_zangaku BETWEEN ? AND ?";
 	}
 
@@ -34,8 +34,8 @@ public class SupplierDBManager extends DBAccess {
 		getPstmt().setString(1, beginID);
 		getPstmt().setString(2, endID);
 		getPstmt().setString(3, name);
-		getPstmt().setInt(1, beginKaikake);
-		getPstmt().setInt(1, endKaikake);
+		getPstmt().setInt(4, beginKaikake);
+		getPstmt().setInt(5, endKaikake);
 		//実行
 		selectExe();
 

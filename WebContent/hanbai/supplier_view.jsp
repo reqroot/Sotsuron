@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!--  -->
-<form id ="search_form" action="/sotsuron/supplier" method="post">
+<form id ="search_form" action="/Sotsuron/hanbai/supplier" method="post">
 	<p id = "input_form">
 		<span id ="input_title">ID</span>
 		<input type="number" size="10" name="beginID"/>
@@ -29,9 +29,9 @@
 <c:forEach var="item" items="${list }">
 	<form id="record" action="/sotsuron/Supplier/details" method="post">
 		<input type="hidden" name="id" value="${item.supplier_id}" />
-		<div id="id">${item.supplier_id} </div>
-		<div id="name">${item.name}</div>
-		<div id="kaikake">${item.kaikake_zangaku }</div>
+		<span id="id">${item.supplier_id} </span>
+		<span id="name">${item.name}</span>
+		<span id="kaikake">${item.kaikake_zangaku }</span>
 		<input id="edit_button" type="submit" name="detailBtn" value= "詳細" />
 		<input id="edit_button" type="submit" name="editBtn" value= "編集" />
 		<input id="edit_button" type="submit" name="deleteBtn" value= "削除" />
