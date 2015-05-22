@@ -9,16 +9,18 @@
 <tr>
 <th>社員番号</th>
 <th>社員名</th>
+<th>役職</th>
 <th>部署</th>
 <th>誕生日</th>
 <th>基本給</th>
 </tr>
 
 <tr>
-<td>${staffInfo.staffID }</td>
-<td>${staffInfo.staffName}</td>
-<td>${staffInfo.departmentName}</td>
+<td>${staffInfo.staff_ID }</td>
+<td>${staffInfo.staff_Name}</td>
+<td>${staffInfo.position_Name}</td>
+<td>${staffInfo.department_Name}</td>
 <td>${staffInfo.birthDay}</td>
-<td>${staffInfo.baseSalary}</td>
+<td>${staffInfo.base_Salary}</td>
 </tr>
 </table>

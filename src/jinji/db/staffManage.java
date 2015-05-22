@@ -19,7 +19,12 @@ public class staffManage extends DBAccess {
 
 	public staffManage() {
 		super("java:comp/env/jdbc/MySqlCon");
-		// TODO あとで
+		selectSql ="select staff.staff_ID,staff.staff_Name,position.position_Name,"
+				+ "department.department_Name,staff.Birthday,staff.Base_Salary "
+				+ "from tbl_staff staff "
+				+ "inner join tbl_department department on staff.department_ID=department.department_ID "
+				+ "inner join tbl_position position on staff.position_ID=position.position_ID "
+				+ "WHERE 1=1";
 	}
 
 	/**
@@ -38,9 +43,16 @@ public class staffManage extends DBAccess {
 		createStatement();
 		//SQL実行
 		selectExe(selectSql);
-
-
+		if (getRsResult().next()) {
+			info = new staffInfo(
+					getRsResult().getString("staff_ID"),
+					getRsResult().getString("staff_Name"),
+					getRsResult().getString("position_Name"),
+					getRsResult().getString("department_Name"),
+					getRsResult().getString("birthDay"),
+					getRsResult().getString("base_Salary"));
+		}
+		disConnect();
 		return info;
-
 	}
 }
