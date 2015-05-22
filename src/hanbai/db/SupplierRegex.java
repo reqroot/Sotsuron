@@ -1,67 +1,84 @@
 package hanbai.db;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class SupplierRegex {
-	private String id_regex;
-	private Pattern pattern;
-	Matcher matcher;
 
 	public SupplierRegex(){
 
 	}
 
 	/**
-	 *SupplierIDがDBの型に合っているかを確認する
-	 * @param id マッチングするID
-	 * @return マッチするならture、そうでないならfalse
-	 */
-	public boolean matchID(String id){
-		if(id == null)return false;
-		
-		return false;
-	}
-
-	/**
-	 * 仕入先テーブルの名前列にマッチングしているか確認する
-	 * @param name マッチングする名前
-	 * @return マッチするならture、そうでないならfalse
-	 */
-	public boolean matchName(String name){
-
-		return false;
-	}
-
-	/**
-	 * 仕入先テーブルの買掛残額列にマッチングしているか確認する
-	 * @param kaikake マッチングする買掛残額
-	 * @return マッチするならture、そうでないならfalse
-	 */
-	public boolean matchKaikake(int kaikake){
-		return false;
-	}
-
-	/**
-	 * SupplierIDのDBにマッチするようにデータを変換する
+	 * Supplier.SupplierIDにマッチするようにデータを変換する
 	 * 桁数が足りなければ左に0を詰める
 	 * 桁数が多ければ右の余計な桁を切り捨てる
 	 * @param id 変換対象のデータ
 	 * @return 変換後のデータ。できなければnull
 	 */
 	public String convertID(String id){
+		if(id == null || id.length() == 0) return null;
 		//数字以外が入っていれば変換できない
+		int idInt = 0;
 		try{
-			Integer.parseInt(id);
+			idInt = Integer.parseInt(id);
 		}catch(NumberFormatException e){
 			return null;
 		}
-		//文字数チェック
-		int length = id.length();
-		if(length < 4){
-
+		//0以上
+		if(0 <= idInt){
+			id = String.format("%1$04d", idInt);
+		}else{
+			return null;
+		}
+		//9999より大きい場合
+		if(id.length() > 4){
+			id = id.substring(0, 4);
 		}
 
-		return null;
+		return id;
+	}
+
+	/**
+	 * Supplier.nameにマッチするようにデータを変換する
+	 * 文字数が多い場合のみ文字を切り捨てる
+	 * @param name 変換対象のデータ
+	 * @return 変換後のデータ。できなければnull
+	 */
+	public String convertName(String name) {
+		//nullなら変換不可
+		if(name == null || name.length() == 0) return null;
+		if(name.length() > 20){
+			name = name.substring(0, 20);
+		}
+		return name;
+	}
+
+	/**
+	 * Supplier.kaikake_zangakuにマッチするようにデータを変換する
+	 * 値が0～9999999999以外だったら丸め込む
+	 * @param beginKaikakeStr 変換対象のデータ
+	 * @return 変換後のデータ。できなければnull
+	 */
+	public String convertKaikake(String kaikake) {
+		if(kaikake == null || kaikake.length() == 0) return null;
+		//数字以外が入っていれば変換できない
+		long kaikakeInt = 0;
+		try{
+			kaikakeInt = Long.parseLong(kaikake);
+		}catch(NumberFormatException e){
+			return null;
+		}
+
+		if(0 <= kaikakeInt){
+			kaikake = String.format("%1$010d", kaikakeInt);
+		}else{//マイナスだった場合
+			return null;
+		}
+		//9999より大きい場合
+		if(kaikake.length() > 10){
+			kaikake = kaikake.substring(0, 10);
+		}
+
+		return kaikake;
 	}
 }
