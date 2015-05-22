@@ -12,4 +12,9 @@
  <ul>
    <li><a href="/Sotsuron/hanbai/supplier">仕入先情報</a></li>
  </ul>
+
+  <p>人事管理</p>
+ <ul>
+   <li><a href="/Sotsuron/Jinji/Staff">社員一覧</a></li>
+ </ul>
 </div>
