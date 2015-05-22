@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page pageEncoding="UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<title>&{page_title}</title>
 <h1>${page_title}</h1>
 
 <br />
@@ -10,15 +10,21 @@
 <th>社員番号</th>
 <th>社員名</th>
 <th>部署</th>
+<th>役職</th>
 <th>誕生日</th>
 <th>基本給</th>
 </tr>
-
+<c:forEach var="item" items="${list }">
 <tr>
-<td>${staffInfo.staffID }</td>
-<td>${staffInfo.staffName}</td>
-<td>${staffInfo.departmentName}</td>
-<td>${staffInfo.birthDay}</td>
-<td>${staffInfo.baseSalary}</td>
+ <td>${item.staff_id}</td>
+<td>${item.staff_name}</td>
+<td>${item.department_name}</td>
+<td>${item.position_name }</td>
+<td>${item.birthday}</td>
+<td>${item.base_salary }</td>
 </tr>
+</c:forEach>
 </table>
+<hr />
+
+<!--  -->
