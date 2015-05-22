@@ -67,6 +67,12 @@ public class Supplier extends HttpServlet {
 
 				//JSPにデータを送る
 				request.setAttribute("list", list);
+				request.setAttribute("beginID", request.getParameter("beginID"));
+				request.setAttribute("endID", request.getParameter("endID"));
+				request.setAttribute("name",request.getParameter("name"));
+				request.setAttribute("beginKaikake",request.getParameter("beginKaikake"));
+				request.setAttribute("endKaikake",request.getParameter("endKaikake"));
+
 				//ディスパッチャーを取得
 				RequestDispatcher rd = request.getRequestDispatcher("/hanbai/supplier_view.jsp");//Contextの値以降のアドレスを設定
 				rd.forward(request, response);

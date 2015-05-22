@@ -18,7 +18,8 @@ public class SupplierRegex {
 	 * @return マッチするならture、そうでないならfalse
 	 */
 	public boolean matchID(String id){
-
+		if(id == null)return false;
+		
 		return false;
 	}
 
