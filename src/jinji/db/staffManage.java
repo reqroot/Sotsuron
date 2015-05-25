@@ -3,6 +3,10 @@
  */
 package jinji.db;
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
 import db.DBAccess;
 
 /**
@@ -17,13 +21,14 @@ public class staffManage extends DBAccess {
 	private String serchSql;
 	private String msg;
 
+	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
+
 	public staffManage() {
-		super("java:comp/env/jdbc/MySqlCon");
-		selectSql ="select staff.staff_ID,staff.staff_Name,position.position_Name,"
-				+ "department.department_Name,staff.Birthday,staff.Base_Salary "
-				+ "from tbl_staff staff "
-				+ "inner join tbl_department department on staff.department_ID=department.department_ID "
-				+ "inner join tbl_position position on staff.position_ID=position.position_ID "
+		super(DRIVER_NAME);
+		selectSql = "SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.base_salary "
+				+ "FROM tbl_staff staff "
+				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
+				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "WHERE 1=1";
 	}
 
@@ -35,24 +40,31 @@ public class staffManage extends DBAccess {
 		return msg;
 	}
 
-	public staffInfo staffSelect() throws Exception{
-		staffInfo info = null;
+	public List<staffInfo> staffSelect() throws Exception{
+		List<staffInfo> list = new ArrayList<staffInfo>();
+
 		//DB接続
 		connect();
 		//ステートメント作成
 		createStatement();
 		//SQL実行
 		selectExe(selectSql);
-		if (getRsResult().next()) {
-			info = new staffInfo(
-					getRsResult().getString("staff_ID"),
-					getRsResult().getString("staff_Name"),
-					getRsResult().getString("position_Name"),
-					getRsResult().getString("department_Name"),
-					getRsResult().getString("birthDay"),
-					getRsResult().getString("base_Salary"));
+
+		//データ抽出
+		ResultSet rs = getRsResult();
+		while(rs.next()) {
+			staffInfo info = new staffInfo(
+					getRsResult().getString("staff_id"),
+					getRsResult().getString("staff_name"),
+					getRsResult().getString("department_name"),
+					getRsResult().getString("position_name"),
+					getRsResult().getString("birthday"),
+					getRsResult().getString("base_salary"));
+				list.add(info);
 		}
+
 		disConnect();
-		return info;
+		return list;
+
 	}
 }

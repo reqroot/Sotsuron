@@ -3,21 +3,22 @@
 
 <!--  -->
 <form id ="search_form" action="/Sotsuron/hanbai/supplier" method="post">
+	<p id="form_title">仕入先検索</p>
 	<p id = "input_form">
 		<span id ="input_title">ID</span>
-		<input type="number" size="10" name="beginID"/>
+		<input type="number" size="10" name="beginID" value="${beginID }" onclick="this.select();">
 		～
-		<input type="number" size="10" name="endID"/>
+		<input type="number" size="10" name="endID" value="${endID }" onclick="this.select();"/>
 	</p>
 	<p id = "input_form">
 		<span id ="input_title">仕入先名</span>
-		<input type="text" size="20" name="name"/>
+		<input type="text" size="20" name="name"  value="${name }" onclick="this.select();"/>
 	</p>
 	<p id = "input_form">
 		<span id ="input_title">買掛金残高</span>
-		<input type="number" size="10" name="beginKaikake"/>
+		<input type="number" size="10" name="beginKaikake" value="${beginKaikake }" onclick="this.select();"/>
 		～
-		<input type="number" size="10" name="endKaikake"/>
+		<input type="number" size="10" name="endKaikake" value="${endKaikake }" onclick="this.select();"/>
 	</p>
 
 	<p>
@@ -25,6 +26,7 @@
 	</p>
 </form>
 <hr />
+<div id ="msg">${msg}</div>
 <div id="list">
 <c:forEach var="item" items="${list }">
 	<form id="record" action="/sotsuron/Supplier/details" method="post">

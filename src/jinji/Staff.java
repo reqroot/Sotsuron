@@ -1,6 +1,7 @@
 package jinji;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,31 +27,30 @@ public class Staff extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page_title="人事システム";
+		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staffList.jsp";
-		staffInfo info = null;
 
-		// デフォルト動作
-				staffManage sm = new staffManage();
-				try {
-					info = sm.staffSelect() ;
-				} catch (Exception e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-				}
+		List<staffInfo> list = null;
+		staffManage sm = new staffManage();
 
-				request.setAttribute("page_title", page_title);
-				request.setAttribute("content_page", content_page);
-				request.setAttribute("staffInfo", info);
+		try {
+			 list = sm.staffSelect();
+		} catch (Exception e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
-				String disp = "/template/layout.jsp";
-				 RequestDispatcher dispatch = request.getRequestDispatcher(disp);
-				 dispatch.forward(request, response);
+		request.setAttribute("page_title", page_title);
+		request.setAttribute("content_page", content_page);
+		request.setAttribute("list", list);
+
+
+		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
+		dispatch.forward(request, response);
 	}
 
 	/**

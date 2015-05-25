@@ -1,4 +1,5 @@
 /**
+
  *
  */
 package jinji.db;
@@ -11,97 +12,75 @@ import java.io.Serializable;
  *
  */
 	public class staffInfo implements Serializable {
-		private String staff_ID;
-		private String staff_Name;
-		private String position_Name;
-		private String department_Name;
-		private String birthDay;
-		private String base_Salary;
-
-		/**
-		 *
-		 * @param staff_ID
-		 * @param staff_Name
-		 * @param staff_Position
-		 * @param department_Name
-		 * @param birthDay
-		 * @param base_Salary
-		 */
-		public staffInfo(String staff_ID, String staff_Name,
-				String staff_Position, String department_Name, String birthDay,
-				String base_Salary) {
+		private String staff_id;
+		private String staff_name;
+		private String department_name;
+		private String position_name;
+		private String birthday;
+		private String base_salary;
+		public staffInfo(){}
+		public staffInfo(String staff_id, String staff_name,
+				String department_name, String position_name, String birthday,
+				String base_salary) {
 			super();
-			this.staff_ID = staff_ID;
-			this.staff_Name = staff_Name;
-			this.position_Name = staff_Position;
-			this.department_Name = department_Name;
-			this.birthDay = birthDay;
-			this.base_Salary = base_Salary;
+			this.staff_id = staff_id;
+			this.staff_name = staff_name;
+			this.department_name = department_name;
+			this.position_name = position_name;
+			this.birthday = birthday;
+			this.base_salary = base_salary;
 		}
-
-		public String getStaff_ID() {
-			return staff_ID;
+		public String getStaff_id() {
+			return staff_id;
 		}
-
-		public void setStaff_ID(String staff_ID) {
-			this.staff_ID = staff_ID;
+		public void setStaff_id(String staff_id) {
+			this.staff_id = staff_id;
 		}
-
-		public String getStaff_Name() {
-			return staff_Name;
+		public String getStaff_name() {
+			return staff_name;
 		}
-
-		public void setStaff_Name(String staff_Name) {
-			this.staff_Name = staff_Name;
+		public void setStaff_name(String staff_name) {
+			this.staff_name = staff_name;
 		}
-
-		public String getStaff_Position() {
-			return position_Name;
+		public String getDepartment_name() {
+			return department_name;
 		}
-
-		public void setStaff_Position(String staff_Position) {
-			this.position_Name = staff_Position;
+		public void setDepartment_name(String department_name) {
+			this.department_name = department_name;
 		}
-
-		public String getDepartment_Name() {
-			return department_Name;
+		public String getPosition_name() {
+			return position_name;
 		}
-
-		public void setDepartment_Name(String department_Name) {
-			this.department_Name = department_Name;
+		public void setPosition_name(String position_name) {
+			this.position_name = position_name;
 		}
-
-		public String getBirthDay() {
-			return birthDay;
+		public String getBirthday() {
+			return birthday;
 		}
-
-		public void setBirthDay(String birthDay) {
-			this.birthDay = birthDay;
+		public void setBirthday(String birthday) {
+			this.birthday = birthday;
 		}
-
-		public String getBase_Salary() {
-			return base_Salary;
+		public String getBase_salary() {
+			return base_salary;
 		}
-
-		public void setBase_Salary(String base_Salary) {
-			this.base_Salary = base_Salary;
+		public void setBase_salary(String base_salary) {
+			this.base_salary = base_salary;
 		}
-
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
-			builder.append("staffInfo [staff_ID=");
-			builder.append(staff_ID);
-			builder.append(", staff_Name=");
-			builder.append(staff_Name);
-			builder.append(", staff_Position=");
-			builder.append(position_Name);
-			builder.append(", department_Name=");
-			builder.append(department_Name);
-			builder.append(", birthDay=");
-			builder.append(birthDay);
-			builder.append(", base_Salary=");
-			builder.append(base_Salary);
+			builder.append("staffInfo [staff_id=");
+			builder.append(staff_id);
+			builder.append(", staff_name=");
+			builder.append(staff_name);
+			builder.append(", department_name=");
+			builder.append(department_name);
+			builder.append(", position_name=");
+			builder.append(position_name);
+			builder.append(", birthday=");
+			builder.append(birthday);
+			builder.append(", base_salary=");
+			builder.append(base_salary);
 			builder.append("]");
 			return builder.toString();
 		}
