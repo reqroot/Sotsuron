@@ -16,5 +16,7 @@
   <p>人事管理</p>
  <ul>
    <li><a href="/Sotsuron/Jinji/Staff">社員一覧</a></li>
+   <li><a href="">出退勤管理</a></li>
+   <li><a href="">社員検索</a></li>
  </ul>
 </div>
