@@ -35,7 +35,7 @@ public class Supplier extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 	}
 
 	/**
@@ -105,9 +105,11 @@ public class Supplier extends HttpServlet {
 				request.setAttribute("name",request.getParameter("name"));
 				request.setAttribute("beginKaikake",request.getParameter("beginKaikake"));
 				request.setAttribute("endKaikake",request.getParameter("endKaikake"));
-
+				//ページ情報の追加
+				request.setAttribute("page_title", HanbaiHome.TITLE_SUPPLIER);
+				request.setAttribute("content_page", HanbaiHome.CONTENT_SUPPLIER);
 				//ディスパッチャーを取得
-				RequestDispatcher rd = request.getRequestDispatcher("/hanbai/supplier_view.jsp");//Contextの値以降のアドレスを設定
+				RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 				rd.forward(request, response);
 			} catch (Exception e) {
 				// TODO 自動生成された catch ブロック
