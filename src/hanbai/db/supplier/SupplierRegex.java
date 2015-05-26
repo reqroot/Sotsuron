@@ -1,4 +1,4 @@
-package hanbai.db;
+package hanbai.db.supplier;
 
 
 

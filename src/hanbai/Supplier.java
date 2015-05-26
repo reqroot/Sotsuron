@@ -1,8 +1,8 @@
 package hanbai;
 
-import hanbai.db.SupplierDBManager;
-import hanbai.db.SupplierInfo;
-import hanbai.db.SupplierRegex;
+import hanbai.db.supplier.SupplierDBManager;
+import hanbai.db.supplier.SupplierInfo;
+import hanbai.db.supplier.SupplierRegex;
 
 import java.io.IOException;
 import java.util.List;
