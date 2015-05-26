@@ -37,6 +37,10 @@ public class Staff extends HttpServlet {
 		List<staffInfo> list = null;
 		staffManage sm = new staffManage();
 
+
+		//社員番号をClick
+		//if(page != )
+
 		try {
 			 list = sm.staffSelect();
 		} catch (Exception e) {
@@ -44,11 +48,12 @@ public class Staff extends HttpServlet {
 			e.printStackTrace();
 		}
 
+		//JSPへの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
 
-
+		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 		dispatch.forward(request, response);
 	}

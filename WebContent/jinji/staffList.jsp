@@ -12,6 +12,7 @@
 <th>部署</th>
 <th>役職</th>
 <th>誕生日</th>
+<th>入社年月日</th>
 <th>基本給</th>
 </tr>
 <c:forEach var="item" items="${list }">
@@ -21,6 +22,7 @@
 <td>${item.department_name}</td>
 <td>${item.position_name }</td>
 <td>${item.birthday}</td>
+<td>${item.enter_day }</td>
 <td>${item.base_salary }</td>
 </tr>
 </c:forEach>

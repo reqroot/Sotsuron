@@ -3,11 +3,13 @@
 
 <title>${page_title}</title>
 <h1>${page_title}</h1>
-
-${staff_Personal.staff_id}<br />
-${staff_Personal.staff_name}<br />
-${staff_Personal.department_name}<br />
-${staff_Personal.position_name}<br />
-${staff_Personal.birthday}<br />
-${staff_Personal.enter_day}<br />
+<input type="hidden" name="staff_id" value="${ item.staff_id}" />
+${item.staff_id}<br />
+${item.staff_name}<br />
+${item.department_name}<br />
+${item.position_name}<br />
+${item.birthday}<br />
+${item.enter_day}<br />
+${item.base_salary}<br />
+<br />
 
