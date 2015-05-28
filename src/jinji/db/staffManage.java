@@ -30,6 +30,12 @@ public class staffManage extends DBAccess {
 				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "WHERE 1=1";
+
+		searchSql ="SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day,staff.base_salary "
+				+ "FROM tbl_staff staff "
+				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
+				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
+				+ "WHERE staff_id = ?";
 	}
 
 
@@ -41,7 +47,7 @@ public class staffManage extends DBAccess {
 		return msg;
 	}
 
-	public List<staffInfo> staffSelect() throws Exception{
+	public List<staffInfo> staffSelect() throws Exception{ 		//スタッフ一覧取得
 		List<staffInfo> list = new ArrayList<staffInfo>();
 
 		//DB接続
@@ -66,9 +72,31 @@ public class staffManage extends DBAccess {
 					"");
 				list.add(info);
 		}
-
 		disConnect();
 		return list;
+	}
 
+	public staffInfo pstaffSelect(staffInfo staffInfo) throws Exception{		//個人ページ取得
+		staffInfo pstaff = null;
+		connect();
+		createStatement(searchSql);
+		getPstmt().setString(1, staffInfo.getStaff_id());
+		selectExe();
+		ResultSet rs = getRsResult();
+		while (rs.next()){
+			pstaff = new staffInfo(
+			rs.getString("staff_id"),
+			rs.getString("staff_name"),
+			rs.getString("department_name"),
+			rs.getString("position_name"),
+			rs.getString("birthday"),
+			rs.getString("enter_day"),
+			rs.getString("base_salary"),
+			"");
+		}
+		disConnect();
+		return pstaff;		//個人ページ取得
 	}
 }
+
+
