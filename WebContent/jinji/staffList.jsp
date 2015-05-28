@@ -17,7 +17,7 @@
 </tr>
 <c:forEach var="item" items="${list }">
 <tr>
- <td>${item.staff_id}</td>
+ <td><a href="/Sotsuron/Jinji/Staff?page=psearch&staff_id=${item.staff_id}">${item.staff_id}</a></td>
 <td>${item.staff_name}</td>
 <td>${item.department_name}</td>
 <td>${item.position_name }</td>
