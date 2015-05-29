@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class slicenseInfo implements Serializable {
 	private String staff_id;
-	private String license_id;
+	private String license_name;
 	private String license_amount;
 
 	public slicenseInfo(){}
@@ -19,7 +19,7 @@ public class slicenseInfo implements Serializable {
 	public slicenseInfo(String staff_id, String license_id,String license_amount) {
 		super();
 		this.staff_id = staff_id;
-		this.license_id = license_id;
+		this.license_name = license_id;
 		this.license_amount = license_amount;
 	}
 
@@ -32,11 +32,11 @@ public class slicenseInfo implements Serializable {
 	}
 
 	public String getLicense_id() {
-		return license_id;
+		return license_name;
 	}
 
 	public void setLicense_id(String license_id) {
-		this.license_id = license_id;
+		this.license_name = license_id;
 	}
 
 	public String getLicense_amount() {
@@ -53,7 +53,7 @@ public class slicenseInfo implements Serializable {
 		builder.append("slicenseInfo [staff_id=");
 		builder.append(staff_id);
 		builder.append(", license_id=");
-		builder.append(license_id);
+		builder.append(license_name);
 		builder.append(", license_amount=");
 		builder.append(license_amount);
 		builder.append("]");

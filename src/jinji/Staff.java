@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jinji.db.slicenseInfo;
 import jinji.db.staffInfo;
 import jinji.db.staffManage;
 
@@ -36,13 +37,13 @@ public class Staff extends HttpServlet {
 		String page = request.getParameter("page");
 
 		List<staffInfo> list = null; //スタッフ一覧取得用リスト
-		staffInfo sI = new staffInfo();
+		List<slicenseInfo> sLlist = null;	//資格取得用リスト
+		staffInfo sI = new staffInfo(); //スタッフ一件用
 		staffManage sm = new staffManage();
 
-		//idのデータ取得
+		//staffListからのstaff_idのデータ取得
 		String staff_id = (request.getParameter("staff_id"));
 		sI.setStaff_id(staff_id);
-
 
 		//社員番号をClick
 		if(page != null && page.equals("psearch")){
@@ -54,7 +55,6 @@ public class Staff extends HttpServlet {
 			}
 			page_title = "人事システム - 個別ページ ";
 			content_page = "/jinji/staffPersonal.jsp";
-
 		}
 
 		try {
@@ -68,6 +68,9 @@ public class Staff extends HttpServlet {
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
+		request.setAttribute("sLlist", sLlist);
+
+
 
 		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");

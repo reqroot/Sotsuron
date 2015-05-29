@@ -14,11 +14,12 @@ import db.DBAccess;
  *
  */
 public class staffManage extends DBAccess {
-	private String selectSql;
+	private String selectSql; //一覧用
 	private String insertSql;
 	private String updateSql;
 	private String deleteSql;
-	private String searchSql;
+	private String searchSql;//一件用
+	private String licenseSql;//資格用
 	private String msg;
 
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
@@ -36,6 +37,14 @@ public class staffManage extends DBAccess {
 				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "WHERE staff_id = ?";
+
+		licenseSql ="SELECT license.license_name"
+				+ "FROM tbl_stafflicense slicense"
+				+ "INNER JOIN tbl_license license on license.license_id = slicense.license_id"
+				+ "INNER JOIN tbl_staff staff on staff.staff_id = slicense.staff_id"
+				+ "WHERE slicense.staff_id = ?";
+
+
 	}
 
 
@@ -96,6 +105,26 @@ public class staffManage extends DBAccess {
 		}
 		disConnect();
 		return pstaff;		//個人ページ取得
+	}
+
+	public List<slicenseInfo> plicenseSelect(staffInfo staffInfo) throws Exception{ //資格取得
+		List<slicenseInfo> sLlist = new ArrayList<slicenseInfo>();
+		slicenseInfo slicense = null;
+		connect();
+		createStatement(licenseSql);
+		getPstmt().setString(1, staffInfo.getStaff_id() );
+
+		ResultSet rs = getRsResult();
+		while(rs.next()){
+			slicense = new slicenseInfo(
+					"",
+					rs.getString("license_name"),
+					""
+					);
+			sLlist.add(slicense);
+		}
+		disConnect();
+		return sLlist;
 	}
 }
 
