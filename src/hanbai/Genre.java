@@ -32,6 +32,7 @@ public class Genre extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		//ジャンルの一覧を取得する
 		request.setCharacterEncoding("UTF-8");
 
@@ -45,7 +46,6 @@ public class Genre extends HttpServlet {
 			//request.setAttribute("msg", manager.getMsg());
 			request.setAttribute("list", list);
 			//ページ情報の追加
-			request.setAttribute("page_title", HanbaiHome.TITLE_GENRE);
 			request.setAttribute("content_page", HanbaiHome.CONTENT_GENRE_VIEW);
 			//ディスパッチャーを取得
 			RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定

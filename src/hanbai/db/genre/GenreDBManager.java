@@ -20,7 +20,7 @@ public class GenreDBManager extends DBAccess {
 	public GenreDBManager() {
 		super(DRIVER_NAME);
 		selectSQL = String.format("SELECT %s, %s, %s FROM %s", ID, NAME, PARENT_ID, TABLE);
-		selectParentNameSQL = "SELECT a.id, g.name , p.name , a.name FROM genre As a "
+		selectParentNameSQL = "SELECT a.genre_id, g.name , p.name , a.name FROM genre As a "
 							+ "INNER JOIN genre As p ON a.parent_genre_ID = p.genre_ID "
 							+ "INNER JOIN genre As g ON p.parent_genre_ID = g.genre_ID "
 							+ "INNER JOIN genre As o ON g.parent_genre_ID = o.genre_ID";
@@ -53,6 +53,7 @@ public class GenreDBManager extends DBAccess {
 		//DB接続
 		connect();
 		//SQL設定
+		this.createStatement();
 		//実行
 		selectExe(selectSQL);
 
@@ -81,6 +82,7 @@ public class GenreDBManager extends DBAccess {
 		//DB接続
 		connect();
 		//SQL設定
+		this.createStatement();
 		//実行
 		selectExe(selectParentNameSQL);
 

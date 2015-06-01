@@ -21,7 +21,7 @@ public class HanbaiHome extends HttpServlet {
 	//URL
 	public static final String CONTENT_SUPPLIER = "/hanbai/supplier_view.jsp";
 	public static final String CONTENT_GENRE = "/hanbai/genre";
-	public static final String CONTENT_GENRE_VIEW = "hanbai/genre_view.jsp";
+	public static final String CONTENT_GENRE_VIEW = "/hanbai/genre_view.jsp";
 	//タイトル
 	public static final String TITLE_SUPPLIER = "仕入先管理画面";
 	public static final String TITLE_GENRE = "ジャンル管理画面";
@@ -38,6 +38,7 @@ public class HanbaiHome extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("call HanbaiHome");
 		String page_title = "";
 		String content_page = "";
 		String page = request.getParameter("page");
@@ -57,17 +58,18 @@ public class HanbaiHome extends HttpServlet {
 			break;
 		}
 		default:{
-			//不正なパラメータ
-			break;
+			return;
 		}
 		}//if
-
+		System.out.println("set pageTitle");
 		request.setAttribute("page_title", page_title);
+		System.out.println("set contentPage");
 		request.setAttribute("content_page", content_page);
-
+		System.out.println(String.format("forward(title:%s, page:%s)", page_title, content_page));
 		//ディスパッチャーを取得
 		RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 		rd.forward(request, response);
+
 	}
 
 	/**
