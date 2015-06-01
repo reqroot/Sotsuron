@@ -19,13 +19,14 @@ import java.io.Serializable;
 		private String birthday;
 		private String enter_day;
 		private String base_salary;
+		private String license_name;
 		private String passwd;
 
 		public staffInfo(){}
 
 		public staffInfo(String staff_id, String staff_name,
 				String department_name, String position_name, String birthday,String enter_day,
-				String base_salary, String passwd) {
+				String base_salary, String license_name,String passwd) {
 			super();
 			this.staff_id = staff_id;
 			this.staff_name = staff_name;
@@ -34,6 +35,7 @@ import java.io.Serializable;
 			this.birthday = birthday;
 			this.enter_day = enter_day;
 			this.base_salary = base_salary;
+			this.license_name = license_name;
 			this.passwd = passwd;
 		}
 
@@ -93,6 +95,14 @@ import java.io.Serializable;
 			this.base_salary = base_salary;
 		}
 
+		public String getLicense_name() {
+			return license_name;
+		}
+
+		public void setLicense_name(String license_name) {
+			this.license_name = license_name;
+		}
+
 		public String getPasswd() {
 			return passwd;
 		}
@@ -118,6 +128,8 @@ import java.io.Serializable;
 			builder.append(enter_day);
 			builder.append(", base_salary=");
 			builder.append(base_salary);
+			builder.append(", license=");
+			builder.append(license_name);
 			builder.append(", passwd=");
 			builder.append(passwd);
 			builder.append("]");
