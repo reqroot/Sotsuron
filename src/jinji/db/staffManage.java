@@ -14,13 +14,14 @@ import db.DBAccess;
  *
  */
 public class staffManage extends DBAccess {
-	private String selectSql; //一覧用
+	private String selectSql; //スタッフ一覧用
 	private String insertSql;
 	private String updateSql;
 	private String deleteSql;
-	private String searchSql;//一件用
-	private String licenseSql;//資格用
+	private String searchSql;//スタッフ一件用
 	private String msg;
+
+
 
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
 
@@ -32,19 +33,12 @@ public class staffManage extends DBAccess {
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "WHERE 1=1";
 
-		searchSql ="SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day,staff.base_salary "
+		searchSql ="select staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name "
 				+ "FROM tbl_staff staff "
-				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
+				+ "INNER JOIN tbl_department department on staff. department_id = department.department_id "
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
-				+ "WHERE staff_id = ?";
-
-		licenseSql ="SELECT license.license_name"
-				+ "FROM tbl_stafflicense slicense"
-				+ "INNER JOIN tbl_license license on license.license_id = slicense.license_id"
-				+ "INNER JOIN tbl_staff staff on staff.staff_id = slicense.staff_id"
-				+ "WHERE slicense.staff_id = ?";
-
-
+				+ "LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id "
+				+ "WHERE staff.staff_id=?";
 	}
 
 
@@ -78,6 +72,7 @@ public class staffManage extends DBAccess {
 					rs.getString("birthday"),
 					rs.getString("enter_day"),
 					rs.getString("base_salary"),
+					"",
 					"");
 				list.add(info);
 		}
@@ -85,7 +80,8 @@ public class staffManage extends DBAccess {
 		return list;
 	}
 
-	public staffInfo pstaffSelect(staffInfo staffInfo) throws Exception{		//個人ページ取得
+	public List<staffInfo> pstaffSelect(staffInfo staffInfo) throws Exception{		//個人ページ取得
+		List<staffInfo> plist = new ArrayList<staffInfo>();
 		staffInfo pstaff = null;
 		connect();
 		createStatement(searchSql);
@@ -94,37 +90,19 @@ public class staffManage extends DBAccess {
 		ResultSet rs = getRsResult();
 		while (rs.next()){
 			pstaff = new staffInfo(
-			rs.getString("staff_id"),
-			rs.getString("staff_name"),
-			rs.getString("department_name"),
-			rs.getString("position_name"),
-			rs.getString("birthday"),
-			rs.getString("enter_day"),
-			rs.getString("base_salary"),
-			"");
-		}
-		disConnect();
-		return pstaff;		//個人ページ取得
-	}
-
-	public List<slicenseInfo> plicenseSelect(staffInfo staffInfo) throws Exception{ //資格取得
-		List<slicenseInfo> sLlist = new ArrayList<slicenseInfo>();
-		slicenseInfo slicense = null;
-		connect();
-		createStatement(licenseSql);
-		getPstmt().setString(1, staffInfo.getStaff_id() );
-
-		ResultSet rs = getRsResult();
-		while(rs.next()){
-			slicense = new slicenseInfo(
-					"",
+					rs.getString("staff_id"),
+					rs.getString("staff_name"),
+					rs.getString("department_name"),
+					rs.getString("position_name"),
+					rs.getString("birthday"),
+					rs.getString("enter_day"),
+					rs.getString("base_salary"),
 					rs.getString("license_name"),
-					""
-					);
-			sLlist.add(slicense);
+					"");
+			plist.add(pstaff);
 		}
 		disConnect();
-		return sLlist;
+		return  plist;		//個人ページ取得
 	}
 }
 
