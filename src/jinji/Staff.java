@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jinji.db.slicenseInfo;
 import jinji.db.staffInfo;
 import jinji.db.staffManage;
 
@@ -33,22 +34,45 @@ public class Staff extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staffList.jsp";
+		String page = request.getParameter("page");
 
-		List<staffInfo> list = null;
+		List<staffInfo> list = null; //スタッフ一覧取得用リスト
+		List<slicenseInfo> sLlist = null;	//資格取得用リスト
+		staffInfo sI = new staffInfo(); //スタッフ一件用
 		staffManage sm = new staffManage();
 
+		//staffListからのstaff_idのデータ取得
+		String staff_id = (request.getParameter("staff_id"));
+		sI.setStaff_id(staff_id);
+
+		//社員番号をClick
+		if(page != null && page.equals("psearch")){
+			try {
+				request.setAttribute("item",sm.pstaffSelect(sI));
+			} catch (Exception e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+			page_title = "人事システム - 個別ページ ";
+			content_page = "/jinji/staffPersonal.jsp";
+		}
+
 		try {
-			 list = sm.staffSelect();
+			 list = sm.staffSelect(); //スタッフ一覧取得
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
 
+		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
+		request.setAttribute("sLlist", sLlist);
 
 
+
+		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 		dispatch.forward(request, response);
 	}

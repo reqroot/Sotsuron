@@ -3,11 +3,15 @@
 
 <title>${page_title}</title>
 <h1>${page_title}</h1>
+<h2>${item.staff_id}</h2><br />
+${item.staff_name}<br />
+${item.department_name}<br />
+${item.position_name}<br />
+${item.birthday}<br />
+${item.enter_day}<br />
+${item.base_salary}<br />
 
-${staff_Personal.staff_id}<br />
-${staff_Personal.staff_name}<br />
-${staff_Personal.department_name}<br />
-${staff_Personal.position_name}<br />
-${staff_Personal.birthday}<br />
-${staff_Personal.enter_day}<br />
+<jsp:include page="license.jsp" />
+
+<br />
 
