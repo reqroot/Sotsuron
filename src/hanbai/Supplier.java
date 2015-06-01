@@ -20,7 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/hanbai/supplier")
 public class Supplier extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private static final String TITLE = "仕入先管理画面";
+	private static final String PAGE = "/hanbai/supplier_view.jsp";
 
 
     /**
@@ -35,6 +36,15 @@ public class Supplier extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//ジャンルの一覧を取得する
+		request.setCharacterEncoding("UTF-8");
+
+		//ページ情報の追加
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE);
+		//ディスパッチャーを取得
+		RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
+		rd.forward(request, response);
 
 	}
 
@@ -106,8 +116,8 @@ public class Supplier extends HttpServlet {
 				request.setAttribute("beginKaikake",request.getParameter("beginKaikake"));
 				request.setAttribute("endKaikake",request.getParameter("endKaikake"));
 				//ページ情報の追加
-				request.setAttribute("page_title", HanbaiHome.TITLE_SUPPLIER);
-				request.setAttribute("content_page", HanbaiHome.CONTENT_SUPPLIER);
+				request.setAttribute("page_title", TITLE);
+				request.setAttribute("content_page", PAGE);
 				//ディスパッチャーを取得
 				RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 				rd.forward(request, response);

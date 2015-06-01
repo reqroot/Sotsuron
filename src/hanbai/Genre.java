@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/hanbai/genre")
 public class Genre extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final String TITLE = "ジャンル管理画面";
+	private static final String PAGE = "/hanbai/genre_view.jsp";
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -46,7 +49,8 @@ public class Genre extends HttpServlet {
 			//request.setAttribute("msg", manager.getMsg());
 			request.setAttribute("list", list);
 			//ページ情報の追加
-			request.setAttribute("content_page", HanbaiHome.CONTENT_GENRE_VIEW);
+			request.setAttribute("page_title", TITLE);
+			request.setAttribute("content_page", PAGE);
 			//ディスパッチャーを取得
 			RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 			rd.forward(request, response);
