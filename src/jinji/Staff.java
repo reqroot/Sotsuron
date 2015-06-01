@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jinji.db.slicenseInfo;
 import jinji.db.staffInfo;
 import jinji.db.staffManage;
 
@@ -20,6 +19,9 @@ import jinji.db.staffManage;
 @WebServlet("/Jinji/Staff")
 public class Staff extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	List<staffInfo> list = null; //スタッフ一覧取得用リスト
+	List<staffInfo> plist = null; //スタッフ個別取得
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -36,26 +38,11 @@ public class Staff extends HttpServlet {
 		String content_page = "/jinji/staffList.jsp";
 		String page = request.getParameter("page");
 
-		List<staffInfo> list = null; //スタッフ一覧取得用リスト
-		List<slicenseInfo> sLlist = null;	//資格取得用リスト
-		staffInfo sI = new staffInfo(); //スタッフ一件用
+
+
 		staffManage sm = new staffManage();
 
-		//staffListからのstaff_idのデータ取得
-		String staff_id = (request.getParameter("staff_id"));
-		sI.setStaff_id(staff_id);
 
-		//社員番号をClick
-		if(page != null && page.equals("psearch")){
-			try {
-				request.setAttribute("item",sm.pstaffSelect(sI));
-			} catch (Exception e) {
-				// TODO 自動生成された catch ブロック
-				e.printStackTrace();
-			}
-			page_title = "人事システム - 個別ページ ";
-			content_page = "/jinji/staffPersonal.jsp";
-		}
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -64,11 +51,28 @@ public class Staff extends HttpServlet {
 			e.printStackTrace();
 		}
 
+		//staffListからのstaff_idのデータ取得
+				String staff_id = (request.getParameter("staff_id"));
+				staffInfo sI = new staffInfo(); //スタッフid取得一件用
+				sI.setStaff_id(staff_id);
+
+		//社員番号をClick
+				if(page != null && page.equals("psearch")){
+					try {
+						plist = sm.pstaffSelect(sI);
+					} catch (Exception e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+					}
+					page_title = "人事システム - 個別ページ ";
+					content_page = "/jinji/staffPersonal.jsp";
+				}
+
 		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
-		request.setAttribute("sLlist", sLlist);
+		request.setAttribute("plist", plist);
 
 
 
