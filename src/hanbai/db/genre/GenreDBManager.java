@@ -14,11 +14,16 @@ public class GenreDBManager extends DBAccess {
 	private final static String PARENT_ID= "parent_genre_ID";
 
 	private String selectSQL;
+	private String selectParentNameSQL;
 	private String msg;
 
 	public GenreDBManager() {
 		super(DRIVER_NAME);
 		selectSQL = String.format("SELECT %s, %s, %s FROM %s", ID, NAME, PARENT_ID, TABLE);
+		selectParentNameSQL = "SELECT a.id, g.name , p.name , a.name FROM genre As a "
+							+ "INNER JOIN genre As p ON a.parent_genre_ID = p.genre_ID "
+							+ "INNER JOIN genre As g ON p.parent_genre_ID = g.genre_ID "
+							+ "INNER JOIN genre As o ON g.parent_genre_ID = o.genre_ID";
 	}
 
 	/**
@@ -42,7 +47,7 @@ public class GenreDBManager extends DBAccess {
 	 * @return ジャンル情報
 	 * @throws Exception
 	 */
-	public List<GenreInfo> SupplierSelect() throws Exception{
+	public List<GenreInfo> genreSelect() throws Exception{
 		List<GenreInfo> list = new ArrayList<GenreInfo>();
 
 		//DB接続
@@ -64,4 +69,35 @@ public class GenreDBManager extends DBAccess {
 		disConnect();
 		return list;
 	}
+
+	/**
+	 * 自身のジャンル名および親子関係にあるジャンル名を取得します
+	 * @return ジャンル情報
+	 * @throws Exception
+	 */
+	public List<GenreInfo> genreSelectParentName() throws Exception{
+		List<GenreInfo> list = new ArrayList<GenreInfo>();
+
+		//DB接続
+		connect();
+		//SQL設定
+		//実行
+		selectExe(selectParentNameSQL);
+
+		//データ取り出し
+		ResultSet rs = getRsResult();
+		while(rs.next()){
+			//一件のデータ取り出し
+			GenreInfo info = new GenreInfo();
+			info.setGenre_id(rs.getString("a.genre_ID"));
+			info.setName(rs.getString("a.name"));
+			info.setParent_name(rs.getString("p.name"));
+			info.setGrand_name(rs.getString("g.name"));
+			list.add(info);
+		}
+		disConnect();
+		return list;
+	}
+
+
 }

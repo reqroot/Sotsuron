@@ -4,6 +4,8 @@ public class GenreInfo {
 	private String genre_id;
 	private String name;
 	private String parent_genre_id;
+	private String parent_name;
+	private String grand_name;
 
 	public GenreInfo(){}
 
@@ -57,5 +59,35 @@ public class GenreInfo {
 		this.parent_genre_id = parent_genre_id;
 	}
 
+	/**
+	 * 親のジャンル名を取得します
+	 * @return 親のジャンル名
+	 */
+	public String getParent_name() {
+		return parent_name;
+	}
 
+	/**
+	 * 親のジャンル名を設定します
+	 * @param parent_name 設定する親のジャンル名
+	 */
+	public void setParent_name(String parent_name) {
+		this.parent_name = parent_name;
+	}
+
+	/**
+	 * 先祖のジャンル名を取得します
+	 * @return 先祖のジャンル名
+	 */
+	public String getGrand_name() {
+		return grand_name;
+	}
+
+	/**
+	 * 先祖のジャンル名を設定します
+	 * @param grand_name 設定する先祖のジャンル名
+	 */
+	public void setGrand_name(String grand_name) {
+		this.grand_name = grand_name;
+	}
 }

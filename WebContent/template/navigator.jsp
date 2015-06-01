@@ -10,7 +10,8 @@
 
  <p>販売管理</p>
  <ul>
-   <li><a href="/Sotsuron/hanbai?page=supplier">仕入先情報</a></li>
+   <li><a href="/Sotsuron/hanbai?page=supplier">仕入先管理</a></li>
+   <li><a href="/Sotsuron/hanbai?page=genre">ジャンル管理</a></li>
  </ul>
 
   <p>人事管理</p>

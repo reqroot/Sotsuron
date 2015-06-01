@@ -115,7 +115,7 @@ public class Supplier extends HttpServlet {
 				// TODO 自動生成された catch ブロック
 				e.printStackTrace();
 			}
-		}
+		}//if
 	}
 
 
