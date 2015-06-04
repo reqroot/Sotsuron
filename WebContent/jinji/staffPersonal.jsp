@@ -11,10 +11,17 @@ ${plist[0].birthday }
 ${plist[0].enter_day }
 ${plist[0].base_salary }<br />
 
-<!-- リストの長さだけ回す-->
+
+<%-- 資格情報がないか判断 --%>
+<c:if test= "${empty plist[0].license_name }">
+	資格情報なし
+</c:if>
+
+<%-- リストの長さだけ回す--%>
 <c:forEach var="item" items = "${plist}">
 ${item.license_name }
 </c:forEach>
+
 
 
 <br />
