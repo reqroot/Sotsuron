@@ -37,12 +37,7 @@ public class Staff extends HttpServlet {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staffList.jsp";
 		String page = request.getParameter("page");
-
-
-
 		staffManage sm = new staffManage();
-
-
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -56,7 +51,7 @@ public class Staff extends HttpServlet {
 				staffInfo sI = new staffInfo(); //スタッフid取得一件用
 				sI.setStaff_id(staff_id);
 
-		//社員番号をClick
+		//page遷移 個人ページ
 				if(page != null && page.equals("psearch")){
 					try {
 						plist = sm.pstaffSelect(sI);
@@ -67,7 +62,11 @@ public class Staff extends HttpServlet {
 					page_title = "人事システム - 個別ページ ";
 					content_page = "/jinji/staffPersonal.jsp";
 				}
-
+		//page遷移 個人資格情報追加
+			if(page != null && page.equals("license")){
+				
+			}
+			
 		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);

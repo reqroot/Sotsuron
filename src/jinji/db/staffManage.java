@@ -15,7 +15,7 @@ import db.DBAccess;
  */
 public class staffManage extends DBAccess {
 	private String selectSql; //スタッフ一覧用
-	private String insertSql;
+	private String LInsertSql;//個人資格情報追加用
 	private String updateSql;
 	private String deleteSql;
 	private String searchSql;//スタッフ一件用
@@ -33,12 +33,16 @@ public class staffManage extends DBAccess {
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "WHERE 1=1";
 
-		searchSql ="select staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name "
+		searchSql ="SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name "
 				+ "FROM tbl_staff staff "
 				+ "INNER JOIN tbl_department department on staff. department_id = department.department_id "
 				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
 				+ "LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id "
 				+ "WHERE staff.staff_id=?";
+
+		LInsertSql ="INSERT INTO tbl_StaffLicense(Staff_ID,License_ID) values(?,?)";
+
+
 	}
 
 
