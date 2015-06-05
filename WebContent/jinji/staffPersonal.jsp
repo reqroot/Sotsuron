@@ -1,6 +1,8 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<a href="/Sotsuron/Jinji/Staff?page=addlicense&staff_id=${plist[0].staff_id}">資格情報追加</a><br />
+
 <title>${page_title}</title>
 <h1>${page_title}</h1>
 ${plist[0].staff_id }
