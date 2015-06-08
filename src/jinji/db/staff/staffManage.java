@@ -27,18 +27,23 @@ public class staffManage extends DBAccess {
 
 	public staffManage() {
 		super(DRIVER_NAME);
-		selectSql = "SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day,staff.base_salary "
-				+ "FROM tbl_staff staff "
-				+ "INNER JOIN tbl_department department on staff.department_id = department.department_id "
-				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
-				+ "WHERE 1=1";
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day,staff.base_salary ");
+		sb.append("FROM tbl_staff staff ");
+		sb.append("INNER JOIN tbl_department department on staff.department_id = department.department_id ");
+		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
+		sb.append("WHERE 1=1");
+		selectSql = sb.toString();
 
-		searchSql ="SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name "
-				+ "FROM tbl_staff staff "
-				+ "INNER JOIN tbl_department department on staff. department_id = department.department_id "
-				+ "INNER JOIN tbl_position position on staff.position_id = position.position_id "
-				+ "LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id "
-				+ "WHERE staff.staff_id=?";
+
+
+		sb.append("SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name ");
+		sb.append("FROM tbl_staff staff ");
+		sb.append("INNER JOIN tbl_department department on staff. department_id = department.department_id ");
+		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
+		sb.append("LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id ");
+		sb.append("WHERE staff.staff_id=?");
+		searchSql = sb.toString();
 
 		licenseAddSql ="INSERT INTO tbl_StaffLicense(Staff_ID,License_ID) values(?,?)";
 
