@@ -1,11 +1,10 @@
 package hanbai.db.member;
 
-import java.sql.Timestamp;
 
 public class MemberInfo {
 	private String member_id;
 	private String name;
-	private Timestamp birthday;
+	private String birthday;
 	private boolean sex;
 	private String prefecture;
 	private String city;
@@ -15,7 +14,7 @@ public class MemberInfo {
 
 	public MemberInfo(){}
 
-	public MemberInfo(String member_id, String name, Timestamp birthday,
+	public MemberInfo(String member_id, String name, String birthday,
 			boolean sex, String prefecture, String city, String address,
 			String tel, String mail) {
 		super();
@@ -66,7 +65,7 @@ public class MemberInfo {
 	 * birthdayを取得します
 	 * @return birthday
 	 */
-	public Timestamp getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
@@ -74,7 +73,7 @@ public class MemberInfo {
 	 * birthdayを設定します
 	 * @param birthday 設定するbirthday
 	 */
-	public void setBirthday(Timestamp birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 
@@ -82,8 +81,12 @@ public class MemberInfo {
 	 * sexを取得します
 	 * @return sex
 	 */
-	public boolean isSex() {
-		return sex;
+	public String getSex() {
+		if(sex){
+			return "男";
+		}else{
+			return "女";
+		}
 	}
 
 	/**
