@@ -2,7 +2,7 @@
 
  *
  */
-package jinji.db;
+package jinji.db.staff;
 
 import java.io.Serializable;
 
