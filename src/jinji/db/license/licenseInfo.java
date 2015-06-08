@@ -3,6 +3,7 @@ package jinji.db.license;
 import java.io.Serializable;
 
 public class licenseInfo implements Serializable {
+
 	private String license_id;
 	private String license_name;
 
@@ -27,4 +28,5 @@ public class licenseInfo implements Serializable {
 	public void setLicense_name(String license_name) {
 		this.license_name = license_name;
 	}
+
 }
