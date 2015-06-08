@@ -15,6 +15,7 @@
  <ul>
    <li><a href="/Sotsuron/hanbai/supplier">仕入先管理</a></li>
    <li><a href="/Sotsuron/hanbai/genre">ジャンル管理</a></li>
+   <li><a href="/Sotsuron/hanbai/member">会員管理</a></li>
  </ul>
 
   <p>人事管理</p>
