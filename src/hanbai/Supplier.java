@@ -2,7 +2,7 @@ package hanbai;
 
 import hanbai.db.supplier.SupplierDBManager;
 import hanbai.db.supplier.SupplierInfo;
-import hanbai.db.supplier.SupplierRegex;
+import hanbai.db.supplier.SupplierValidator;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,7 +55,7 @@ public class Supplier extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 
 		SupplierDBManager manager = new SupplierDBManager();
-		SupplierRegex  regex = new SupplierRegex();
+		SupplierValidator  regex = new SupplierValidator();
 		//検索ボタンが押された場合
 		if(request.getParameter("searchBtn") != null){
 			//パラメータの取得

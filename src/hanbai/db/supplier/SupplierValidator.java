@@ -2,9 +2,9 @@ package hanbai.db.supplier;
 
 
 
-public class SupplierRegex {
+public class SupplierValidator {
 
-	public SupplierRegex(){
+	public SupplierValidator(){
 
 	}
 
