@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import login.LoginInfo;
 import db.DBAccess;
 
 /**
@@ -19,6 +20,7 @@ public class staffManage extends DBAccess {
 	private String updateSql;
 	private String deleteSql;
 	private String searchSql;//スタッフ一件用
+	private String loginSql; // 2015/6/8 add 鈴木 ログイン用SQL
 	private String msg;
 
 
@@ -36,7 +38,7 @@ public class staffManage extends DBAccess {
 		selectSql = sb.toString();
 
 
-
+		sb.setLength(0);//StringBuilderの初期化
 		sb.append("SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name ");
 		sb.append("FROM tbl_staff staff ");
 		sb.append("INNER JOIN tbl_department department on staff. department_id = department.department_id ");
@@ -47,7 +49,9 @@ public class staffManage extends DBAccess {
 
 		licenseAddSql ="INSERT INTO tbl_StaffLicense(Staff_ID,License_ID) values(?,?)";
 
-
+		// 2015/6/8 add 鈴木 ログイン用SQL ここから
+		this.loginSql = "SELECT staff_id, passwd FROM tbl_staff where staff_id = ? and passwd = ?";
+		// 2015/6/8 add 鈴木 ログイン用SQL ここまで
 	}
 
 
@@ -112,6 +116,30 @@ public class staffManage extends DBAccess {
 		}
 		disConnect();
 		return  plist;		//個人ページ取得
+	}
+
+	/**
+	 *  ログイン用検索
+	 * @param staffID
+	 * @param passwd
+	 * @return ログインユーザ情報（NULL該当ユーザなし）
+	 * @author 鈴木 翔
+	 */
+	public LoginInfo authSelect(String staffID, String passwd) throws Exception {
+		LoginInfo info = null;
+
+		// DBを検索
+		this.connect();
+		this.createStatement(loginSql);
+		this.getPstmt().setString(1, staffID);
+		this.getPstmt().setString(2, passwd);
+		this.selectExe();
+		ResultSet rs = getRsResult();
+		if (rs.next()) {
+			info = new LoginInfo(rs.getString("staff_id"),rs.getString("passwd"));
+		}
+
+		return info;
 	}
 
 	/*public licenseInfo licenseUpdate(staffInfo sI){
