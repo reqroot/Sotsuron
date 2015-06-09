@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Member
  */
-@WebServlet("/member")
+@WebServlet("/hanbai/member")
 public class Member extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = "会員管理画面";

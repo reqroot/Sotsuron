@@ -23,9 +23,9 @@
 
 <c:forEach var="item" items="${list }">
 <form action="/sotsuron/Member/details" method="post">
-	<input type="hidden" name="id" value="${item.member_ID }" />
+	<input type="hidden" name="id" value="${item.member_id }" />
 	<div id="record">
-		<span>${item.member_ID }</span>
+		<span>${item.member_id }</span>
 		<span>${item.name }</span>
 		<input type="submit" name="btnDetail" value="詳細" />
 		<input type="submit" name="btnEdit" value="編集" />

@@ -27,8 +27,8 @@ public class MemberDBManager extends DBAccess {
 		super(DRIVER_NAME);
 		selectSQL = String.format("SELECT %s, %s FROM %s "
 				+ "WHERE member_id BETWEEN ? AND ? "
-				+ "AND like ?"
-				, ID, NAME, TABLE);
+				+ "AND %s like ?"
+				, ID, NAME, TABLE, NAME);
 
 		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s"
 				+ "WHERE member_id = ?"
