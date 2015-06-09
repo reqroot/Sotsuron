@@ -30,9 +30,9 @@ public class MemberDBManager extends DBAccess {
 				+ "AND %s like ?"
 				, ID, NAME, TABLE, NAME);
 
-		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s"
-				+ "WHERE member_id = ?"
-				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, TABLE);
+		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s "
+				+ "WHERE %s = ?"
+				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, TABLE, ID);
 
 	}
 
@@ -108,6 +108,7 @@ public class MemberDBManager extends DBAccess {
 		//データ取り出し
 		ResultSet rs = getRsResult();
 		if(rs.next()){
+			info = new MemberInfo();
 			//一件のデータ取り出し
 			info.setMember_id(rs.getString(ID));
 			info.setName(rs.getString(NAME));
