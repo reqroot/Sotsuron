@@ -3,15 +3,12 @@
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-	<form action="/Sotsuron/Jinji/Staff"   method="get" >
+	<form action="/Sotsuron/Jinji/Staff/License"   method="get" >
    	取得済み資格一覧<br />
    	<table border = "1">
    	<tr><th>社員名</th><td>${plist[0].staff_name }</td></tr>
-
    	<tr><th>資格名</th>
-   	<c:forEach var="name" items="${sList }">
-   	<td>${name.license_name }</td>
-   	</c:forEach>
+   	<td><c:forEach var="name" items="${sList }">${name.license_name }　</c:forEach></td>
    	</tr>
    	</table>
    	<br />
