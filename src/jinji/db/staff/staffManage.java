@@ -36,9 +36,8 @@ public class staffManage extends DBAccess {
 		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
 		sb.append("WHERE 1=1");
 		selectSql = sb.toString();
+		sb.setLength(0); //StringBuilderの初期化
 
-
-		sb.setLength(0);//StringBuilderの初期化
 		sb.append("SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day, staff.base_salary, license.license_name ");
 		sb.append("FROM tbl_staff staff ");
 		sb.append("INNER JOIN tbl_department department on staff. department_id = department.department_id ");
@@ -46,6 +45,7 @@ public class staffManage extends DBAccess {
 		sb.append("LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id ");
 		sb.append("WHERE staff.staff_id=?");
 		searchSql = sb.toString();
+		sb.setLength(0);
 
 		licenseAddSql ="INSERT INTO tbl_StaffLicense(Staff_ID,License_ID) values(?,?)";
 

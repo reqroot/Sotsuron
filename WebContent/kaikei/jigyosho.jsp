@@ -5,6 +5,7 @@
 
 <hr />
 
+<p><a href="./Jigyosho?page=update">事業所情報を更新</a></p>
 <table border="1">
   <tr>
     <th>事業所名</th>

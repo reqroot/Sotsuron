@@ -15,6 +15,7 @@ public class JigyoshoManage extends DBAccess {
 	public JigyoshoManage() {
 		super("java:comp/env/jdbc/MySqlCon");
 		this.selectSql = "select jigyosho_name, post_no, prefecture, city, address, tel, fax, capital from jigyosho ";
+		this.updateSql = "UPDATE jigyosho SET Jigyosho_Name = ?, Post_No = ?, Prefecture = ?, City = ?, Address = ?, Tel = ?, Fax = ?, Capital = ?";
 	}
 
 	/**
@@ -62,8 +63,9 @@ public class JigyoshoManage extends DBAccess {
 		return info;
 	}
 
-	public int jigyoshoUpdate(JigyoshoInfo info) {
-		this.updateSql = "UPDATE jigyosho SET Jigyosho_Name = , Post_No = ?, Prefecture = ?, City = ?, Address = ?, Tel = ?, Fax = ?, Capital = ?";
+	public int jigyoshoUpdate(JigyoshoInfo info) throws Exception {
+		connect();
+		this.createStatement(this.updateSql);
 		try {
 			 this.getPstmt().setString(1, info.getJigyoshoName());
 			 this.getPstmt().setString(2, info.getPostNo());
@@ -75,11 +77,12 @@ public class JigyoshoManage extends DBAccess {
 			 this.getPstmt().setString(8, info.getCapital());
 
 			 // 実行
-			 this.updateExe(this.updateSql);
+			 this.updateExe();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			this.msg = "事業所情報の更新に失敗しました";
 		}
+		this.disConnect();
 		return this.getIntResult();
 	}
 }

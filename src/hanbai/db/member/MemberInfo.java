@@ -83,15 +83,15 @@ public class MemberInfo {
 	 */
 	public String getSex() {
 		if(sex){
-			return "男";
-		}else{
 			return "女";
+		}else{
+			return "男";
 		}
 	}
 
 	/**
 	 * sexを設定します
-	 * @param sex 設定するsex
+	 * @param sex 設定するsex 0なら女、1なら男
 	 */
 	public void setSex(boolean sex) {
 		this.sex = sex;
@@ -175,6 +175,34 @@ public class MemberInfo {
 	 */
 	public void setMail(String mail) {
 		this.mail = mail;
+	}
+
+	/* (非 Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MemberInfo [member_id=");
+		builder.append(member_id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", birthday=");
+		builder.append(birthday);
+		builder.append(", sex=");
+		builder.append(sex);
+		builder.append(", prefecture=");
+		builder.append(prefecture);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", Address=");
+		builder.append(Address);
+		builder.append(", tel=");
+		builder.append(tel);
+		builder.append(", mail=");
+		builder.append(mail);
+		builder.append("]");
+		return builder.toString();
 	}
 
 
