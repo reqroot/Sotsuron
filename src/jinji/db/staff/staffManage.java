@@ -142,10 +142,5 @@ public class staffManage extends DBAccess {
 		return info;
 	}
 
-	/*public licenseInfo licenseUpdate(staffInfo sI){
-		connect();
-		createStatement();
-		return null;
 
-	} */  //add用
 }

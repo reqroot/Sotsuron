@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jinji.db.license.licenseInfo;
-import jinji.db.license.licenseManage;
 import jinji.db.staff.staffInfo;
 import jinji.db.staff.staffManage;
 
@@ -24,7 +22,7 @@ public class Staff extends HttpServlet {
 
 	List<staffInfo> list = null; //スタッフ一覧取得用リスト
 	List<staffInfo> plist = null; //スタッフ個別取得
-	List<licenseInfo> lList = null;
+
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,8 +38,8 @@ public class Staff extends HttpServlet {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staffList.jsp";
 		String page = request.getParameter("page");
+		staffInfo sI = new staffInfo(); //スタッフid取得一件用
 		staffManage sm = new staffManage();
-		licenseManage sl = new licenseManage();
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -50,9 +48,8 @@ public class Staff extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		//staffListからのstaff_idのデータ取得
+		//staffList.jspからのstaff_idのデータ取得
 				String staff_id = (request.getParameter("staff_id"));
-				staffInfo sI = new staffInfo(); //スタッフid取得一件用
 				sI.setStaff_id(staff_id);
 
 		//page遷移 個人ページ
@@ -65,24 +62,12 @@ public class Staff extends HttpServlet {
 					page_title = "人事システム - 個別ページ ";
 					content_page = "/jinji/staffPersonal.jsp";
 				}
-		//page遷移 個人資格情報追加
-			if(page != null && page.equals("addlicense")){
-				try {
-					plist = sm.pstaffSelect(sI);
-					lList = sl.selectLicense();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				page_title = "人事システム - 保有資格追加ページ";
-				content_page ="/jinji/license_add_view.jsp";
-			}
 
 		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
 		request.setAttribute("plist", plist);
-		request.setAttribute("lList", lList);
 
 
 
