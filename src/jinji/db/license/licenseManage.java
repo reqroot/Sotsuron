@@ -34,14 +34,14 @@ public class licenseManage extends DBAccess {
 				sb.append("INSERT INTO tbl_stafflicense(staff_id, license_id) ");
 				 sb.append("VALUES(?, ?)");
 				 insertSql = sb.toString();
-				 sb.setLength(0);
+				 sb.setLength(0);//StringBuilderの初期化
 
 				 sb.append("SELECT license.license_name ");
 				 sb.append("FROM tbl_staff staff ");
 				 sb.append("LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id ");
 				 sb.append("WHERE staff.staff_id = ?");
 				 slicenseSql = sb.toString();
-				 sb.setLength(0);
+				 sb.setLength(0);//StringBuilderの初期化
 	}
 
 	public List<licenseInfo> selectLicense() throws Exception{

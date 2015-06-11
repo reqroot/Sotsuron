@@ -45,26 +45,38 @@ public class License extends HttpServlet {
 
 		//staffList.jspからのstaff_idのデータ取得
 		String staff_id = (request.getParameter("staff_id"));
+		String staff_name =(request.getParameter("staff_name"));
 		staffInfo sI = new staffInfo(); //スタッフid取得一件用
+		sI.setStaff_name(staff_name);
 		sI.setStaff_id(staff_id);
 
-//license_add_viewからの資格IDの取得
+		//license_add_viewからの資格IDの取得
 		String license_id = (request.getParameter("license_id"));
+		String license_name = (request.getParameter("license_name"));
 		licenseInfo lI = new licenseInfo();
 		lI.setLicense_id(license_id);
+		lI.setLicense_name(license_name);
 
 		//page遷移 個人資格情報追加
-		if(page != null && page.equals("addlicense")){
-			try {
-				sList = sl.stafflicenseSelect(sI);
-				plist = sm.pstaffSelect(sI);
-				lList = sl.selectLicense();
-			} catch (Exception e) {
-				e.printStackTrace();
+				if(page != null && page.equals("addlicense")){
+					try {
+						lList = sl.selectLicense();
+						sList = sl.stafflicenseSelect(sI);
+						plist = sm.pstaffSelect(sI);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					page_title = "人事システム - 保有資格追加ページ";
+					content_page ="/jinji/license_add_view.jsp";
+				}
+
+		//add(add_conf)ボタン インサート確認用
+			if(request.getParameter("add_conf") != null){
+				page_title = "人事システム - 資格追加確認ページ";
+				content_page ="/jinji/license_add_confirm.jsp";
 			}
-			page_title = "人事システム - 保有資格追加ページ";
-			content_page ="/jinji/license_add_view.jsp";
-		}
+
 		//add(license)ボタン
 		if(request.getParameter("add") != null){
 			try {
@@ -84,6 +96,9 @@ public class License extends HttpServlet {
 
 			request.setAttribute("page_title", page_title);
 			request.setAttribute("content_page", content_page);
+			request.setAttribute("license_name",license_id);
+			request.setAttribute("staff_id",staff_id);
+			request.setAttribute("staff_name",staff_name);
 			request.setAttribute("plist", plist);
 			request.setAttribute("lList", lList);
 			request.setAttribute("sList", sList);
