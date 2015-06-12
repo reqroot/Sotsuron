@@ -28,7 +28,9 @@
 <hr />
 <div id ="msg">${msg}</div>
 <table >
+<c:if test="${!(empty list)}">
 <tr><th>会員ＩＤ</th><th>氏名</th><th>登録年月日</th></tr>
+</c:if>
 <c:forEach var="item" items="${list }">
 
 <form action="/Sotsuron/hanbai/member" method="post">
