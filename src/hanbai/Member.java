@@ -5,6 +5,8 @@ import hanbai.db.member.MemberInfo;
 import hanbai.db.member.MemberValidator;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -89,7 +91,7 @@ public class Member extends HttpServlet {
 		String id = request.getParameter("id");
 		System.out.println("id:" + id);
 		//SQL検索値の作成
-		id = validator.convertID(id);
+		id = validator.convertID(id,"9999999");
 		System.out.println("id(convert):" + id);
 		//データの取得
 		MemberInfo info = manager.MemberSearchDetail(id);
@@ -105,44 +107,55 @@ public class Member extends HttpServlet {
 		MemberValidator  validator = new MemberValidator();
 
 		//パラメータの取得
-		String beginID = request.getParameter("beginID");
-		String endID = request.getParameter("endID");
-		String name = request.getParameter("name");
+		String beginID;
+		String endID;
+		Date beginDate;
+		Date endDate;
+		String name;
 
 		//SQLの検索値の作成
-		beginID = validator.convertID(beginID);
-		if(beginID == null){
-			beginID = "0000";
+		//会員番号
+		beginID = validator.convertID(request.getParameter("beginID"), "0000000");
+		endID = validator.convertID(request.getParameter("endID"), "9999999");
+		//入れ替え
+		if(validator.maxID(beginID, endID).equals(beginID)){
+			String t = beginID;
+			beginID = endID;
+			endID = t;
 		}
-		endID = validator.convertID(endID);
-		if(endID == null){
-			endID = "9999";
+
+		//登録年月日
+		beginDate = validator.convertDate(request.getParameter("beginDate"), new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
+		endDate = validator.convertDate(request.getParameter("endDate"), new Date());
+		//入れ替え
+		if(validator.maxDate(beginDate, endDate) == beginDate){
+			Date t = beginDate;
+			beginDate = endDate;
+			endDate = t;
 		}
-		name = validator.convertName(name);
+
+		//名前
+		name = validator.convertName(request.getParameter("name"), null);
 		if(name == null){
 			name = "%";
 		}else{
 			name = "%" + name + "%";
 		}
 
-		//デバッグ用
-		/*beginID = "0000";
-		endID = "0030";
-		name = "%";
-		beginKaikake = 0;
-		endKaikake = 20000;*/
-
-		List<MemberInfo> list = manager.MemberSearch(beginID, endID, name);
+		String beginDateStr = new SimpleDateFormat("yyyy/MM/dd").format(beginDate);
+		String endDateStr = new SimpleDateFormat("yyyy/MM/dd").format(endDate);
+		List<MemberInfo> list = manager.MemberSearch(beginID, endID,beginDateStr, endDateStr, name);
 
 		//JSPにデータを送る
 		//実際の検索値をメッセージとして設定する
-		manager.setMsg(String.format("検索数[%s] (会員ID:%s～%s 名前:%s)", list.size(), beginID, endID, name.replace("%", "")));
+		manager.setMsg(String.format("検索数[%s] (会員ID:%s～%s 登録年月日%s～%s 名前:%s)", list.size(), beginID, endID, beginDateStr, endDateStr, name.replace("%", "")));
 		request.setAttribute("msg", manager.getMsg());
 		request.setAttribute("list", list);
-		//Attributeには入力された値をそのまま返す
-		request.setAttribute("beginID", request.getParameter("beginID"));
-		request.setAttribute("endID", request.getParameter("endID"));
-		request.setAttribute("name",request.getParameter("name"));
+		request.setAttribute("beginID", beginID);
+		request.setAttribute("endID", endID);
+		request.setAttribute("beginDate", beginDateStr);
+		request.setAttribute("endDate", endDateStr);
+		request.setAttribute("name",name.replace("%", ""));
 		//ページ情報の追加
 		request.setAttribute("page_title", TITLE);
 		request.setAttribute("content_page", PAGE_VIEW);

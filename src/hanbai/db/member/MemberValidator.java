@@ -1,5 +1,9 @@
 package hanbai.db.member;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class MemberValidator {
 
 	/**
@@ -9,20 +13,20 @@ public class MemberValidator {
 	 * @param id 変換対象のデータ
 	 * @return 変換後のデータ。できなければnull
 	 */
-	public String convertID(String id){
-		if(id == null || id.length() == 0) return null;
+	public String convertID(String id, String defaultID){
+		if(id == null || id.length() == 0) return defaultID;
 		//数字以外が入っていれば変換できない
 		int idInt = 0;
 		try{
 			idInt = Integer.parseInt(id);
 		}catch(NumberFormatException e){
-			return null;
+			return defaultID;
 		}
 		//0以上
 		if(0 <= idInt){
 			id = String.format("%1$07d", idInt);
 		}else{
-			return null;
+			return defaultID;
 		}
 		//9999999より大きい場合
 		if(id.length() > 7){
@@ -33,18 +37,104 @@ public class MemberValidator {
 	}
 
 	/**
-	 * Supplier.nameにマッチするようにデータを変換する
+	 * Member.nameにマッチするようにデータを変換する
 	 * 文字数が多い場合のみ文字を切り捨てる
 	 * @param name 変換対象のデータ
-	 * @return 変換後のデータ。できなければnull
+	 * @return 変換後のデータ。変換できないときはdefaultNameを返す
 	 */
-	public String convertName(String name) {
+	public String convertName(String name, String defaultName) {
 		//nullなら変換不可
-		if(name == null || name.length() == 0) return null;
+		if(name == null || name.length() == 0) return defaultName;
 		if(name.length() > 20){
 			name = name.substring(0, 20);
 		}
 		return name;
+	}
+
+	public Boolean convertSex(String sex){
+		if(sex == null) return null;
+
+		if(sex.equals("0")){
+
+		}
+		return null;
+	}
+
+
+	/**
+	 * Member.Date型にマッチするようにデータを変換する
+	 * @param date 変換対象のデータ
+	 * @param defaultDate 変換できない場合のデフォルト値
+	 * @return 変換後のデータ。変換できないときはdefaultDateを返す
+	 */
+	public Date convertDate(String date, Date defaultDate){
+		if (date == null || date.equals("")) return defaultDate;
+
+		String[] patterns ={"yyyy/MM/dd", "yyyy/M/d", "yyyy/MM/d","yyyy/M/dd",
+							"yyyy-MM-dd", "yyyy-M/d", "yyyy-MM-d","yyyy-M-dd",
+							"yyyyMMdd", "yyyyMd", "yyyyMMd","yyyyMdd"};
+		SimpleDateFormat[] format = new SimpleDateFormat[patterns.length];
+		Date d  = null;
+
+		//いっこずつ検証（効率悪し）
+		for(int i = 0; i < format.length; i++){
+			format[i] = new SimpleDateFormat(patterns[i]);
+		}
+
+		for(SimpleDateFormat s : format){
+			try{
+				d = s.parse(date);
+				break;
+			}catch(ParseException e){
+
+			}
+		}
+
+		if(d == null){
+			return defaultDate;
+		}else{
+			return d;
+		}
+	}
+
+
+	/**
+	 * 会員IDを比較して大きいほうを返す。
+	 * idAとidBが同値だった場合はidAを返す
+	 * @param idA
+	 * @param idB
+	 * @return 大きいほうの会員ID。比較できなければnull
+	 */
+	public String maxID(String idA, String idB){
+		try{
+			int a = Integer.parseInt(idA);
+			int b = Integer.parseInt(idB);
+			if(a >= b){
+				return idA;
+			}else{
+				return idB;
+			}
+		}catch(NumberFormatException e){
+			return null;
+		}
+	}
+
+
+	/**
+	 * 日付を比較して大きいほうを返す
+	 * dateAとdateBが同値だった場合はdateAを返す
+	 * @param dateA
+	 * @param dateB
+	 * @return 大きいほうのDate。
+	 */
+	public Date maxDate(Date dateA, Date dateB){
+		int diff = dateA.compareTo(dateB);
+
+		if(diff >= 0){
+			return dateA;
+		}else{
+			return dateB;
+		}
 	}
 
 }
