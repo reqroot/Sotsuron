@@ -8,7 +8,8 @@
 ここらへんにメニューを記入
  --%>
  <ul>
-   <li><a href="/Sotsuron/Kaikei/Jigyosyo">事業所情報</a></li>
+   <li><a href="/Sotsuron/Kaikei/Jigyosho">事業所情報</a></li>
+   <li><a href="/Sotsuron/Kaikei/Bank">取引先銀行</a>
  </ul>
 
  <p>販売管理</p>
