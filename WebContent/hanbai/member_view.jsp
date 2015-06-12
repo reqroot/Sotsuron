@@ -1,7 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div id ="msg">${msg}</div>
+
 
 <form id ="search_form" action="/Sotsuron/hanbai/member" method="post">
 	<p id="form_title">会員検索</p>
@@ -26,15 +26,21 @@
 	</p>
 </form>
 <hr />
-
+<div id ="msg">${msg}</div>
+<table >
+<tr><th>会員ＩＤ</th><th>氏名</th><th>登録年月日</th></tr>
 <c:forEach var="item" items="${list }">
+
 <form action="/Sotsuron/hanbai/member" method="post">
 	<input type="hidden" name="id" value="${item.member_id }" />
-	<div id="record">
-		<span>${item.member_id }</span>
-		<span>${item.name }</span>
-		<span>${item.entry_date}</span>
-		<input type="submit" name="detailBtn" value="詳細" />
-	</div>
+	<tr>
+		<td>${item.member_id }</td>
+		<td>${item.name }</td>
+		<td>${item.entry_date}</td>
+		<td><input type="submit" name="detailBtn" value="詳細" /></td>
+	</tr>
 </form>
+
 </c:forEach>
+
+</table>
