@@ -40,7 +40,7 @@ public class JigyoshoManage extends DBAccess {
 	 * @return
 	 * @throws Exception
 	 */
-	public JigyoshoInfo jigyoshoSelect() throws Exception {
+	public JigyoshoInfo select() throws Exception {
 		JigyoshoInfo info = null;
 		// DB接続
 		connect();
@@ -63,7 +63,7 @@ public class JigyoshoManage extends DBAccess {
 		return info;
 	}
 
-	public int jigyoshoUpdate(JigyoshoInfo info) throws Exception {
+	public int update(JigyoshoInfo info) throws Exception {
 		connect();
 		this.createStatement(this.updateSql);
 		try {
