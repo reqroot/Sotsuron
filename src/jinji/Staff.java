@@ -69,8 +69,6 @@ public class Staff extends HttpServlet {
 		request.setAttribute("list", list);
 		request.setAttribute("plist", plist);
 
-
-
 		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 		dispatch.forward(request, response);
