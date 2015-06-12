@@ -1,5 +1,7 @@
 package hanbai.db.member;
 
+import java.text.SimpleDateFormat;
+
 public class MemberValidator {
 
 	/**
@@ -33,7 +35,7 @@ public class MemberValidator {
 	}
 
 	/**
-	 * Supplier.nameにマッチするようにデータを変換する
+	 * Member.nameにマッチするようにデータを変換する
 	 * 文字数が多い場合のみ文字を切り捨てる
 	 * @param name 変換対象のデータ
 	 * @return 変換後のデータ。できなければnull
@@ -45,6 +47,32 @@ public class MemberValidator {
 			name = name.substring(0, 20);
 		}
 		return name;
+	}
+
+	/**
+	 * Member.birthdayにマッチするようにデータを変換する
+	 * @param name 変換対象のデータ
+	 * @return 変換後のデータ。できなければnull
+	 */
+	public String convertBirthday(String date){
+		if(date == null) return null;
+		System.out.println("date:" + date);
+		try{
+			date = new SimpleDateFormat("yyyy/MM/dd").format(date);
+		}catch(IllegalArgumentException e){
+			date = null;
+		}
+		System.out.println("date(after):" + date);
+		return date;
+	}
+
+	public Boolean convertSex(String sex){
+		if(sex == null) return null;
+
+		if(sex.equals("0")){
+
+		}
+		return null;
 	}
 
 }

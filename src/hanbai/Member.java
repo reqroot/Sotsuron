@@ -5,6 +5,8 @@ import hanbai.db.member.MemberInfo;
 import hanbai.db.member.MemberValidator;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -107,6 +109,8 @@ public class Member extends HttpServlet {
 		//パラメータの取得
 		String beginID = request.getParameter("beginID");
 		String endID = request.getParameter("endID");
+		String beginDate = request.getParameter("beginDate");
+		String endDate = request.getParameter("endDate");
 		String name = request.getParameter("name");
 
 		//SQLの検索値の作成
@@ -118,6 +122,17 @@ public class Member extends HttpServlet {
 		if(endID == null){
 			endID = "9999";
 		}
+
+		beginDate = validator.convertBirthday(beginDate);
+		if(beginDate == null){
+			beginDate = "2000/01/01";
+		}
+
+		endDate = validator.convertBirthday(endDate);
+		if(endDate == null){
+			endDate = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+		}
+
 		name = validator.convertName(name);
 		if(name == null){
 			name = "%";
@@ -132,7 +147,7 @@ public class Member extends HttpServlet {
 		beginKaikake = 0;
 		endKaikake = 20000;*/
 
-		List<MemberInfo> list = manager.MemberSearch(beginID, endID, name);
+		List<MemberInfo> list = manager.MemberSearch(beginID, endID,beginDate, endDate, name);
 
 		//JSPにデータを送る
 		//実際の検索値をメッセージとして設定する
@@ -142,6 +157,8 @@ public class Member extends HttpServlet {
 		//Attributeには入力された値をそのまま返す
 		request.setAttribute("beginID", request.getParameter("beginID"));
 		request.setAttribute("endID", request.getParameter("endID"));
+		request.setAttribute("beginDate", beginDate);
+		request.setAttribute("endDate", endDate);
 		request.setAttribute("name",request.getParameter("name"));
 		//ページ情報の追加
 		request.setAttribute("page_title", TITLE);

@@ -18,6 +18,7 @@ public class MemberDBManager extends DBAccess {
 	private final static String ADDRESS = "Address";
 	private final static String TEL = "tel";
 	private final static String MAIL = "mail";
+	private final static String ENTRY_DATE = "entry_date";
 
 	private String selectSQL;
 	private String searchSQL;
@@ -25,14 +26,15 @@ public class MemberDBManager extends DBAccess {
 
 	public MemberDBManager() {
 		super(DRIVER_NAME);
-		selectSQL = String.format("SELECT %s, %s FROM %s "
+		selectSQL = String.format("SELECT %s, %s, %s FROM %s "
 				+ "WHERE member_id BETWEEN ? AND ? "
+				+ "AND entry_date BETWEEN ? AND ? "
 				+ "AND %s like ?"
-				, ID, NAME, TABLE, NAME);
+				, ID, NAME, ENTRY_DATE, TABLE, NAME);
 
-		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s "
+		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s "
 				+ "WHERE %s = ?"
-				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, TABLE, ID);
+				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ENTRY_DATE, TABLE, ID);
 
 	}
 
@@ -60,7 +62,7 @@ public class MemberDBManager extends DBAccess {
 	 * @return 検索条件に一致する会員の一覧
 	 * @throws Exception
 	 */
-	public List<MemberInfo> MemberSearch(String beginID, String endID, String name) throws Exception{
+	public List<MemberInfo> MemberSearch(String beginID, String endID, String beginDate, String endDate, String name) throws Exception{
 		List<MemberInfo> list = new ArrayList<MemberInfo>();
 
 		//DB接続
@@ -70,7 +72,9 @@ public class MemberDBManager extends DBAccess {
 		//パラメータの設定
 		getPstmt().setString(1, beginID);
 		getPstmt().setString(2, endID);
-		getPstmt().setString(3, name);
+		getPstmt().setString(3, beginDate);
+		getPstmt().setString(4, endDate);
+		getPstmt().setString(5, name);
 		//実行
 		selectExe();
 
@@ -81,6 +85,7 @@ public class MemberDBManager extends DBAccess {
 			MemberInfo info = new MemberInfo();
 			info.setMember_id(rs.getString(ID));
 			info.setName(rs.getString(NAME));
+			info.setEntry_date(rs.getString(ENTRY_DATE));
 			list.add(info);
 		}
 		disConnect();
@@ -119,6 +124,7 @@ public class MemberDBManager extends DBAccess {
 			info.setAddress(rs.getString(ADDRESS));
 			info.setTel(rs.getString(TEL));
 			info.setMail(rs.getString(MAIL));
+			info.setEntry_date(rs.getString(ENTRY_DATE));
 		}
 		disConnect();
 		return info;

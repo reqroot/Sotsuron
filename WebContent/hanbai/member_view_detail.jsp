@@ -5,6 +5,7 @@
 
 
 <form action="/Sotsuron/hanbai/member" method="post">
+	<input type="hidden" name="id" value="${item.member_id }" />
 	<table border="1">
 		<tr><th>会員ID</th><td>${item.member_id}</td></tr>
 		<tr><th>氏名</th><td>${item.name}</td></tr>
@@ -15,8 +16,9 @@
 		<tr><td>${item.address}</td></tr>
 		<tr><th>電話番号</th><td>${item.tel}</td></tr>
 		<tr><th>メールアドレス</th><td>${item.mail}</td></tr>
+		<tr><th>登録年月日</th><td>${item.entry_date }</td></tr>
 	</table>
 
-	<input type="submit" name="btnEdit" value="編集" />
+	<input type="submit" name="editBtn" value="編集" />
 
 </form>

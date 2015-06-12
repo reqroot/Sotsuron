@@ -11,6 +11,7 @@ public class MemberInfo {
 	private String Address;
 	private String tel;
 	private String mail;
+	private String entry_date;
 
 	public MemberInfo(){}
 
@@ -177,6 +178,24 @@ public class MemberInfo {
 		this.mail = mail;
 	}
 
+
+
+	/**
+	 * entry_dateを取得します
+	 * @return entry_date
+	 */
+	public String getEntry_date() {
+		return entry_date;
+	}
+
+	/**
+	 * entry_dateを設定します
+	 * @param entry_date 設定するentry_date
+	 */
+	public void setEntry_date(String entry_date) {
+		this.entry_date = entry_date;
+	}
+
 	/* (非 Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -201,6 +220,8 @@ public class MemberInfo {
 		builder.append(tel);
 		builder.append(", mail=");
 		builder.append(mail);
+		builder.append(", entry_date=");
+		builder.append(entry_date);
 		builder.append("]");
 		return builder.toString();
 	}
