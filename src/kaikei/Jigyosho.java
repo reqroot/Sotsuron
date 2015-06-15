@@ -55,7 +55,7 @@ public class Jigyosho extends HttpServlet {
 			info.setFax(request.getParameter("fax"));
 			info.setCapital(request.getParameter("capital"));
 			try {
-				jm.jigyoshoUpdate(info);
+				jm.update(info);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -63,7 +63,7 @@ public class Jigyosho extends HttpServlet {
 
 		// 表示用データ取得
 		try {
-			info = jm.jigyoshoSelect();
+			info = jm.select();
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();

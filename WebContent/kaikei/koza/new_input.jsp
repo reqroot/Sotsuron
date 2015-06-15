@@ -5,11 +5,21 @@
 <h1>${page_title}</h1>
 <p>${msg}</p>
 <hr />
-<form action="./Bank" method="get">
+<form action="./Koza" method="get">
 <table border="1">
 <tr>
-	<th>銀行名</th>
-	<td><input type="text" name="bank_name" /></td>
+	<th>口座番号</th>
+	<td><input type="text" name="koza_no" /></td>
+</tr>
+<tr>
+	<th>口座種別</th>
+	<td>
+		<select name="koza_shubetsu">
+			<c:forEach var="item" items="${ks_list}">
+			<option value="${item.kozaShubetsu}">${item.kozaShubetsuName}</option>
+			</c:forEach>
+		</select>
+	</td>
 </tr>
 </table>
 <p><input type="submit" name="newBtn" value="登録" /></p>

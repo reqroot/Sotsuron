@@ -31,7 +31,7 @@ public class TaxManage extends DBAccess {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<TaxInfo> taxSelect() throws Exception {
+	public List<TaxInfo> select() throws Exception {
 		List<TaxInfo> list = new ArrayList<TaxInfo>();
 		// DB接続
 		connect();
