@@ -1,6 +1,7 @@
 package hanbai.db.member;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,25 +136,39 @@ public class MemberDBManager extends DBAccess {
 		return info;
 	}
 
-	public void MemberUpdate(MemberInfo info) throws Exception{
+	/**
+	 * 会員の情報を更新します。
+	 * @param info 更新する会員の情報
+	 * @return 更新に成功したらtrue、失敗したらfalse
+	 * @throws Exception
+	 */
+	public boolean MemberUpdate(MemberInfo info) throws Exception{
+		msg = "";
 		//DB接続
 		connect();
 		//SQL設定
-		createStatement(updateSQL);
-		//パラメータの設定
-		getPstmt().setString(1, info.getName());
-		getPstmt().setString(2, info.getBirthday());
-		getPstmt().setInt(3, info.getSexInt());
-		getPstmt().setString(4, info.getPrefecture());
-		getPstmt().setString(5, info.getCity());
-		getPstmt().setString(6, info.getAddress());
-		getPstmt().setString(7, info.getTel());
-		getPstmt().setString(8, info.getMail());
-		getPstmt().setString(9, info.getMember_id());
-		//実行
-		this.updateExe();
-
-
+		try{
+			createStatement(updateSQL);
+			//パラメータの設定
+			getPstmt().setString(1, info.getName());
+			getPstmt().setString(2, info.getBirthday());
+			getPstmt().setInt(3, info.getSexInt());
+			getPstmt().setString(4, info.getPrefecture());
+			getPstmt().setString(5, info.getCity());
+			getPstmt().setString(6, info.getAddress());
+			getPstmt().setString(7, info.getTel());
+			getPstmt().setString(8, info.getMail());
+			getPstmt().setString(9, info.getMember_id());
+			//実行
+			this.updateExe();
+		}catch(SQLException e){
+			msg = "会員情報の更新に失敗しました。";
+			return false;
+		}finally{
+			disConnect();
+		}
+		msg = "会員情報を更新しました。";
+		return true;
 	}
 
 

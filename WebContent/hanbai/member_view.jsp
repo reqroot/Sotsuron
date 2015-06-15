@@ -7,19 +7,19 @@
 	<p id="form_title">会員検索</p>
 	<p id = "input_form">
 		<span id ="input_title">ID</span>
-		<input type="number" size="10" name="beginID" value="${beginID }" onclick="this.select();">
+		<input type="number" size="10" name="beginID" value="${searchInfo.beginID }" onclick="this.select();">
 		～
-		<input type="number" size="10" name="endID" value="${endID }" onclick="this.select();"/>
+		<input type="number" size="10" name="endID" value="${searchInfo.endID }" onclick="this.select();"/>
 	</p>
 	<p id = "input_form">
 		<span id ="input_title">登録年月日</span>
-		<input type="text" size="10" name="beginDate" value="${beginDate }" onclick="this.select();">
+		<input type="text" size="10" name="beginDate" value="${searchInfo.beginDateStr }" onclick="this.select();">
 		～
-		<input type="text" size="10" name="endDate" value="${endDate }" onclick="this.select();"/>
+		<input type="text" size="10" name="endDate" value="${searchInfo.endDateStr }" onclick="this.select();"/>
 	</p>
 	<p id = "input_form">
 		<span id ="input_title">名前</span>
-		<input type="text" size="20" name="name"  value="${name }" onclick="this.select();"/>
+		<input type="text" size="20" name="name"  value="${searchInfo.name }" onclick="this.select();"/>
 	</p>
 	<p>
 		<input id="submit_button" type="submit" name="searchBtn" value="検索"/>

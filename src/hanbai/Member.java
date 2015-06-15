@@ -2,6 +2,7 @@ package hanbai;
 
 import hanbai.db.member.MemberDBManager;
 import hanbai.db.member.MemberInfo;
+import hanbai.db.member.MemberSerchInfo;
 import hanbai.db.member.MemberValidator;
 
 import java.io.IOException;
@@ -66,6 +67,18 @@ public class Member extends HttpServlet {
 			}else if(request.getParameter("editBtn") != null){
 				//編集ボタンが押された場合
 				doEdit(request, response);
+			}else if(request.getParameter("confirmBtn") != null){
+				//確認ボタンが押された場合
+				doConfirm(request, response);
+			}else if(request.getParameter("editBackBtn") != null){
+				//編集に戻るボタンが押された場合
+				doEditBack(request, response);
+			}else if(request.getParameter("commitBtn") != null){
+				//確定ボタンが押された場合
+				doCommit(request, response);
+			}else if(request.getParameter("backBtn") != null){
+				//一覧に戻るボタンが押された場合
+				redirectView(request, response);
 			}
 		}catch(Exception e){
 			//エラー処理
@@ -76,6 +89,20 @@ public class Member extends HttpServlet {
 		//ディスパッチャーを取得
 		RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 		rd.forward(request, response);
+	}
+
+	private void doEditBack(HttpServletRequest request,HttpServletResponse response) {
+	}
+
+	private void redirectView(HttpServletRequest request,HttpServletResponse response) {
+
+	}
+
+	private void doCommit(HttpServletRequest request,HttpServletResponse response) {
+	}
+
+	private void doConfirm(HttpServletRequest request,HttpServletResponse response) {
+
 	}
 
 	private void doEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -107,62 +134,34 @@ public class Member extends HttpServlet {
 		MemberValidator  validator = new MemberValidator();
 
 		//パラメータの取得
-		String beginID;
-		String endID;
-		Date beginDate;
-		Date endDate;
-		String name;
+		MemberSerchInfo searchInfo = new MemberSerchInfo();
 
 		//SQLの検索値の作成
 		//会員番号
-		beginID = validator.convertID(request.getParameter("beginID"), "0000000");
-		endID = validator.convertID(request.getParameter("endID"), "9999999");
-		//入れ替え
-		if(validator.maxID(beginID, endID).equals(beginID)){
-			String t = beginID;
-			beginID = endID;
-			endID = t;
-		}
-
+		searchInfo.setBeginID(validator.convertID(request.getParameter("beginID"), "0000000"));
+		searchInfo.setEndID(validator.convertID(request.getParameter("endID"), "9999999"));
 		//登録年月日
-		beginDate = validator.convertDate(request.getParameter("beginDate"), new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01"));
-		endDate = validator.convertDate(request.getParameter("endDate"), new Date());
-		//入れ替え
-		if(validator.maxDate(beginDate, endDate) == beginDate){
-			Date t = beginDate;
-			beginDate = endDate;
-			endDate = t;
-		}
-
+		searchInfo.setBeginDate(validator.convertDate(request.getParameter("beginDate"), new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01")));
+		searchInfo.setEndDate(validator.convertDate(request.getParameter("endDate"), new Date()));
 		//名前
-		name = validator.convertName(request.getParameter("name"), null);
-		if(name == null){
-			name = "%";
-		}else{
-			name = "%" + name + "%";
-		}
+		searchInfo.setName(validator.convertName(request.getParameter("name"), null));
 
-		String beginDateStr = new SimpleDateFormat("yyyy/MM/dd").format(beginDate);
-		String endDateStr = new SimpleDateFormat("yyyy/MM/dd").format(endDate);
-		List<MemberInfo> list = manager.MemberSearch(beginID, endID,beginDateStr, endDateStr, name);
+		//DBからデータ取得
+		List<MemberInfo> list = manager.MemberSearch(
+				searchInfo.getBeginID(), searchInfo.getEndID(),
+				searchInfo.getBeginDateStr(), searchInfo.getEndDateStr(), searchInfo.getNameSqlParam());
 
 		//JSPにデータを送る
-		//実際の検索値をメッセージとして設定する
-		manager.setMsg(String.format("検索数[%s] (会員ID:%s～%s 登録年月日%s～%s 名前:%s)", list.size(), beginID, endID, beginDateStr, endDateStr, name.replace("%", "")));
+		//リクエストパラメータの追加
+		manager.setMsg(String.format("検索数[%s] (会員ID:%s～%s 登録年月日%s～%s 名前:%s)",
+				list.size(), searchInfo.getBeginID(), searchInfo.getEndID(),
+				searchInfo.getBeginDateStr(), searchInfo.getEndDateStr(), searchInfo.getName()));
 		request.setAttribute("msg", manager.getMsg());
 		request.setAttribute("list", list);
-		request.setAttribute("beginID", beginID);
-		request.setAttribute("endID", endID);
-		request.setAttribute("beginDate", beginDateStr);
-		request.setAttribute("endDate", endDateStr);
-		request.setAttribute("name",name.replace("%", ""));
+		//セッションパラメータの追加
+		request.setAttribute("searchInfo", searchInfo);
 		//ページ情報の追加
 		request.setAttribute("page_title", TITLE);
 		request.setAttribute("content_page", PAGE_VIEW);
-
-
-	}
-
-
-
+	}//doSearch
 }
