@@ -79,7 +79,7 @@ public class MemberInfo {
 	}
 
 	/**
-	 * sexを取得します
+	 * 性別(文字列)を取得します
 	 * @return sex
 	 */
 	public String getSex() {
@@ -91,8 +91,21 @@ public class MemberInfo {
 	}
 
 	/**
+	 * 性別(int値)を取得します
+	 * @return
+	 */
+	public int getSexInt(){
+		if(sex){
+			return 1;
+		}else{
+			return 0;
+		}
+
+	}
+
+	/**
 	 * sexを設定します
-	 * @param sex 設定するsex 0なら女、1なら男
+	 * @param sex 設定するsex falseなら男、trueなら女
 	 */
 	public void setSex(boolean sex) {
 		this.sex = sex;

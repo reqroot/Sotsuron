@@ -4,6 +4,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Membersテーブルのデータ構造にマッチするようにデータを変換するクラス。
+ * @author 柴田
+ *
+ */
 public class MemberValidator {
 
 	/**
@@ -94,46 +99,6 @@ public class MemberValidator {
 			return defaultDate;
 		}else{
 			return d;
-		}
-	}
-
-
-	/**
-	 * 会員IDを比較して大きいほうを返す。
-	 * idAとidBが同値だった場合はidAを返す
-	 * @param idA
-	 * @param idB
-	 * @return 大きいほうの会員ID。比較できなければnull
-	 */
-	public String maxID(String idA, String idB){
-		try{
-			int a = Integer.parseInt(idA);
-			int b = Integer.parseInt(idB);
-			if(a >= b){
-				return idA;
-			}else{
-				return idB;
-			}
-		}catch(NumberFormatException e){
-			return null;
-		}
-	}
-
-
-	/**
-	 * 日付を比較して大きいほうを返す
-	 * dateAとdateBが同値だった場合はdateAを返す
-	 * @param dateA
-	 * @param dateB
-	 * @return 大きいほうのDate。
-	 */
-	public Date maxDate(Date dateA, Date dateB){
-		int diff = dateA.compareTo(dateB);
-
-		if(diff >= 0){
-			return dateA;
-		}else{
-			return dateB;
 		}
 	}
 

@@ -19,6 +19,16 @@
 		<tr><th>登録年月日</th><td>${item.entry_date }</td></tr>
 	</table>
 
-	<input type="submit" name="editBtn" value="編集" />
-
+<c:choose>
+	<c:when test="${state == 'detail'}">
+		<input type="submit" name="editBtn" value="編集" />
+	</c:when>
+	<c:when test="${state == 'confirm'}">
+		<input type="submit" name="editBackBtn" value="編集に戻る" />
+		<input type="submit" name="commitBtn" value="確定" />
+	</c:when>
+	<c:when test="${state == 'commit'}">
+		<input type="submit" name="backBtn" value="一覧に戻る" />
+	</c:when>
+</c:choose>
 </form>
