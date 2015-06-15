@@ -22,6 +22,7 @@ public class MemberDBManager extends DBAccess {
 
 	private String selectSQL;
 	private String searchSQL;
+	private String updateSQL;
 	private String msg;
 
 	public MemberDBManager() {
@@ -35,6 +36,10 @@ public class MemberDBManager extends DBAccess {
 		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s "
 				+ "WHERE %s = ?"
 				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ENTRY_DATE, TABLE, ID);
+
+		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? ,"
+									+ "WHERE %s = ?",
+									TABLE, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ID);
 
 	}
 
@@ -128,6 +133,27 @@ public class MemberDBManager extends DBAccess {
 		}
 		disConnect();
 		return info;
+	}
+
+	public void MemberUpdate(MemberInfo info) throws Exception{
+		//DB接続
+		connect();
+		//SQL設定
+		createStatement(updateSQL);
+		//パラメータの設定
+		getPstmt().setString(1, info.getName());
+		getPstmt().setString(2, info.getBirthday());
+		getPstmt().setInt(3, info.getSexInt());
+		getPstmt().setString(4, info.getPrefecture());
+		getPstmt().setString(5, info.getCity());
+		getPstmt().setString(6, info.getAddress());
+		getPstmt().setString(7, info.getTel());
+		getPstmt().setString(8, info.getMail());
+		getPstmt().setString(9, info.getMember_id());
+		//実行
+		this.updateExe();
+
+
 	}
 
 
