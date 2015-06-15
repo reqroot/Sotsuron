@@ -36,7 +36,7 @@ public class Staff extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String page_title="人事システム - 社員一覧";
-		String content_page = "/jinji/staffList.jsp";
+		String content_page = "/jinji/staff_list.jsp";
 		String page = request.getParameter("page");
 		staffInfo sI = new staffInfo(); //スタッフid取得一件用
 		staffManage sm = new staffManage();
@@ -60,7 +60,7 @@ public class Staff extends HttpServlet {
 						e.printStackTrace();
 					}
 					page_title = "人事システム - 個別ページ ";
-					content_page = "/jinji/staffPersonal.jsp";
+					content_page = "/jinji/staff_personal.jsp";
 				}
 
 		//JSPへデータの送る準備
