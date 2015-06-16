@@ -15,7 +15,7 @@
 	if(sec < 10) { sec = "0" + sec; }
 
 	// フォーマット②
-	var clock2 = year + '年' + month + '月' + date + '日' + '（' + myDay[day] + '曜日）'  + hour + '時' + min + '分' + sec +'秒';
+	var clock2 = year + '年' + month + '月' + date + '日' + '（' + myDay[day] + '曜日）'  + hour + '時' + min + '分' ;
 
 	document . getElementById( 'clock-02' ) . innerHTML= clock2 . toLocaleString(); // div id="clock-02"
 
