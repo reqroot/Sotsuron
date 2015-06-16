@@ -13,6 +13,10 @@ public class KozaManage extends DBAccess {
 	private String serchSql;
 	private String msg;
 
+	public String getMsg() {
+		return msg;
+	}
+
 	public KozaManage() {
 		super("java:comp/env/jdbc/MySqlCon");
 		StringBuilder sb = new StringBuilder();
@@ -31,6 +35,11 @@ public class KozaManage extends DBAccess {
 		sb.append("and koza.bank_id = ? ");
 		sb.append("and koza.Koza_No = ? ");
 		serchSql = sb.toString();
+		sb.setLength(0);
+
+		sb.append("insert into koza (bank_id, koza_shubetsu, koza_no, koza_zangaku) ");
+		sb.append("values (?, ?, ?, ?)");
+		this.insertSql = sb.toString();
 		sb.setLength(0);
 	}
 
@@ -52,7 +61,7 @@ public class KozaManage extends DBAccess {
 					getRsResult().getString("bank_id"),
 					getRsResult().getString("koza_shubetsu_name"),
 					getRsResult().getString("koza_no"),
-					getRsResult().getString("koza_zangaku"));
+					getRsResult().getInt("koza_zangaku"));
 			list.add(info);
 		}
 		disConnect();
@@ -78,10 +87,31 @@ public class KozaManage extends DBAccess {
 					getRsResult().getString("bank_id"),
 					getRsResult().getString("koza_shubetsu_name"),
 					getRsResult().getString("koza_no"),
-					getRsResult().getString("koza_zangaku"));
+					getRsResult().getInt("koza_zangaku"));
 		}
 		disConnect();
 
 		return info;
+	}
+
+	public int insert(KozaInfo ki) throws Exception {
+		// DB接続
+		connect();
+
+		// ステートメント
+		createStatement(this.insertSql);
+		this.getPstmt().setString(1, ki.getBankId());
+		this.getPstmt().setString(2, ki.getKozaShubetsu());
+		this.getPstmt().setString(3, ki.getKozaNo());
+		this.getPstmt().setInt(4, ki.getKozaZangaku());
+
+		try {
+			this.updateExe();
+		} catch (Exception e) {
+			this.msg = "口座情報の新規登録に失敗しました。";
+		}
+
+		disConnect();
+		return this.getIntResult();
 	}
 }

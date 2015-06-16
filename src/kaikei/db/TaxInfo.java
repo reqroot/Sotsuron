@@ -1,7 +1,6 @@
 package kaikei.db;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 消費税率のデータを保持するクラス
@@ -9,7 +8,7 @@ import java.util.Date;
  *
  */
 public class TaxInfo implements Serializable {
-	private Date enforcementDate;
+	private String enforcementDate;
 	private double taxRate;
 
 	/**
@@ -26,7 +25,7 @@ public class TaxInfo implements Serializable {
 	 * @param enforcementDate
 	 * @param taxRate
 	 */
-	public TaxInfo(Date enforcementDate, double taxRate) {
+	public TaxInfo(String enforcementDate, double taxRate) {
 		super();
 		this.enforcementDate = enforcementDate;
 		this.taxRate = taxRate;
@@ -36,7 +35,7 @@ public class TaxInfo implements Serializable {
 	 * 施工年月日を取得します
 	 * @return
 	 */
-	public Date getEnforcementDate() {
+	public String getEnforcementDate() {
 		return enforcementDate;
 	}
 
@@ -44,7 +43,7 @@ public class TaxInfo implements Serializable {
 	 * 施工年月日を設定します
 	 * @param enforcementDate
 	 */
-	public void setEnforcementDate(Date enforcementDate) {
+	public void setEnforcementDate(String enforcementDate) {
 		this.enforcementDate = enforcementDate;
 	}
 

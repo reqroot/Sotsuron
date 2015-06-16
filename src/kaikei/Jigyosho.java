@@ -19,6 +19,10 @@ import kaikei.db.JigyoshoManage;
 public class Jigyosho extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	String page_title = null;
+	String content_page = null;
+	JigyoshoManage jm = null;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -31,34 +35,21 @@ public class Jigyosho extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String page_title="会計システム - 事業所情報";
-		String content_page = "/kaikei/jigyosho/jigyosho.jsp";
+		page_title ="会計システム - 事業所情報";
+		content_page = "/kaikei/jigyosho/jigyosho.jsp";
 		JigyoshoInfo info = null;
 		String page = null;
-		JigyoshoManage jm = new JigyoshoManage();
+		jm = new JigyoshoManage();
 
 		if (request.getParameter("page") != null) {
 			page = request.getParameter("page").toString();
 		}
 		if(page != null && page.equals("update_input")) {
-			// 更新ページ
-			content_page = "/kaikei/jigyosho/update_input.jsp";
+			// 更新入力
+			update_input(request, response);
 		} else if (page != null && page.equals("update")) {
 			// 登録
-			info = new JigyoshoInfo();
-			info.setJigyoshoName(request.getParameter("jigyosho_name"));
-			info.setPostNo(request.getParameter("post_no"));
-			info.setPrefecture(request.getParameter("prefecture"));
-			info.setCity(request.getParameter("city"));
-			info.setAddress(request.getParameter("address"));
-			info.setTel(request.getParameter("tel"));
-			info.setFax(request.getParameter("fax"));
-			info.setCapital(request.getParameter("capital"));
-			try {
-				jm.update(info);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			update(request, response);
 		}
 
 		// 表示用データ取得
@@ -85,4 +76,25 @@ public class Jigyosho extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
+	private void update_input(HttpServletRequest request, HttpServletResponse response) {
+		// 更新ページ
+		content_page = "/kaikei/jigyosho/update_input.jsp";
+	}
+
+	private void update(HttpServletRequest request, HttpServletResponse response) {
+		JigyoshoInfo info = new JigyoshoInfo();
+		info.setJigyoshoName(request.getParameter("jigyosho_name"));
+		info.setPostNo(request.getParameter("post_no"));
+		info.setPrefecture(request.getParameter("prefecture"));
+		info.setCity(request.getParameter("city"));
+		info.setAddress(request.getParameter("address"));
+		info.setTel(request.getParameter("tel"));
+		info.setFax(request.getParameter("fax"));
+		info.setCapital(request.getParameter("capital"));
+		try {
+			jm.update(info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

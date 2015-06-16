@@ -6,7 +6,7 @@ public class KozaInfo  implements Serializable {
 	private String bankId;
 	private String kozaShubetsu;
 	private String kozaNo;
-	private String kozaZangaku;
+	private int kozaZangaku;
 
 	/**
 	 * コンストラクタ
@@ -24,7 +24,7 @@ public class KozaInfo  implements Serializable {
 	 * @param kozaZangaku
 	 */
 	public KozaInfo(String bankId, String kozaShubetsu, String kozaNo,
-			String kozaZangaku) {
+			int kozaZangaku) {
 		super();
 		this.bankId = bankId;
 		this.kozaShubetsu = kozaShubetsu;
@@ -56,11 +56,11 @@ public class KozaInfo  implements Serializable {
 		this.kozaNo = kozaNo;
 	}
 
-	public String getKozaZangaku() {
+	public int getKozaZangaku() {
 		return kozaZangaku;
 	}
 
-	public void setKozaZangaku(String kozaZangaku) {
+	public void setKozaZangaku(int kozaZangaku) {
 		this.kozaZangaku = kozaZangaku;
 	}
 }

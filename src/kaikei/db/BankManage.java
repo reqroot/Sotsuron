@@ -17,7 +17,7 @@ public class BankManage extends DBAccess {
 
 	public BankManage() {
 		super("java:comp/env/jdbc/MySqlCon");
-		this.selectSql = "select bank_id, bank_name from bank";
+		this.selectSql = "select bank_id, bank_name from bank order by bank_id";
 		this.updateSql = "update bank set bank_name = ? where bank_id = ?";
 		this.insertSql = "insert into bank (bank_id, bank_name) values (?, ?)";
 		this.serchSql = "select bank_id, bank_name from bank where bank_id = ?";

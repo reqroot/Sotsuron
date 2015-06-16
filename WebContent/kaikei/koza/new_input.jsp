@@ -5,11 +5,12 @@
 <h1>${page_title}</h1>
 <p>${msg}</p>
 <hr />
+<h2>${bank_info.bankName}</h2>
 <form action="./Koza" method="get">
 <table border="1">
 <tr>
 	<th>口座番号</th>
-	<td><input type="text" name="koza_no" /></td>
+	<td><input type="text" name="koza_no" size="40" /></td>
 </tr>
 <tr>
 	<th>口座種別</th>
@@ -21,7 +22,12 @@
 		</select>
 	</td>
 </tr>
+<tr>
+	<th>初期預金額</th>
+	<td><input type="text" name="yokingaku" size="10" /></td>
+</tr>
 </table>
+<p><input type="hidden" name="bank_id" value="${bank_info.bankId }" /></p>
 <p><input type="submit" name="newBtn" value="登録" /></p>
 <p><input type="hidden" name="page" value="new" /></p>
 </form>

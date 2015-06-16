@@ -5,5 +5,16 @@
 <h1>${page_title}</h1>
 <p>${msg}</p>
 <hr />
-<h2>${bank_info.bankName} - ${info.kozaShubetsu}:${info.kozaNo }</h2>
-<p>口座残高：${info.kozaZangaku}</p>
+<h2>消費税率履歴</h2>
+<table border="1">
+<tr>
+	<th>施工年月日</th>
+	<th>消費税率</th>
+</tr>
+<c:forEach var="item" items="${list}">
+<tr>
+	<td>${item.enforcementDate}</td>
+	<td>${item.tax}</td>
+</tr>
+</c:forEach>
+</table>
