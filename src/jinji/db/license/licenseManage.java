@@ -125,7 +125,7 @@ public class licenseManage extends DBAccess {
 			getPstmt().setString(1,lI.getLicense_id());
 			break;
 		}//switch
-
+		
 		updateExe();
 		disConnect();
 	}

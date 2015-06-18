@@ -34,13 +34,17 @@ public class Attendance extends HttpServlet {
 		String page = request.getParameter("page");
 		ArrayList<String> js = new ArrayList<String>(); //JavaScript用List
 
-
-
-		//暫定テスト処理
+		//時刻表示
 		 page_title ="出退勤画面";
 		 content_page ="/jinji/work_attendance_view.jsp";
 		 js.add("../js/jquery-1.11.3.js"); //JQuery読み込み
 		 js.add("../js/clock.js"); //時計のJavaScript読み込み
+
+		 //出勤処理
+		 if(request.getParameter("attend") != null){
+			 page_title ="出勤確認画面";
+			 content_page ="/jinji/work_attendance_conf.jsp";
+		 }
 
 		 //JSPにデータを送る準備
 		request.setAttribute("page_title", page_title);
