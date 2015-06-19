@@ -91,14 +91,14 @@ public class MemberInfo {
 	}
 
 	/**
-	 * 性別(int値)を取得します
+	 * 性別(DB上での値)を取得します
 	 * @return
 	 */
 	public int getSexInt(){
 		if(sex){
-			return 1;
-		}else{
 			return 0;
+		}else{
+			return 1;
 		}
 
 	}

@@ -3,9 +3,10 @@ package hanbai;
 import hanbai.db.member.MemberDBManager;
 import hanbai.db.member.MemberInfo;
 import hanbai.db.member.MemberSerchInfo;
-import hanbai.db.member.MemberValidator;
+import hanbai.validator.MemberValidator;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,9 @@ public class Member extends HttpServlet {
 	private static final String PAGE_DETAIL = "/hanbai/member_view_detail.jsp";
 	private static final String PAGE_EDIT = "/hanbai/member_view_edit.jsp";
 
+	private static final String S_DETAIL = "detail";
+	private static final String S_CONFIRM = "confirm";
+	private static final String S_COMMIT = "commit";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -92,6 +96,9 @@ public class Member extends HttpServlet {
 	}
 
 	private void doEditBack(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("state", S_DETAIL);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_EDIT);
 	}
 
 	private void redirectView(HttpServletRequest request,HttpServletResponse response) {
@@ -102,7 +109,28 @@ public class Member extends HttpServlet {
 	}
 
 	private void doConfirm(HttpServletRequest request,HttpServletResponse response) {
+		MemberValidator  validator = new MemberValidator();
+		MemberInfo info = new MemberInfo();
 
+		//データの検証
+		info.setMember_id(request.getParameter("member_id"));
+		info.setName(validator.convertName(request.getParameter("name")));
+		info.setBirthday(validator.convertBirthdayStr(request.getParameter("birthday")));
+		info.setSex(validator.convertSex(request.getParameter("sex")));
+		info.setPrefecture(validator.convertPrefecture(request.getParameter("prefecture")));
+		info.setCity(validator.convertCity(request.getParameter("city")));
+		info.setAddress(validator.convertAddress(request.getParameter("address")));
+		info.setTel(validator.convertTel(request.getParameter("tel")));
+		info.setMail(validator.convertMail(request.getParameter("mail")));
+
+		//データに異常があれば編集画面に戻る
+		if(validator.getErrs() > 0){
+			doEditBack(request, response);
+		}else{
+			request.setAttribute("state", S_CONFIRM);
+			request.setAttribute("page_title", TITLE);
+			request.setAttribute("content_page", PAGE_DETAIL);
+		}
 	}
 
 	private void doEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -118,33 +146,28 @@ public class Member extends HttpServlet {
 		String id = request.getParameter("id");
 		System.out.println("id:" + id);
 		//SQL検索値の作成
-		id = validator.convertID(id,"9999999");
+		id = validator.convertID(id);
 		System.out.println("id(convert):" + id);
 		//データの取得
 		MemberInfo info = manager.MemberSearchDetail(id);
 		System.out.println("info:" + info);
 		request.setAttribute("item", info);
 		//ページ情報の追加
+		request.setAttribute("state", S_DETAIL);
 		request.setAttribute("page_title", TITLE);
 		request.setAttribute("content_page", PAGE_DETAIL);
 	}
 
 	private void doSearch(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		MemberDBManager manager = new MemberDBManager();
-		MemberValidator  validator = new MemberValidator();
+
 
 		//パラメータの取得
-		MemberSerchInfo searchInfo = new MemberSerchInfo();
-
-		//SQLの検索値の作成
-		//会員番号
-		searchInfo.setBeginID(validator.convertID(request.getParameter("beginID"), "0000000"));
-		searchInfo.setEndID(validator.convertID(request.getParameter("endID"), "9999999"));
-		//登録年月日
-		searchInfo.setBeginDate(validator.convertDate(request.getParameter("beginDate"), new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01")));
-		searchInfo.setEndDate(validator.convertDate(request.getParameter("endDate"), new Date()));
-		//名前
-		searchInfo.setName(validator.convertName(request.getParameter("name"), null));
+		MemberSerchInfo searchInfo = makeSearchData(request.getParameter("beginID"),
+													request.getParameter("endID"),
+													request.getParameter("beginDate"),
+													request.getParameter("endDate"),
+													request.getParameter("name"));
 
 		//DBからデータ取得
 		List<MemberInfo> list = manager.MemberSearch(
@@ -164,4 +187,28 @@ public class Member extends HttpServlet {
 		request.setAttribute("page_title", TITLE);
 		request.setAttribute("content_page", PAGE_VIEW);
 	}//doSearch
+
+	//検索条件を作成する
+	private MemberSerchInfo makeSearchData(String beginID, String endID, String beginDate, String endDate, String name) throws ParseException{
+		MemberValidator  validator = new MemberValidator();
+		MemberSerchInfo searchInfo = new MemberSerchInfo();
+		//SQLの検索値の作成
+		beginID = validator.convertID(beginID);
+		endID = validator.convertID(endID);
+		Date beginDated = validator.convertEntryDate(beginDate);
+		Date endDated = validator.convertEntryDate(endDate);
+		name = validator.convertName(name);
+
+
+		//デフォルト値の設定
+		if(beginID == null) beginID = "0000000";
+		if(endID == null) endID = "9999999";
+		if(beginDated == null) beginDated = new SimpleDateFormat("yyyy/MM/dd").parse("2000/01/01");
+		if(endDated == null) endDated = new Date();
+
+		//検索Infoの作成
+		
+
+		return searchInfo;
+	}
 }
