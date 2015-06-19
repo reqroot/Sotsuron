@@ -65,7 +65,6 @@ public class Bank extends HttpServlet {
 
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
-		request.setAttribute("list", list);
 
 		String disp = "/template/layout.jsp";
 		RequestDispatcher dispatch = request.getRequestDispatcher(disp);
@@ -83,6 +82,7 @@ public class Bank extends HttpServlet {
 		// 表示用データ取得
 		try {
 			list = bm.select();
+			request.setAttribute("list", list);
 		} catch (Exception e) {
 			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
@@ -94,20 +94,20 @@ public class Bank extends HttpServlet {
 		BankInfo info = null;
 
 		// 更新入力ページ
-					if (request.getParameter("bank_id") != null) {
-						bankId = request.getParameter("bank_id");
-					}
+		if (request.getParameter("bank_id") != null) {
+			bankId = request.getParameter("bank_id");
+		}
 
-					// 選択された銀行情報選択
-					try {
-						info = bm.search(bankId);
-					} catch (Exception e) {
-						// エラー処理を追加
-						e.printStackTrace();
-					}
-					page_title = "会計システム - 取引先銀行変更";
-					content_page = "/kaikei/bank/update_input.jsp";
-					request.setAttribute("info", info);
+		// 選択された銀行情報選択
+		try {
+			info = bm.search(bankId);
+		} catch (Exception e) {
+			// エラー処理を追加
+			e.printStackTrace();
+		}
+		page_title = "会計システム - 取引先銀行変更";
+		content_page = "/kaikei/bank/update_input.jsp";
+		request.setAttribute("info", info);
 	}
 
 	private void update(HttpServletRequest request, HttpServletResponse response) {
@@ -172,8 +172,8 @@ public class Bank extends HttpServlet {
 		if (hasErr == true) {
 			// 入力エラーあり
 			new_input(request, response);
-				return;
-			}
+			return;
+		}
 		info = new BankInfo(bankId, bankName);
 
 		// 登録

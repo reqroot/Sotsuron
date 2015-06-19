@@ -119,7 +119,15 @@ public class Tax extends HttpServlet {
 		String day = null;
 
 		if (request.getParameter("tax") != null) {
-			tax = Double.parseDouble(request.getParameter("tax"));
+			if (!request.getParameter("tax").isEmpty()) {
+				try {
+					tax = Double.parseDouble(request.getParameter("tax"));
+				} catch (NumberFormatException e) {
+					hasErr = true;
+				}
+			} else {
+				hasErr = true;
+			}
 		} else {hasErr = true;}
 		if (request.getParameter("year") != null) {
 			year = request.getParameter("year");

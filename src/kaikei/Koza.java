@@ -49,10 +49,6 @@ public class Koza extends HttpServlet {
 
 		km = new KozaManage();
 
-
-
-
-
 		if (request.getParameter("page") != null) {
 			page = request.getParameter("page").toString();
 		}
@@ -161,13 +157,20 @@ public class Koza extends HttpServlet {
 			hasErr = true;
 		}
 		if (request.getParameter("yokingaku") != null) {
-			zangaku = Integer.parseInt(request.getParameter("yokingaku"));
+			if (!request.getParameter("yokingaku").isEmpty()) {
+				try {
+					zangaku = Integer.parseInt(request.getParameter("yokingaku"));
+				} catch (NumberFormatException e) {
+					hasErr = true;
+				}
+			}
 		} else {
-			hasErr = true;
+			zangaku = 0;
 		}
 
 		if (hasErr) {
 			new_input(request, response);
+			return;
 		}
 
 		// 登録
