@@ -207,7 +207,11 @@ public class Member extends HttpServlet {
 		if(endDated == null) endDated = new Date();
 
 		//検索Infoの作成
-
+		searchInfo.setBeginID(beginID);
+		searchInfo.setEndID(endID);
+		searchInfo.setBeginDate(beginDated);
+		searchInfo.setEndDate(endDated);
+		searchInfo.setName(name);
 
 		return searchInfo;
 	}
