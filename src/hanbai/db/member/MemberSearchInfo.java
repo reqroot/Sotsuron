@@ -9,14 +9,14 @@ import java.util.Date;
  * @author 柴田幸雄
  *
  */
-public class MemberSerchInfo {
+public class MemberSearchInfo {
 	String beginID;
 	String endID;
 	Date beginDate;
 	Date endDate;
 	String name;
 
-	public MemberSerchInfo(){
+	public MemberSearchInfo(){
 		beginID = null;
 		endID = null;
 		beginDate = null;

@@ -2,7 +2,7 @@ package hanbai;
 
 import hanbai.db.member.MemberDBManager;
 import hanbai.db.member.MemberInfo;
-import hanbai.db.member.MemberSerchInfo;
+import hanbai.db.member.MemberSearchInfo;
 import hanbai.validator.MemberValidator;
 
 import java.io.IOException;
@@ -163,7 +163,7 @@ public class Member extends HttpServlet {
 
 
 		//パラメータの取得
-		MemberSerchInfo searchInfo = makeSearchData(request.getParameter("beginID"),
+		MemberSearchInfo searchInfo = makeSearchData(request.getParameter("beginID"),
 													request.getParameter("endID"),
 													request.getParameter("beginDate"),
 													request.getParameter("endDate"),
@@ -189,9 +189,9 @@ public class Member extends HttpServlet {
 	}//doSearch
 
 	//検索条件を作成する
-	private MemberSerchInfo makeSearchData(String beginID, String endID, String beginDate, String endDate, String name) throws ParseException{
+	private MemberSearchInfo makeSearchData(String beginID, String endID, String beginDate, String endDate, String name) throws ParseException{
 		MemberValidator  validator = new MemberValidator();
-		MemberSerchInfo searchInfo = new MemberSerchInfo();
+		MemberSearchInfo searchInfo = new MemberSearchInfo();
 		//SQLの検索値の作成
 		beginID = validator.convertID(beginID);
 		endID = validator.convertID(endID);
@@ -207,7 +207,7 @@ public class Member extends HttpServlet {
 		if(endDated == null) endDated = new Date();
 
 		//検索Infoの作成
-		
+
 
 		return searchInfo;
 	}
