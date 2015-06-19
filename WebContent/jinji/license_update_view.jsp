@@ -25,6 +25,6 @@
 	</td></tr>
     </table>
     <input type="hidden" name="staff_name" value="${plist[0].staff_name }" />
-    <p><input type="submit" name="add_conf" value="追加" /></p>
-    <p><input type="submit" name="delete_conf" value="削除" /></p>
+    <p><input type="submit" name="add_conf" value="追加" />
+   	<input type="submit" name="delete_conf" value="削除" /></p>
  	</form>
