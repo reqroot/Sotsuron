@@ -4,9 +4,10 @@
 <h1>${page_title}</h1>
 
 <div id="clock-02" ></div>
-<form method="get" action="/Jinji/Attendance">
+${msg }
+<form method="get" action="/Sotsuron/Jinji/Attendance">
 
-<p><input type="submit" name="attend" value="出勤"></input>
-<input type="submit" name="clockout" value="退勤"></input></p>
+<p><input type="submit" name="attend" value="出勤" />
+<input type="submit" name="clockout" value="退勤" /></p>
 
 </form>
