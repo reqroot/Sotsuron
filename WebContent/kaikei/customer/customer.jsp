@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>${page_title}</h1>
 <p>${msg}</p>
-<p><a href="/Sotsuron/Kaikei/Customer?page=new_input">取引先を新規登録する</a></p>
 <hr />
+<p><a href="/Sotsuron/Kaikei/Customer?page=new_input">取引先を新規登録する</a></p>
 <table border="1">
 <tr>
 	<th>取引先ID</th>

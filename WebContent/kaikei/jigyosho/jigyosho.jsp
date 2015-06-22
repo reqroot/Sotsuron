@@ -4,7 +4,6 @@
 <h1>${page_title}</h1>
 
 <hr />
-
 <p><a href="./Jigyosho?page=update_input">事業所情報を更新</a></p>
 <table border="1">
   <tr>

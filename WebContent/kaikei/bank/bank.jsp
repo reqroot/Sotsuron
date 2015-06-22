@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <h1>${page_title}</h1>
 <p>${msg}</p>
-<p><a href="/Sotsuron/Kaikei/Bank?page=new_input">取引銀行を新規登録する</a></p>
 <hr />
+<p><a href="/Sotsuron/Kaikei/Bank?page=new_input">取引銀行を新規登録する</a></p>
 <table border="1">
 <tr>
 	<th>銀行ID</th>
