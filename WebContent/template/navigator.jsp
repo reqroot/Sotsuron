@@ -22,7 +22,7 @@
   <p>人事管理</p>
  <ul>
    <li><a href="/Sotsuron/Jinji/Staff">社員一覧</a></li>
-   <li><a href="">社員検索</a></li>
+   <li><a href="/Sotsuron/Jinji/Attendance">出退勤管理</a></li>
  </ul>
 
  <p><a href="/Sotsuron/Logout">ログアウト</a></p>
