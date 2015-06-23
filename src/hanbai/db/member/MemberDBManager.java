@@ -38,7 +38,7 @@ public class MemberDBManager extends DBAccess {
 				+ "WHERE %s = ?"
 				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ENTRY_DATE, TABLE, ID);
 
-		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? ,"
+		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? "
 									+ "WHERE %s = ?",
 									TABLE, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ID);
 
@@ -163,6 +163,7 @@ public class MemberDBManager extends DBAccess {
 			this.updateExe();
 		}catch(SQLException e){
 			msg = "会員情報の更新に失敗しました。";
+			e.printStackTrace();
 			return false;
 		}finally{
 			disConnect();

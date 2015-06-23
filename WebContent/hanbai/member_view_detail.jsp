@@ -5,7 +5,17 @@
 
 
 <form action="/Sotsuron/hanbai/member" method="post">
-	<input type="hidden" name="id" value="${item.member_id }" />
+	<input type="hidden" name="member_id" value="${item.member_id }" />
+	<input type="hidden" name="name" value="${item.name }" />
+	<input type="hidden" name="birthday" value="${item.birthday }" />
+	<input type="hidden" name="sex" value="${item.sex }" />
+	<input type="hidden" name="prefecture" value="${item.prefecture }" />
+	<input type="hidden" name="city" value="${item.city }" />
+	<input type="hidden" name="address" value="${item.address}" />
+	<input type="hidden" name="tel" value="${item.tel }" />
+	<input type="hidden" name="mail" value="${item.mail }" />
+	<input type="hidden" name="entry_date" value="${item.entry_date }" />
+
 	<table border="1">
 		<tr><th>会員ID</th><td>${item.member_id}</td></tr>
 		<tr><th>氏名</th><td>${item.name}</td></tr>

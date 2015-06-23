@@ -2,8 +2,10 @@ package hanbai.validator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +64,7 @@ public class SotsuronValidator {
 	 * @throws ValidatorException 変換できなかった場合に発生します。
 	 */
 	protected String convertInt(String value, int begin, int end) throws ValidatorException{
-		if(value == null || value.equals("")) throw new ValidatorException();
+		if(value == null || value.length() <= 0) throw new ValidatorException();
 
 		//begin>endなら逆転
 		if(begin > end){
@@ -96,6 +98,7 @@ public class SotsuronValidator {
 	 * @throws ValidatorException 変換できなかった場合に発生します。
 	 */
 	protected String convertInt(String value, int begin, int end, int keta) throws ValidatorException{
+		if(value == null || value.length() <= 0) throw new ValidatorException();
 		//桁数以上の文字を削除
 		if(value.length() > keta){
 			value =value.substring(0, keta);
@@ -333,5 +336,22 @@ public class SotsuronValidator {
 	 */
 	public int getErrs(){
 		return errMessage.size();
+	}
+
+	/**
+	 * 保持しているエラーメッセージの全てを返す
+	 * @return 全てのエラーメッセージ。ない場合はnull
+	 */
+	public ArrayList<String> getErrMessages(){
+		if(getErrs() <= 0) return null;
+
+		ArrayList<String> errs = new ArrayList<String>();
+
+		Set<String> keys = errMessage.keySet();
+		for(String k : keys){
+			errs.add(errMessage.get(k));
+		}
+
+		return errs;
 	}
 }
