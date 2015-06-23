@@ -4,6 +4,7 @@
 package jinji.db.attendance;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import db.DBAccess;
 
@@ -16,7 +17,8 @@ public class attendanceManage extends DBAccess{
 	private String attendSql; //出勤用SQL(insert)
 	private String clockoutSql; //退勤用SQL(update)
 	private String confSql; //出退勤確認用(select)
-
+	private String pconfSql;//出勤データ確認用
+	int count =0;
 
 	attendanceInfo attendInfo = null;
 
@@ -26,17 +28,21 @@ public class attendanceManage extends DBAccess{
 		StringBuilder sb =new StringBuilder();
 
 		sb.append("insert into tbl_workManage(staff_id, date, time_in, time_out) ");
-		sb.append("values(?,current_date ,CURTIME(), \"\" )");
+		sb.append("values(?,current_date ,CURTIME(), NULL )");
 		 attendSql = sb.toString();
 		 sb.setLength(0);//StringBuilderの初期化
 
 		 sb.append("update tbl_workmanage ");
 		 sb.append("set time_out = CURTIME() ");
-		 sb.append("where staff_id = ? && date = current_date ");
+		 sb.append("where staff_id = ? && date = current_date && time_out IS NULL ");
 		 clockoutSql =sb.toString();
 		 sb.setLength(0);
 
-		 confSql = "select current_date, CURTIME()";
+		 confSql = "select current_date, CURTIME() ";
+
+		 pconfSql ="select date, time_in, time_out from tbl_workmanage where staff_id = ? && date = current_date ";
+
+
 	}
 
 
@@ -55,9 +61,28 @@ public class attendanceManage extends DBAccess{
 		return attendInfo;
 	}
 
-	public void attendUpdate(int state) throws Exception{ //0:出勤 1:退勤 2:DELETE
+	public attendanceInfo pconfattend() throws Exception{
 		connect();
+		createStatement(pconfSql);
+		getPstmt().setString(1, "2015001"); //TODO ログイン情報から社員番号を選択する処理
+		selectExe();
+		ResultSet rs = getRsResult();
+		while(rs.next()){
+			try {
+				attendInfo = new attendanceInfo("",
+						rs.getDate("date"),
+						rs.getTime("time_in"),
+						rs.getTime("time_out"));
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		disConnect();
+		return attendInfo;
+	}
 
+	public int attendUpdate(int state) throws Exception{ //0:出勤 1:退勤
+		connect();
 		switch(state){
 		case 0 : //出勤
 			createStatement(attendSql);
@@ -71,5 +96,6 @@ public class attendanceManage extends DBAccess{
 
 		updateExe();
 		disConnect();
+		return count;
 	}
 }
