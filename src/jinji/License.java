@@ -58,7 +58,7 @@ public class License extends HttpServlet {
 					content_page ="/jinji/license_update_view.jsp";
 				}
 
-		//add(add_conf)ボタン インサート確認用
+		//資格インサート確認用
 			if(request.getParameter("add_conf") != null){
 				try {
 					license_name = lm.conflicenseSelect(lI);
@@ -66,10 +66,10 @@ public class License extends HttpServlet {
 					e.printStackTrace();
 				}
 				page_title = "人事システム - 資格追加確認ページ";
-				content_page ="/jinji/license_update_Iconfirm.jsp";
+				content_page ="/jinji/license_update_confirm.jsp";
 			}
 
-			//add(add_conf)ボタン デリート確認用
+			//資格デリート確認用
 			if(request.getParameter("delete_conf") != null){
 				try {
 					license_name = lm.conflicenseSelect(lI);
@@ -77,10 +77,10 @@ public class License extends HttpServlet {
 					e.printStackTrace();
 				}
 				page_title = "人事システム - 資格削除確認ページ";
-				content_page ="/jinji/license_update_Dconfirm.jsp";
+				content_page ="/jinji/license_update_confirm.jsp";
 			}
 
-		//add(license)ボタン
+		//資格追加確定
 		if(request.getParameter("add") != null){
 			try {
 				lm.licenseUpdate(sI, lI, 0);
@@ -91,7 +91,7 @@ public class License extends HttpServlet {
 			content_page = "/jinji/license_update_view.jsp";
 		}
 
-		//delete(license)ボタン
+		//資格削除確定
 		if(request.getParameter("delete")!=null){
 			try {
 				lm.licenseUpdate(sI, lI, 1);

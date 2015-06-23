@@ -2,12 +2,13 @@ package jinji.db.attendance;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Time;
 
 public class attendanceInfo implements Serializable {
 	private String staff_id;
-	private  Date date;
-	private Date time_in;
-	private Date time_out;
+	private Date date;
+	private Time time_in;
+	private Time time_out;
 	/**
 	 * 出退勤をデータを扱う
 	 * @param staff_id
@@ -15,8 +16,8 @@ public class attendanceInfo implements Serializable {
 	 * @param time_in
 	 * @param time_out
 	 */
-	public attendanceInfo(String staff_id, Date date, Date time_in,
-			Date time_out) {
+	public attendanceInfo(String staff_id, Date date, Time time_in,
+			Time time_out) {
 		super();
 		this.staff_id = staff_id;
 		this.date = date;
@@ -40,19 +41,19 @@ public class attendanceInfo implements Serializable {
 		this.date = date;
 	}
 
-	public Date getTime_in() {
+	public Time getTime_in() {
 		return time_in;
 	}
 
-	public void setTime_in(Date time_in) {
+	public void setTime_in(Time time_in) {
 		this.time_in = time_in;
 	}
 
-	public Date getTime_out() {
+	public Time getTime_out() {
 		return time_out;
 	}
 
-	public void setTime_out(Date time_out) {
+	public void setTime_out(Time time_out) {
 		this.time_out = time_out;
 	}
 
