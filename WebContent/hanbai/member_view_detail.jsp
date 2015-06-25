@@ -16,6 +16,7 @@
 	<input type="hidden" name="mail" value="${item.mail }" />
 	<input type="hidden" name="entry_date" value="${item.entry_date }" />
 
+	<c:if test="${state != 'delete'}">
 	<table border="1">
 		<tr><th>会員ID</th><td>${item.member_id}</td></tr>
 		<tr><th>氏名</th><td>${item.name}</td></tr>
@@ -28,16 +29,25 @@
 		<tr><th>メールアドレス</th><td>${item.mail}</td></tr>
 		<tr><th>登録年月日</th><td>${item.entry_date }</td></tr>
 	</table>
+	</c:if>
 
 <c:choose>
 	<c:when test="${state == 'detail'}">
 		<input type="submit" name="editBtn" value="編集" />
+		<input type="submit" name="deleteConfirmBtn" value="削除" />
 	</c:when>
 	<c:when test="${state == 'confirm'}">
 		<input type="submit" name="editBackBtn" value="編集に戻る" />
 		<input type="submit" name="commitBtn" value="確定" />
 	</c:when>
 	<c:when test="${state == 'commit'}">
+		<input type="submit" name="backBtn" value="一覧に戻る" />
+	</c:when>
+	<c:when test="${state == 'deleteConfirm'}">
+		<input type="submit" name="backBtn" value="一覧に戻る" />
+		<input type="submit" name="deleteBtn" value="削除" />
+	</c:when>
+	<c:when test="${state == 'delete'}">
 		<input type="submit" name="backBtn" value="一覧に戻る" />
 	</c:when>
 </c:choose>

@@ -24,6 +24,7 @@ public class MemberDBManager extends DBAccess {
 	private String selectSQL;
 	private String searchSQL;
 	private String updateSQL;
+	private String deleteSQL;
 	private String msg;
 
 	public MemberDBManager() {
@@ -41,6 +42,8 @@ public class MemberDBManager extends DBAccess {
 		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? "
 									+ "WHERE %s = ?",
 									TABLE, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ID);
+
+		deleteSQL = String.format("DELETE FROM %s WHERE %s = ?", TABLE, ID);
 
 	}
 
@@ -169,6 +172,34 @@ public class MemberDBManager extends DBAccess {
 			disConnect();
 		}
 		msg = "会員情報を更新しました。";
+		return true;
+	}
+
+	/**
+	 * 会員の情報を削除します。
+	 * @param info 更新する会員の情報
+	 * @return 削除に成功したらtrue、失敗したらfalse
+	 * @throws Exception
+	 */
+	public boolean MemberDelete(MemberInfo info) throws Exception {
+		msg = "";
+		//DB接続
+		connect();
+		//SQL設定
+		try{
+			createStatement(deleteSQL);
+			//パラメータの設定
+			getPstmt().setString(1, info.getMember_id());
+			//実行
+			this.updateExe();
+		}catch(SQLException e){
+			msg = "会員情報の削除に失敗しました。";
+			e.printStackTrace();
+			return false;
+		}finally{
+			disConnect();
+		}
+		msg = "会員情報を削除しました。";
 		return true;
 	}
 

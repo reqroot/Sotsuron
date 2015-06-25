@@ -32,6 +32,8 @@ public class Member extends HttpServlet {
 	private static final String S_DETAIL = "detail";
 	private static final String S_CONFIRM = "confirm";
 	private static final String S_COMMIT = "commit";
+	private static final String S_DELETE = "delete";
+	private static final String S_DELETE_CONFIRM = "deleteConfirm";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -71,6 +73,12 @@ public class Member extends HttpServlet {
 			}else if(request.getParameter("editBtn") != null){
 				//編集ボタンが押された場合
 				doEdit(request, response);
+			}else if(request.getParameter("deleteConfirmBtn") != null){
+				//削除確認ボタンが押された
+				doDeleteConfirm(request, response);
+			}else if(request.getParameter("deleteBtn") != null){
+				//削除ボタンが押された
+				doDeleteData(request, response);
 			}else if(request.getParameter("confirmBtn") != null){
 				//確認ボタンが押された場合
 				doConfirm(request, response);
@@ -150,6 +158,27 @@ public class Member extends HttpServlet {
 		doDetail(request, response);
 
 		request.setAttribute("content_page", PAGE_EDIT);
+	}
+
+	private void doDeleteConfirm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		doDetail(request, response);
+
+		request.setAttribute("state", S_DELETE_CONFIRM);
+		request.setAttribute("content_page", PAGE_DETAIL);
+	}
+
+	private void doDeleteData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = request.getParameter("member_id");
+		MemberInfo info = new MemberInfo();
+		info.setMember_id(id);
+
+		//データベースに登録
+		MemberDBManager manager = new MemberDBManager();
+		manager.MemberDelete(info);
+
+		request.setAttribute("state", S_DELETE);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_DETAIL);
 	}
 
 	private void doConfirm(HttpServletRequest request,HttpServletResponse response) throws Exception {
