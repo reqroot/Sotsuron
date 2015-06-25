@@ -35,16 +35,17 @@ public class Attendance extends HttpServlet {
 		String page_title="";
 		String content_page = "";
 		String msg =""; //サクセスorエラーメッセージ
+		int state =0;
 		String page = request.getParameter("page");
 		attendanceInfo attendInfo = null;
 		attendanceManage aM = new attendanceManage();
 		ArrayList<String> js = new ArrayList<String>(); //JavaScript用List
 
-		//時刻表示
+		//JavaScriptによる時刻表示
 		 page_title ="出退勤画面";
 		 content_page ="/jinji/work_attendance_view.jsp";
 		 js.add("../js/jquery-1.11.3.js"); //JQuery読み込み
-		 js.add("../js/clock.js"); //時計のJavaScript読み込み
+		 js.add("../js/clock.js"); //時計表示用のJavaScript読み込み
 
 		 //出勤確認処理
 		 if(request.getParameter("attend") != null){
@@ -60,8 +61,9 @@ public class Attendance extends HttpServlet {
 		 //出勤確定処理
 		 if(request.getParameter("add_in") != null){
 			 try {
-				aM.attendUpdate(0);
-				msg ="出勤完了";
+				 state = 0;
+				aM.attendUpdate(state);
+				msg ="出勤済です";
 			} catch (Exception e) {
 				msg ="すでに出勤済みです";
 				e.printStackTrace();
@@ -80,15 +82,23 @@ public class Attendance extends HttpServlet {
 		 }
 
 		//退勤確定処理
-		 if(request.getParameter("add_out") != null){
+		 if(request.getParameter("add_out") != null ){
 			 try {
-				aM.attendUpdate(1);
-				msg ="退勤完了";
-			} catch (Exception e) {
+				 	state =1;
+					 aM.attendUpdate(state);
+					 msg ="退勤済です";
+				 } catch (Exception e) {
 				msg ="退勤失敗です";
 				e.printStackTrace();
 			}
 		 }
+
+		//出勤退勤処理後 打刻時間開示用
+			try {
+				attendInfo = aM.pconfattend();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 
 		 //JSPにデータを送る準備
 		request.setAttribute("page_title", page_title);

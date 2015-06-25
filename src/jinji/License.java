@@ -36,9 +36,10 @@ public class License extends HttpServlet {
 		String page_title="";
 		String content_page = "";
 		String page = request.getParameter("page");
+		String license_name =""; //資格名取得用
+		String msg ="";
 		staffManage sm = new staffManage();
 		licenseManage lm = new licenseManage();
-		String license_name ="";
 
 		//staffList.jspからのstaff_idのデータ取得
 		String staff_id = (request.getParameter("staff_id"));
@@ -52,7 +53,7 @@ public class License extends HttpServlet {
 		licenseInfo lI = new licenseInfo();
 		lI.setLicense_id(license_id);
 
-		//page遷移 個人資格情報追加
+		//page遷移 個人資格情報追加画面
 				if(page != null && page.equals("addlicense")){
 					page_title = "人事システム - 保有資格追加・削除ページ";
 					content_page ="/jinji/license_update_view.jsp";
@@ -82,21 +83,25 @@ public class License extends HttpServlet {
 
 		//資格追加確定
 		if(request.getParameter("add") != null){
-			try {
-				lm.licenseUpdate(sI, lI, 0);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			page_title = "人事システム - 保有資格追加・削除ページ";
 			content_page = "/jinji/license_update_view.jsp";
+			try {
+				lm.licenseUpdate(sI, lI, 0);
+				msg = "追加に成功しました";
+			} catch (Exception e) {
+				e.printStackTrace();
+				msg ="追加に失敗しました";
+			}
 		}
 
 		//資格削除確定
 		if(request.getParameter("delete")!=null){
 			try {
 				lm.licenseUpdate(sI, lI, 1);
+				msg ="削除に成功しました";
 			} catch (Exception e) {
 				e.printStackTrace();
+				msg = "削除に失敗しました";
 			}
 			page_title = "人事システム - 保有資格追加・削除ページ";
 			content_page = "/jinji/license_update_view.jsp";
@@ -108,6 +113,7 @@ public class License extends HttpServlet {
 			request.setAttribute("license_id",license_id);
 			request.setAttribute("staff_id",staff_id);
 			request.setAttribute("staff_name",staff_name);
+			request.setAttribute("msg",msg);
 
 			try {
 				request.setAttribute("plist", sm.pstaffSelect(sI));
