@@ -38,7 +38,7 @@ public class Attendance extends HttpServlet {
 		int state =0;
 		String page = request.getParameter("page");
 		attendanceInfo attendInfo = null;
-		attendanceManage aM = new attendanceManage();
+		attendanceManage am = new attendanceManage();
 		ArrayList<String> js = new ArrayList<String>(); //JavaScript用List
 
 		//JavaScriptによる時刻表示
@@ -52,7 +52,7 @@ public class Attendance extends HttpServlet {
 			 page_title ="出勤確認画面";
 			 content_page ="/jinji/work_attendance_confirm.jsp";
 			 try {
-				 attendInfo = aM.confattend();
+				 attendInfo = am.confattend();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -62,7 +62,7 @@ public class Attendance extends HttpServlet {
 		 if(request.getParameter("add_in") != null){
 			 try {
 				 state = 0;
-				aM.attendUpdate(state);
+				am.attendUpdate(state);
 				msg ="出勤済です";
 			} catch (Exception e) {
 				msg ="すでに出勤済みです";
@@ -75,7 +75,7 @@ public class Attendance extends HttpServlet {
 			 page_title ="退勤確認画面";
 			 content_page ="/jinji/work_attendance_confirm.jsp";
 			 try {
-				 attendInfo = aM.confattend();
+				 attendInfo = am.confattend();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -85,7 +85,7 @@ public class Attendance extends HttpServlet {
 		 if(request.getParameter("add_out") != null ){
 			 try {
 				 	state =1;
-					 aM.attendUpdate(state);
+					 am.attendUpdate(state);
 					 msg ="退勤済です";
 				 } catch (Exception e) {
 				msg ="退勤失敗です";
@@ -95,7 +95,7 @@ public class Attendance extends HttpServlet {
 
 		//出勤退勤処理後 打刻時間開示用
 			try {
-				attendInfo = aM.pconfattend();
+				attendInfo = am.pconfattend();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
