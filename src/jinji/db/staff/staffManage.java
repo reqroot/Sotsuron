@@ -15,15 +15,14 @@ import db.DBAccess;
  *
  */
 public class staffManage extends DBAccess {
-	private String selectSql; //スタッフ一覧用
-	private String licenseAddSql;//個人資格情報追加用
-	private String updateSql;
-	private String deleteSql;
-	private String searchSql;//スタッフ一件用
+	private String selectSql; //社員一覧用
+	private String insertSql; //社員追加用
+	private String updateSql;//社員更新用
+	private String deleteSql;//社員削除用
+	private String idSql; //最新社員番号取得(社員登録用)
+	private String searchSql;//個別ページ用
 	private String loginSql; // 2015/6/8 add 鈴木 ログイン用SQL
 	private String msg;
-
-
 
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
 
@@ -47,7 +46,12 @@ public class staffManage extends DBAccess {
 		searchSql = sb.toString();
 		sb.setLength(0);
 
-		licenseAddSql ="INSERT INTO tbl_StaffLicense(Staff_ID,License_ID) values(?,?)";
+		sb.append("INSERT tbl_Staff(Staff_ID,Staff_Name,Department_ID,Position_ID,Education_ID,Birthday,Enter_Day,Base_Salary,Passwd) ");
+		sb.append("VALUES (?,?,?,?,?,?,?,?,?)");
+		insertSql = sb.toString();
+		sb.setLength(0);
+
+		idSql = "select MAX(staff_id)+1 from tbl_staff";
 
 		// 2015/6/8 add 鈴木 ログイン用SQL ここから
 		this.loginSql = "SELECT staff_id, passwd FROM tbl_staff where staff_id = ? and passwd = ?";
@@ -62,8 +66,12 @@ public class staffManage extends DBAccess {
 	public String getMsg() {
 		return msg;
 	}
-
-	public List<staffInfo> staffSelect() throws Exception{ 		//スタッフ一覧取得
+	/**
+	 * 社員一覧取得用
+	 * @return
+	 * @throws Exception
+	 */
+	public List<staffInfo> staffSelect() throws Exception{
 		List<staffInfo> list = new ArrayList<staffInfo>();
 
 		//DB接続
@@ -92,8 +100,13 @@ public class staffManage extends DBAccess {
 		disConnect();
 		return list;
 	}
-
-	public List<staffInfo> pstaffSelect(staffInfo staffInfo) throws Exception{		//個人ページ取得
+/**
+ * 	個別社員情報取得用
+ * @param staffInfo
+ * @return
+ * @throws Exception
+ */
+	public List<staffInfo> pstaffSelect(staffInfo staffInfo) throws Exception{
 		List<staffInfo> plist = new ArrayList<staffInfo>();
 		staffInfo pstaff = null;
 		connect();
@@ -117,8 +130,25 @@ public class staffManage extends DBAccess {
 		disConnect();
 		return  plist;		//個人ページ取得
 	}
+	/**TODO 初期登録or今年度最新登録の場合の処理をつける
+	 * 最新社員ID連番取得用
+	 * @return
+	 * @throws Exception
+	 */
+	public String idSelect() throws Exception{
+		String staff_id ="";
+		connect();
+		createStatement();
+		selectExe(idSql);
+		ResultSet rs = getRsResult();
+		while(rs.next()){
+		staff_id = String.valueOf(rs.getInt("MAX(staff_id)+1"));
+		}
+		return staff_id;
+	}
 
 	/**
+
 	 *  ログイン用検索
 	 * @param staffID
 	 * @param passwd
@@ -141,6 +171,5 @@ public class staffManage extends DBAccess {
 
 		return info;
 	}
-
 
 }

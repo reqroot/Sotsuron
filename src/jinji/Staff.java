@@ -10,6 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jinji.db.admin.departmentInfo;
+import jinji.db.admin.departmentManage;
+import jinji.db.admin.educationInfo;
+import jinji.db.admin.educationManage;
+import jinji.db.admin.positionInfo;
+import jinji.db.admin.positionManage;
+import jinji.db.staff.registInfo;
 import jinji.db.staff.staffInfo;
 import jinji.db.staff.staffManage;
 
@@ -20,8 +27,24 @@ import jinji.db.staff.staffManage;
 public class Staff extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	List<staffInfo> list = null; //スタッフ一覧取得用リスト
-	List<staffInfo> plist = null; //スタッフ個別取得
+		List<staffInfo> list = null; //スタッフ一覧取得用リスト
+		List<staffInfo> plist = null; //スタッフ個別取得
+		List<departmentInfo> depList = null; //部署一覧取得
+		List<educationInfo> eduList = null; //学歴一覧取得
+		List<positionInfo> posList = null; //役職一覧取得
+		List<registInfo> regList = null;//登録用リスト
+
+		staffInfo sI = new staffInfo(); //スタッフid取得用
+		registInfo rI = new registInfo();
+
+
+	//DB操作Manager一覧
+		staffManage sm = new staffManage();
+		departmentManage dm = new departmentManage();
+		educationManage em = new educationManage();
+		positionManage pm = new positionManage();
+
+
 
 
     /**
@@ -38,8 +61,7 @@ public class Staff extends HttpServlet {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staff_list.jsp";
 		String page = request.getParameter("page");
-		staffInfo sI = new staffInfo(); //スタッフid取得一件用
-		staffManage sm = new staffManage();
+
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -63,11 +85,30 @@ public class Staff extends HttpServlet {
 					content_page = "/jinji/staff_personal.jsp";
 				}
 
+		//page遷移 社員登録ページ
+				if(page != null && page.equals("regist")){
+					try {
+						staff_id = sm.idSelect(); //社員番号連番取得
+						depList = dm.departmentSelect(); //部署一覧取得
+						eduList = em.educationSelect(); //学歴取得
+						posList = pm.positionSelect();//役職取得
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					page_title = "人事システム - 社員登録";
+					content_page ="/jinji/staff_regist_view.jsp";
+				}
+
 		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
 		request.setAttribute("plist", plist);
+		request.setAttribute("depList", depList);
+		request.setAttribute("eduList", eduList);
+		request.setAttribute("posList", posList);
+		request.setAttribute("staff_id", staff_id); //連番社員ID
 
 		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
@@ -78,7 +119,56 @@ public class Staff extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO 社員登録
+
+		String page_title ="";
+		String content_page="";
+		String page=request.getParameter("page"); //ボタンからの情報取得用
+
+		//staff_regist_view.jspからデータ取得
+				String staff_id = (request.getParameter("staff_id"));
+				String staff_name = (request.getParameter("staff_name"));
+				String  department_id = (request.getParameter("department_id"));
+				String education_id = (request.getParameter("education_id"));
+				String position_id = (request.getParameter("position_id"));
+				rI.setStaff_id(staff_id);
+				rI.setStaff_name(staff_name);
+				rI.setDepartment_id(department_id);
+				rI.setEducation_id(education_id);
+				rI.setPosition_id(position_id);
+
+			//登録確認
+			if(page != null && page == "add_conf" ){
+			page_title ="人事システム - 登録確認画面";
+			content_page="/jinji/staff_regist_confirm.jsp";
+			// TODO 学歴・役職も同様につくる
+			try {
+				depList =  dm.depnameSelect(rI);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+
+		//登録確定
+		if(page != null && page =="add"){
+
+		}
+
+
+
+
+		//JSP送信データ準備
+			request.setAttribute("page_title", page_title);
+			request.setAttribute("content_page", content_page);
+			request.setAttribute("depList", depList);
+
+		//ディスパッチ処理
+				RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
+				dispatch.forward(request, response);
+
+
+
 	}
 
 }
