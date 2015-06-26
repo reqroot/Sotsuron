@@ -8,6 +8,11 @@
 	<input type="hidden" name="member_id" value="${item.member_id }"/>
 	<input type="hidden" name="entry_date" value="${item.entry_date }" />
 
+	<p id="errMessage">
+	<c:forEach var="err" items="${errs }">
+		${err }<br />
+	</c:forEach>
+	</p>
 	<table border="1">
 		<tr><th>会員ID</th><td>${item.member_id}</td></tr>
 		<tr><th>氏名</th><td><input type="text" name="name" value="${item.name}" /></td></tr>
@@ -15,8 +20,8 @@
 		<tr><th>性別</th>
 			<td>
 			<select name="sex">
-			<option value="0" <c:if test="${item.sexInt == 0 }">selected</c:if>>女</option>
-			<option value="1" <c:if test="${item.sexInt == 1 }">selected</c:if>>男</option>
+			<option value="1" <c:if test="${item.sexInt == 1}">selected</c:if>>女</option>
+			<option value="0" <c:if test="${item.sexInt == 0}">selected</c:if>>男</option>
 			</select>
 			</td>
 		</tr>

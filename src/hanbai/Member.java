@@ -32,6 +32,8 @@ public class Member extends HttpServlet {
 	private static final String S_DETAIL = "detail";
 	private static final String S_CONFIRM = "confirm";
 	private static final String S_COMMIT = "commit";
+	private static final String S_DELETE = "delete";
+	private static final String S_DELETE_CONFIRM = "deleteConfirm";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -71,6 +73,12 @@ public class Member extends HttpServlet {
 			}else if(request.getParameter("editBtn") != null){
 				//編集ボタンが押された場合
 				doEdit(request, response);
+			}else if(request.getParameter("deleteConfirmBtn") != null){
+				//削除確認ボタンが押された
+				doDeleteConfirm(request, response);
+			}else if(request.getParameter("deleteBtn") != null){
+				//削除ボタンが押された
+				doDeleteData(request, response);
 			}else if(request.getParameter("confirmBtn") != null){
 				//確認ボタンが押された場合
 				doConfirm(request, response);
@@ -93,69 +101,6 @@ public class Member extends HttpServlet {
 		//ディスパッチャーを取得
 		RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
 		rd.forward(request, response);
-	}
-
-	private void doEditBack(HttpServletRequest request,HttpServletResponse response) {
-		request.setAttribute("state", S_DETAIL);
-		request.setAttribute("page_title", TITLE);
-		request.setAttribute("content_page", PAGE_EDIT);
-	}
-
-	private void redirectView(HttpServletRequest request,HttpServletResponse response) {
-
-	}
-
-	private void doCommit(HttpServletRequest request,HttpServletResponse response) {
-	}
-
-	private void doConfirm(HttpServletRequest request,HttpServletResponse response) {
-		MemberValidator  validator = new MemberValidator();
-		MemberInfo info = new MemberInfo();
-
-		//データの検証
-		info.setMember_id(request.getParameter("member_id"));
-		info.setName(validator.convertName(request.getParameter("name")));
-		info.setBirthday(validator.convertBirthdayStr(request.getParameter("birthday")));
-		info.setSex(validator.convertSex(request.getParameter("sex")));
-		info.setPrefecture(validator.convertPrefecture(request.getParameter("prefecture")));
-		info.setCity(validator.convertCity(request.getParameter("city")));
-		info.setAddress(validator.convertAddress(request.getParameter("address")));
-		info.setTel(validator.convertTel(request.getParameter("tel")));
-		info.setMail(validator.convertMail(request.getParameter("mail")));
-
-		//データに異常があれば編集画面に戻る
-		if(validator.getErrs() > 0){
-			doEditBack(request, response);
-		}else{
-			request.setAttribute("state", S_CONFIRM);
-			request.setAttribute("page_title", TITLE);
-			request.setAttribute("content_page", PAGE_DETAIL);
-		}
-	}
-
-	private void doEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		doDetail(request, response);
-		request.setAttribute("content_page", PAGE_EDIT);
-	}
-
-	private void doDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		MemberDBManager manager = new MemberDBManager();
-		MemberValidator  validator = new MemberValidator();
-
-		//パラメータの取得
-		String id = request.getParameter("id");
-		System.out.println("id:" + id);
-		//SQL検索値の作成
-		id = validator.convertID(id);
-		System.out.println("id(convert):" + id);
-		//データの取得
-		MemberInfo info = manager.MemberSearchDetail(id);
-		System.out.println("info:" + info);
-		request.setAttribute("item", info);
-		//ページ情報の追加
-		request.setAttribute("state", S_DETAIL);
-		request.setAttribute("page_title", TITLE);
-		request.setAttribute("content_page", PAGE_DETAIL);
 	}
 
 	private void doSearch(HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -188,6 +133,113 @@ public class Member extends HttpServlet {
 		request.setAttribute("content_page", PAGE_VIEW);
 	}//doSearch
 
+	private void doDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		MemberDBManager manager = new MemberDBManager();
+		MemberValidator  validator = new MemberValidator();
+
+		//パラメータの取得
+		String id = request.getParameter("member_id");
+		System.out.println("id:" + id);
+		//SQL検索値の作成
+		id = validator.convertID(id);
+		System.out.println("id(convert):" + id);
+		//データの取得
+		MemberInfo info = manager.MemberSearchDetail(id);
+		System.out.println("info:" + info);
+		System.out.println("sexInt: " + info.getSexInt());
+		request.setAttribute("item", info);
+		//ページ情報の追加
+		request.setAttribute("state", S_DETAIL);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_DETAIL);
+	}
+
+	private void doEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		doDetail(request, response);
+
+		request.setAttribute("content_page", PAGE_EDIT);
+	}
+
+	private void doDeleteConfirm(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		doDetail(request, response);
+
+		request.setAttribute("state", S_DELETE_CONFIRM);
+		request.setAttribute("content_page", PAGE_DETAIL);
+	}
+
+	private void doDeleteData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String id = request.getParameter("member_id");
+		MemberInfo info = new MemberInfo();
+		info.setMember_id(id);
+
+		//データベースに登録
+		MemberDBManager manager = new MemberDBManager();
+		manager.MemberDelete(info);
+
+		request.setAttribute("state", S_DELETE);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_DETAIL);
+	}
+
+	private void doConfirm(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		MemberValidator  validator = new MemberValidator();
+		MemberInfo info = validatorMemberInfo(validator, request);
+
+		//データの検証
+		//データに異常があれば編集画面に戻る
+		if(validator.getErrs() > 0){
+			//入力されたデータをそのまま返す
+			//性別でエラーが起きていた場合はfalseを設定する
+			if(validator.getErrMessage("sex") != null){
+				info.setSex(false);
+			}
+			info.setName(request.getParameter("name"));
+			info.setBirthday(request.getParameter("birthday"));
+			info.setPrefecture(request.getParameter("prefecture"));
+			info.setCity(request.getParameter("city"));
+			info.setAddress(request.getParameter("address"));
+			info.setTel(request.getParameter("tel"));
+			info.setMail(request.getParameter("mail"));
+			request.setAttribute("errs", validator.getErrMessages());
+			request.setAttribute("content_page", PAGE_EDIT);
+		}else{
+			request.setAttribute("state", S_CONFIRM);
+			request.setAttribute("page_title", TITLE);
+			request.setAttribute("content_page", PAGE_DETAIL);
+		}
+
+		request.setAttribute("item", info);
+	}
+
+	private void doEditBack(HttpServletRequest request,HttpServletResponse response) {
+		MemberValidator  validator = new MemberValidator();
+		MemberInfo info = validatorMemberInfo(validator, request);
+
+		request.setAttribute("item", info);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_EDIT);
+	}
+
+	private void doCommit(HttpServletRequest request,HttpServletResponse response) throws Exception {
+		MemberValidator  validator = new MemberValidator();
+		MemberInfo info = validatorMemberInfo(validator, request);
+
+		//データベースに登録
+		MemberDBManager manager = new MemberDBManager();
+		if(!manager.MemberUpdate(info)){
+			System.out.println("アップデート失敗");
+		};
+
+		request.setAttribute("item", info);
+		request.setAttribute("state", S_COMMIT);
+		request.setAttribute("page_title", TITLE);
+		request.setAttribute("content_page", PAGE_DETAIL);
+	}
+
+	private void redirectView(HttpServletRequest request,HttpServletResponse response) {
+
+	}
+
 	//検索条件を作成する
 	private MemberSearchInfo makeSearchData(String beginID, String endID, String beginDate, String endDate, String name) throws ParseException{
 		MemberValidator  validator = new MemberValidator();
@@ -214,5 +266,23 @@ public class Member extends HttpServlet {
 		searchInfo.setName(name);
 
 		return searchInfo;
+	}
+
+	private MemberInfo validatorMemberInfo(MemberValidator validator, HttpServletRequest request){
+
+		MemberInfo info = new MemberInfo();
+		//データの検証
+		info.setMember_id(request.getParameter("member_id"));
+		info.setName(validator.convertName(request.getParameter("name")));
+		info.setBirthday(validator.convertBirthdayStr(request.getParameter("birthday")));
+		info.setSex(validator.convertSex(request.getParameter("sex")));
+		info.setPrefecture(validator.convertPrefecture(request.getParameter("prefecture")));
+		info.setCity(validator.convertCity(request.getParameter("city")));
+		info.setAddress(validator.convertAddress(request.getParameter("address")));
+		info.setTel(validator.convertTel(request.getParameter("tel")));
+		info.setMail(validator.convertMail(request.getParameter("mail")));
+		info.setEntry_date(request.getParameter("entry_date"));
+
+		return info;
 	}
 }

@@ -20,7 +20,7 @@ public class MemberValidator extends SotsuronValidator{
 		try {
 			return this.convertInt(id, 0, 9999999, 7);
 		} catch (ValidatorException e) {
-			setErrMessage("id", "IDの値が不正です");
+			setErrMessage("member_id", "IDの値が不正です");
 			return null;
 		}
 	}
@@ -174,5 +174,14 @@ public class MemberValidator extends SotsuronValidator{
 			setErrMessage("birthday", "登録日の値が不正です");
 			return null;
 		}
+	}
+
+	/**
+	 * IDの変換時に発生したエラーメッセージを返します。
+	 * ほかのフィールドもこういう感じでエラーメッセージを用意
+	 * @return エラーメッセージ。エラーが発生していない場合はnull
+	 */
+	public String errMessageID(){
+		return this.getErrMessage("member_id");
 	}
 }

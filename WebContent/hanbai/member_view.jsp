@@ -34,7 +34,7 @@
 <c:forEach var="item" items="${list }">
 
 <form action="/Sotsuron/hanbai/member" method="post">
-	<input type="hidden" name="id" value="${item.member_id }" />
+	<input type="hidden" name="member_id" value="${item.member_id }" />
 	<tr>
 		<td>${item.member_id }</td>
 		<td>${item.name }</td>

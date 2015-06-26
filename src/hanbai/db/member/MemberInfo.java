@@ -96,9 +96,9 @@ public class MemberInfo {
 	 */
 	public int getSexInt(){
 		if(sex){
-			return 0;
+			return 1;//女
 		}else{
-			return 1;
+			return 0;//男
 		}
 
 	}
