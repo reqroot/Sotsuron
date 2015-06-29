@@ -10,7 +10,7 @@ import db.DBAccess;
 public class departmentManage extends DBAccess {
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
 	private String selectSql; //社員登録時>>部署一覧取得
-	private String nameSearchSql;
+	private String nameSearchSql; //confirm 表示用
 
 	List<departmentInfo> depList = new ArrayList<departmentInfo>();
 	departmentInfo departmentInfo =null;
@@ -22,6 +22,12 @@ public class departmentManage extends DBAccess {
 		sb.append("select department_id, department_name " );
 		sb.append("from tbl_department");
 		selectSql = sb.toString();
+		sb.setLength(0);
+
+		sb.append("select department_name ");
+		sb.append("from tbl_department ");
+		sb.append("where department_id = ?");
+		nameSearchSql = sb.toString();
 		sb.setLength(0);
 	}
 
@@ -42,7 +48,6 @@ public class departmentManage extends DBAccess {
 	}
 
 	public List<departmentInfo> depnameSelect(registInfo rI) throws Exception{
-		List<departmentInfo> deplist = new ArrayList<departmentInfo>();
 		connect();
 		createStatement(nameSearchSql);
 		getPstmt().setString(1, rI.getDepartment_id());
@@ -53,10 +58,10 @@ public class departmentManage extends DBAccess {
 			"",
 			rs.getString("department_name")
 			);
-			deplist.add(departmentInfo);
+			depList.add(departmentInfo);
 		}
 		disConnect();
-		return deplist;
+		return depList;
 	}
 
 }

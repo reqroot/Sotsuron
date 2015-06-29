@@ -98,6 +98,10 @@ public class Staff extends HttpServlet {
 					}
 					page_title = "人事システム - 社員登録";
 					content_page ="/jinji/staff_regist_view.jsp";
+					request.setAttribute("depList", depList);
+					request.setAttribute("eduList", eduList);
+					request.setAttribute("posList", posList);
+					request.setAttribute("staff_id", staff_id); //連番社員ID
 				}
 
 		//JSPへデータの送る準備
@@ -105,10 +109,6 @@ public class Staff extends HttpServlet {
 		request.setAttribute("content_page", content_page);
 		request.setAttribute("list", list);
 		request.setAttribute("plist", plist);
-		request.setAttribute("depList", depList);
-		request.setAttribute("eduList", eduList);
-		request.setAttribute("posList", posList);
-		request.setAttribute("staff_id", staff_id); //連番社員ID
 
 		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
@@ -123,7 +123,8 @@ public class Staff extends HttpServlet {
 
 		String page_title ="";
 		String content_page="";
-		String page=request.getParameter("page"); //ボタンからの情報取得用
+
+		//TODO Valid処理をかける（getParameterに）
 
 		//staff_regist_view.jspからデータ取得
 				String staff_id = (request.getParameter("staff_id"));
@@ -138,12 +139,14 @@ public class Staff extends HttpServlet {
 				rI.setPosition_id(position_id);
 
 			//登録確認
-			if(page != null && page == "add_conf" ){
+			if( request.getParameter("add_conf") != null ){
 			page_title ="人事システム - 登録確認画面";
 			content_page="/jinji/staff_regist_confirm.jsp";
-			// TODO 学歴・役職も同様につくる
 			try {
 				depList =  dm.depnameSelect(rI);
+				eduList = em.edunameSelect(rI);
+				posList = pm.posnameSelect(rI);
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -151,7 +154,8 @@ public class Staff extends HttpServlet {
 		}
 
 		//登録確定
-		if(page != null && page =="add"){
+		if(request.getParameter("add") != null){
+
 
 		}
 
@@ -161,7 +165,10 @@ public class Staff extends HttpServlet {
 		//JSP送信データ準備
 			request.setAttribute("page_title", page_title);
 			request.setAttribute("content_page", content_page);
+			request.setAttribute("registInfo", rI);
 			request.setAttribute("depList", depList);
+			request.setAttribute("posList", posList);
+			request.setAttribute("eduList", eduList);
 
 		//ディスパッチ処理
 				RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
