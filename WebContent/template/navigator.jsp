@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="login.LoginInfo" %>
 
-<div id="navigator">
+<nav>
 <%--
 ここらへんにメニューを記入
  --%>
@@ -26,4 +26,4 @@
  </ul>
 
  <p><a href="/Sotsuron/Logout">ログアウト</a></p>
-</div>
+</nav>
