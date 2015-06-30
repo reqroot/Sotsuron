@@ -61,10 +61,10 @@ public class attendanceManage extends DBAccess{
 		return attendInfo;
 	}
 
-	public attendanceInfo pconfattend() throws Exception{
+	public attendanceInfo pconfattend(attendanceInfo aI) throws Exception{
 		connect();
 		createStatement(pconfSql);
-		getPstmt().setString(1, "2015001"); //TODO ログイン情報から社員番号を選択する処理
+		getPstmt().setString(1, aI.getStaff_id()); //TODO ログイン情報から社員番号を選択する処理
 		selectExe();
 		ResultSet rs = getRsResult();
 		while(rs.next()){

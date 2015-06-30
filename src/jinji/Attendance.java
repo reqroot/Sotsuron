@@ -9,18 +9,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import jinji.db.attendance.attendanceInfo;
 import jinji.db.attendance.attendanceManage;
+import sotsuron.SotsuronHttpServlet;
 
 /**
  * Servlet implementation class Attendance
  */
 @WebServlet("/Jinji/Attendance")
-public class Attendance extends HttpServlet {
+public class Attendance extends SotsuronHttpServlet {
 	private static final long serialVersionUID = 1L;
-	private HttpSession session;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -33,6 +32,12 @@ public class Attendance extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		// セッション確認。ログイン済みでなければログイン画面へ
+				if (this.isLoginDone(request, response) == null ) {
+					return;
+				}
+
 		String page_title="";
 		String content_page = "";
 		String msg =""; //サクセスorエラーメッセージ
@@ -97,7 +102,7 @@ public class Attendance extends HttpServlet {
 
 		//出勤退勤処理後 打刻時間開示用
 			try {
-				aI = am.pconfattend();
+				aI = am.pconfattend(aI);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
