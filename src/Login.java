@@ -66,7 +66,7 @@ public class Login extends HttpServlet {
 						// セッション開始されていなければセッションを開始
 						session = request.getSession(true);
 					}
-					session.setAttribute("longin_info", loginInfo);
+					session.setAttribute("login_info", loginInfo);
 
 					disp ="/Sotsuron/Home";
 					response.sendRedirect(disp);
