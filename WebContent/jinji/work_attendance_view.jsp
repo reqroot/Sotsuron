@@ -3,14 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <title>${page_title}</title>
 <h1>${page_title}</h1>
-
 <div id="clock-02" ></div>
 ${msg }<br />
-<c:if test="${!empty attendInfo.time_in  }">
-出勤時間:<fmt:formatDate value="${ attendInfo.time_in}" pattern="kk時mm分" /><br />
+<c:if test="${!empty aI.time_in  }">
+出勤時間:<fmt:formatDate value="${ aI.time_in}" pattern="kk時mm分" /><br />
 </c:if>
-<c:if test="${!empty attendInfo.time_out  }">
-退勤時間:<fmt:formatDate value="${ attendInfo.time_out}" pattern="kk時mm分" /><br />
+<c:if test="${!empty aI.time_out  }">
+退勤時間:<fmt:formatDate value="${ aI.time_out}" pattern="kk時mm分" /><br />
 </c:if>
 <form method="get" action="/Sotsuron/Jinji/Attendance">
 <p><input type="submit" name="attend" value="出勤" />

@@ -5,8 +5,8 @@
 <title>${page_title}</title>
 <h1>${page_title}</h1>
 
-${ attendInfo.date}
-<fmt:formatDate value="${ attendInfo.time_in}" pattern="kk時mm分" /><br />
+${ aI.date}
+<fmt:formatDate value="${ aI.time_in}" pattern="kk時mm分" /><br />
 <form method="get" action="/Sotsuron/Jinji/Attendance">
 <c:if test="${page_title=='出勤確認画面' }" var="flg"  />
 	<c:if test="${flg }" >

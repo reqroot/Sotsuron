@@ -31,7 +31,7 @@ public class Logout extends HttpServlet {
 		// セッション停止
 		HttpSession session = request.getSession(false);
 		if (session != null) {
-			session.removeAttribute("longin_info");
+			session.removeAttribute("login_info");
 		}
 
 		// ログイン画面へのリダイレクト

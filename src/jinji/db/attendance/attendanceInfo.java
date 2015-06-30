@@ -25,6 +25,9 @@ public class attendanceInfo implements Serializable {
 		this.time_out = time_out;
 	}
 
+	public attendanceInfo() {
+	}
+
 	public String getStaff_id() {
 		return staff_id;
 	}

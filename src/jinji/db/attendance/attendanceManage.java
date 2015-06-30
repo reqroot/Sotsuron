@@ -81,16 +81,16 @@ public class attendanceManage extends DBAccess{
 		return attendInfo;
 	}
 
-	public int attendUpdate(int state) throws Exception{ //0:出勤 1:退勤
+	public int attendUpdate(attendanceInfo aI, int state) throws Exception{ //0:出勤 1:退勤
 		connect();
 		switch(state){
 		case 0 : //出勤
 			createStatement(attendSql);
-			getPstmt().setString(1, "2015001"); //TODO ログイン情報から社員番号を選択する処理
+			getPstmt().setString(1, aI.getStaff_id()); //TODO ログイン情報から社員番号を選択する処理
 			break;
 		case 1: //退勤
 			createStatement(clockoutSql);
-			getPstmt().setString(1, "2015001"); //TODO ログイン情報から社員番号を選択する処理
+			getPstmt().setString(1, aI.getStaff_id()); //TODO ログイン情報から社員番号を選択する処理
 			break;
 		}//switch
 
