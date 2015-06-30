@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,7 +9,7 @@
 <c:forEach var="item" items="${nendo_list}">
     <option value="${item }">${item }</option>
 </c:forEach>
-  </select>年
+  </select>年度
   <select name="month">
     <option value="1">1</option>
     <option value="2">2</option>
@@ -29,7 +28,8 @@
   <p><input type="submit" name="btnSearch" value="検索" /></p>
 </form>
 <hr />
-<p><a href="/Sotsuron/Kaikei/ShiwakeCho?page=new_input">新規登録</a></p>
+<h2>${nendo }年度 ${month }月</h2>
+<p><a href="/Sotsuron/Kaikei/ShiwakeCho?page=new_input&nendo=${nendo }&month=${month}">新規登録</a></p>
 <table border="1">
 <tr>
 	<th>日</th>
@@ -43,7 +43,7 @@
 <c:forEach var="item" items="${list}">
 <tr>
 	<td>${item.day}</td>
-	<td>${item.kamoku}</td>
+	<td>${item.kamokuName}</td>
 	<td>${item.kamokuHojoKBN}</td>
 	<td>${item.kamokuHojo}</td>
 	<td>${item.kashikata}</td>

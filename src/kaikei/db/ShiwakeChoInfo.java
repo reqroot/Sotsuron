@@ -8,6 +8,7 @@ public class ShiwakeChoInfo implements Serializable {
 	private int day;
 	private int row;
 	private String kamokuKBN;
+	private String kamokuId;
 	private String kamoku;
 	private String kamokuHojoKBN;
 	private String kamokuHojo;
@@ -19,7 +20,7 @@ public class ShiwakeChoInfo implements Serializable {
 	}
 
 	public ShiwakeChoInfo(int nendo, int month, int day, int row,
-			String kamokuKBN, String kamoku, String kamokuHojoKBN,
+			String kamokuKBN,String kamokuId, String kamoku, String kamokuHojoKBN,
 			String kamokuHojo, int karikata, int kashikata) {
 		super();
 		this.nendo = nendo;
@@ -27,6 +28,7 @@ public class ShiwakeChoInfo implements Serializable {
 		this.day = day;
 		this.row = row;
 		this.kamokuKBN = kamokuKBN;
+		this.kamokuId = kamokuId;
 		this.kamoku = kamoku;
 		this.kamokuHojoKBN = kamokuHojoKBN;
 		this.kamokuHojo = kamokuHojo;
@@ -74,11 +76,19 @@ public class ShiwakeChoInfo implements Serializable {
 		this.kamokuKBN = kamokuKBN;
 	}
 
-	public String getKamoku() {
+	public String getKamokuId() {
+		return kamokuId;
+	}
+
+	public void setKamokuId(String kamokuId) {
+		this.kamokuId = kamokuId;
+	}
+
+	public String getKamokuName() {
 		return kamoku;
 	}
 
-	public void setKamoku(String kamoku) {
+	public void setKamokuName(String kamoku) {
 		this.kamoku = kamoku;
 	}
 
