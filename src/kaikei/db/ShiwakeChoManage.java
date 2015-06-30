@@ -21,26 +21,26 @@ public class ShiwakeChoManage extends DBAccess {
 		super("java:comp/env/jdbc/MySqlCon");
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("select nendo, month, day, row, kamoku_kbn, ");
+		sb.append("select nendo, month, day, row, kamoku_kbn, kamoku as kamoku_id, ");
 		sb.append("case ");
 		sb.append("  when kamoku_kbn = 'D' then (select kamoku_kbn_d_name from kamoku_kbn_d where kamoku_kbn_d_id = shiwake_cho.kamoku)  ");
 		sb.append("  when kamoku_kbn = 'S' then (select kamoku_kbn_s_name from kamoku_kbn_s where kamoku_kbn_s_id = shiwake_cho.kamoku) ");
 		sb.append("  when kamoku_kbn = 'K' then (select kamoku_name from kanjo_kamoku where kamoku_id = shiwake_cho.kamoku) ");
 		sb.append("  else '' ");
-		sb.append("end as kamoku, ");
+		sb.append("end as kamoku_name, ");
 		sb.append("kamoku_hojo_kbn, kamoku_hojo, karikata, kashikata ");
 		sb.append("from shiwake_cho ");
 		sb.append("order by nendo, month, day, row ");
 		this.selectSql = sb.toString();
 		sb.setLength(0);
 
-		sb.append("select Nendo, month, day, row, Kamoku_KBN, ");
+		sb.append("select Nendo, month, day, row, Kamoku_KBN, kamoku as kamoku_id, ");
 		sb.append("case ");
 		sb.append("  when kamoku_kbn = 'D' then (select kamoku_kbn_d_name from kamoku_kbn_d where kamoku_kbn_d_id = shiwake_cho.kamoku)  ");
 		sb.append("  when kamoku_kbn = 'S' then (select kamoku_kbn_s_name from kamoku_kbn_s where kamoku_kbn_s_id = shiwake_cho.kamoku) ");
 		sb.append("  when kamoku_kbn = 'K' then (select kamoku_name from kanjo_kamoku where kamoku_id = shiwake_cho.kamoku) ");
 		sb.append("  else '' ");
-		sb.append("end as kamoku, ");
+		sb.append("end as kamoku_name, ");
 		sb.append("Kamoku_Hojo_KBN, Kamoku_Hojo, Karikata, Kashikata ");
 		sb.append("from shiwake_cho ");
 		sb.append("where Nendo = ? ");
@@ -48,13 +48,13 @@ public class ShiwakeChoManage extends DBAccess {
 		this.selectNendoSql = sb.toString();
 		sb.setLength(0);
 
-		sb.append("select Nendo, month, day, row, Kamoku_KBN, ");
+		sb.append("select Nendo, month, day, row, Kamoku_KBN, kamoku as kamoku_id, ");
 		sb.append("case ");
 		sb.append("  when kamoku_kbn = 'D' then (select kamoku_kbn_d_name from kamoku_kbn_d where kamoku_kbn_d_id = shiwake_cho.kamoku)  ");
 		sb.append("  when kamoku_kbn = 'S' then (select kamoku_kbn_s_name from kamoku_kbn_s where kamoku_kbn_s_id = shiwake_cho.kamoku) ");
 		sb.append("  when kamoku_kbn = 'K' then (select kamoku_name from kanjo_kamoku where kamoku_id = shiwake_cho.kamoku) ");
 		sb.append("  else '' ");
-		sb.append("end as kamoku, ");
+		sb.append("end as kamoku_name, ");
 		sb.append("Kamoku_Hojo_KBN, Kamoku_Hojo, Karikata, Kashikata ");
 		sb.append("from shiwake_cho ");
 		sb.append("where Nendo = ? ");
@@ -63,13 +63,13 @@ public class ShiwakeChoManage extends DBAccess {
 		this.selectNendoMonthSql = sb.toString();
 		sb.setLength(0);
 
-		sb.append("select Nendo, month, day, row, Kamoku_KBN, ");
+		sb.append("select Nendo, month, day, row, Kamoku_KBN, kamoku as kamoku_id, ");
 		sb.append("case ");
 		sb.append("  when kamoku_kbn = 'D' then (select kamoku_kbn_d_name from kamoku_kbn_d where kamoku_kbn_d_id = shiwake_cho.kamoku)  ");
 		sb.append("  when kamoku_kbn = 'S' then (select kamoku_kbn_s_name from kamoku_kbn_s where kamoku_kbn_s_id = shiwake_cho.kamoku) ");
 		sb.append("  when kamoku_kbn = 'K' then (select kamoku_name from kanjo_kamoku where kamoku_id = shiwake_cho.kamoku) ");
 		sb.append("  else '' ");
-		sb.append("end as kamoku, ");
+		sb.append("end as kamoku_name, ");
 		sb.append("Kamoku_Hojo_KBN, Kamoku_Hojo, Karikata, Kashikata ");
 		sb.append("from shiwake_cho ");
 		sb.append("where Nendo = ? ");
@@ -98,13 +98,13 @@ public class ShiwakeChoManage extends DBAccess {
 		this.updateSql = sb.toString();
 		sb.setLength(0);
 
-		sb.append("select Nendo, month, day, row, Kamoku_KBN, ");
+		sb.append("select Nendo, month, day, row, Kamoku_KBN, kamoku as kamoku_id, ");
 		sb.append("case ");
 		sb.append("  when kamoku_kbn = 'D' then (select kamoku_kbn_d_name from kamoku_kbn_d where kamoku_kbn_d_id = shiwake_cho.kamoku)  ");
 		sb.append("  when kamoku_kbn = 'S' then (select kamoku_kbn_s_name from kamoku_kbn_s where kamoku_kbn_s_id = shiwake_cho.kamoku) ");
 		sb.append("  when kamoku_kbn = 'K' then (select kamoku_name from kanjo_kamoku where kamoku_id = shiwake_cho.kamoku) ");
 		sb.append("  else '' ");
-		sb.append("end as kamoku, ");
+		sb.append("end as kamoku_name, ");
 		sb.append("Kamoku_Hojo_KBN, Kamoku_Hojo, Karikata, Kashikata ");
 		sb.append("from shiwake_cho ");
 		sb.append("where Nendo = ? ");
@@ -147,7 +147,8 @@ public class ShiwakeChoManage extends DBAccess {
 					getRsResult().getInt("day"),
 					getRsResult().getInt("row"),
 					getRsResult().getString("kamoku_KBN"),
-					getRsResult().getString("kamoku"),
+					getRsResult().getString("kamoku_id"),
+					getRsResult().getString("kamoku_name"),
 					getRsResult().getString("kamoku_hojo_KBN"),
 					getRsResult().getString("kamoku_hojo"),
 					getRsResult().getInt("karikata"),
@@ -177,7 +178,8 @@ public class ShiwakeChoManage extends DBAccess {
 					getRsResult().getInt("day"),
 					getRsResult().getInt("row"),
 					getRsResult().getString("kamoku_KBN"),
-					getRsResult().getString("kamoku"),
+					getRsResult().getString("kamoku_id"),
+					getRsResult().getString("kamoku_name"),
 					getRsResult().getString("kamoku_hojo_KBN"),
 					getRsResult().getString("kamoku_hojo"),
 					getRsResult().getInt("karikata"),
@@ -208,7 +210,8 @@ public class ShiwakeChoManage extends DBAccess {
 					getRsResult().getInt("day"),
 					getRsResult().getInt("row"),
 					getRsResult().getString("kamoku_KBN"),
-					getRsResult().getString("kamoku"),
+					getRsResult().getString("kamoku_id"),
+					getRsResult().getString("kamoku_name"),
 					getRsResult().getString("kamoku_hojo_KBN"),
 					getRsResult().getString("kamoku_hojo"),
 					getRsResult().getInt("karikata"),
@@ -240,7 +243,8 @@ public class ShiwakeChoManage extends DBAccess {
 					getRsResult().getInt("day"),
 					getRsResult().getInt("row"),
 					getRsResult().getString("kamoku_KBN"),
-					getRsResult().getString("kamoku"),
+					getRsResult().getString("kamoku_id"),
+					getRsResult().getString("kamoku_name"),
 					getRsResult().getString("kamoku_hojo_KBN"),
 					getRsResult().getString("kamoku_hojo"),
 					getRsResult().getInt("karikata"),
@@ -273,7 +277,8 @@ public class ShiwakeChoManage extends DBAccess {
 					getRsResult().getInt("day"),
 					getRsResult().getInt("row"),
 					getRsResult().getString("kamoku_KBN"),
-					getRsResult().getString("kamoku"),
+					getRsResult().getString("kamoku_id"),
+					getRsResult().getString("kamoku_name"),
 					getRsResult().getString("kamoku_hojo_KBN"),
 					getRsResult().getString("kamoku_hojo"),
 					getRsResult().getInt("karikata"),
@@ -295,7 +300,7 @@ public class ShiwakeChoManage extends DBAccess {
 		this.getPstmt().setInt(3, si.getDay());
 		this.getPstmt().setInt(4, si.getRow());
 		this.getPstmt().setString(5, si.getKamokuKBN());
-		this.getPstmt().setString(6, si.getKamoku());
+		this.getPstmt().setString(6, si.getKamokuId());
 		this.getPstmt().setString(7, si.getKamokuHojoKBN());
 		this.getPstmt().setString(8, si.getKamokuHojo());
 		this.getPstmt().setInt(9, si.getKarikata());
@@ -318,7 +323,7 @@ public class ShiwakeChoManage extends DBAccess {
 		// ステートメント
 		createStatement(this.updateSql);
 		this.getPstmt().setString(1, si.getKamokuKBN());
-		this.getPstmt().setString(2, si.getKamoku());
+		this.getPstmt().setString(2, si.getKamokuId());
 		this.getPstmt().setString(3, si.getKamokuHojoKBN());
 		this.getPstmt().setString(4, si.getKamokuHojo());
 		this.getPstmt().setInt(5, si.getKarikata());
