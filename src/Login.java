@@ -49,8 +49,8 @@ public class Login extends HttpServlet {
 		String page_title="ログインページ";
 		String disp = "/index.jsp";
 
-		String auth = request.getParameter("auth").toString();
-		if ( auth != null && auth.equals("1")) {
+		String auth = request.getParameter("submit");
+		if ( auth != null && !auth.equals("")) {
 			String staff_id = request.getParameter("staff_id").toString();
 			String passwd = request.getParameter("passwd").toString();;
 			// ログインユーザ検索
@@ -61,12 +61,8 @@ public class Login extends HttpServlet {
 				// チェック
 				if (loginInfo != null) {
 					// ログイン成功。セッションにログイン情報を埋め込んでシステムホームへ
-					HttpSession session = request.getSession(false);
-					if (session == null) {
-						// セッション開始されていなければセッションを開始
-						session = request.getSession(true);
-					}
-					session.setAttribute("longin_info", loginInfo);
+					HttpSession session = request.getSession(true);
+					session.setAttribute("login_info", loginInfo);
 
 					disp ="/Sotsuron/Home";
 					response.sendRedirect(disp);

@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import kaikei.db.BankInfo;
 import kaikei.db.BankManage;
+import sotsuron.SotsuronHttpServlet;
 
 /**
  * Servlet implementation class Bank
  */
 @WebServlet("/Kaikei/Bank")
-public class Bank extends HttpServlet {
+public class Bank extends SotsuronHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	BankManage bm = null;
@@ -37,6 +38,11 @@ public class Bank extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// セッション確認。ログイン済みでなければログイン画面へ
+		if (this.isLoginDone(request, response) == null ) {
+			return;
+		}
+
 		page_title = "会計システム - 取引先銀行一覧";
 		content_page = "/kaikei/bank/bank.jsp";
 		String page = null;

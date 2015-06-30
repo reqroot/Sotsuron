@@ -24,11 +24,10 @@
   <p class="err">${err_msg}</p>
   <hr />
 </c:if>
-<form method="post" action="Login">
+<form method="post" action="/Sotsuron/Login">
 <p><label for="staff_id">社員ID</label><input type="text" name="staff_id" id="staff_id" size="7" /></p>
 <p><label for="password">パスワード</label><input type="password" name="passwd" id="passwd" size="10" /></p>
-<p><input type="submit" value="送信" /> <input type="reset" value="リセット" /></p>
-<p><input type="hidden" name="auth" value="1" /></p>
+<p><input type="submit" name="submit" value="送信" /> <input type="reset" value="リセット" /></p>
 </form>
 	</div>
 	<jsp:include page="./template/footer.jsp"/>
