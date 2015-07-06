@@ -29,13 +29,13 @@ public class Staff extends HttpServlet {
 
 		List<staffInfo> list = null; //スタッフ一覧取得用リスト
 		List<staffInfo> plist = null; //スタッフ個別取得
-		List<departmentInfo> depList = null; //部署一覧取得
-		List<educationInfo> eduList = null; //学歴一覧取得
-		List<positionInfo> posList = null; //役職一覧取得
+		List<departmentInfo> depList ; //部署一覧取得
+		List<educationInfo> eduList; //学歴一覧取得
+		List<positionInfo> posList ; //役職一覧取得
 		List<registInfo> regList = null;//登録用リスト
 
 		staffInfo sI = new staffInfo(); //スタッフid取得用
-		registInfo rI = new registInfo();
+
 
 
 	//DB操作Manager一覧
@@ -61,7 +61,9 @@ public class Staff extends HttpServlet {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staff_list.jsp";
 		String page = request.getParameter("page");
-
+		List<departmentInfo> depList = null; //部署一覧取得
+		List<educationInfo> eduList = null; //学歴一覧取得
+		List<positionInfo> posList = null; //役職一覧取得
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -123,43 +125,58 @@ public class Staff extends HttpServlet {
 
 		String page_title ="";
 		String content_page="";
+		int state;
+		registInfo rI = new registInfo();
 
+		//登録確認
+		if( request.getParameter("add_conf") != null ){
+		page_title ="人事システム - 登録確認画面";
+		content_page="/jinji/staff_regist_confirm.jsp";
+		try {
+			depList =  dm.depnameSelect(rI);
+			eduList = em.edunameSelect(rI);
+			posList = pm.posnameSelect(rI);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 		//TODO Valid処理をかける（getParameterに）
 
-		//staff_regist_view.jspからデータ取得
-				String staff_id = (request.getParameter("staff_id"));
-				String staff_name = (request.getParameter("staff_name"));
-				String  department_id = (request.getParameter("department_id"));
-				String education_id = (request.getParameter("education_id"));
-				String position_id = (request.getParameter("position_id"));
+		//staff_regist_view.jspから社員登録データ取得
+				String staff_id = request.getParameter("staff_id");
+				String staff_name = request.getParameter("staff_name");
+				String  department_id = request.getParameter("department_id");
+				String education_id = request.getParameter("education_id");
+				String position_id = request.getParameter("position_id");
+				String birthday =request.getParameter("birthday");
+				String enter_day = request.getParameter("enter_day");
+				String base_salary = request.getParameter("base_salary");
+				String passwd = request.getParameter("password");
+
 				rI.setStaff_id(staff_id);
 				rI.setStaff_name(staff_name);
 				rI.setDepartment_id(department_id);
 				rI.setEducation_id(education_id);
 				rI.setPosition_id(position_id);
-
-			//登録確認
-			if( request.getParameter("add_conf") != null ){
-			page_title ="人事システム - 登録確認画面";
-			content_page="/jinji/staff_regist_confirm.jsp";
-			try {
-				depList =  dm.depnameSelect(rI);
-				eduList = em.edunameSelect(rI);
-				posList = pm.posnameSelect(rI);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-		}
+				rI.setBirthday(birthday);
+				rI.setEnter_day(enter_day);
+				rI.setBase_salary(base_salary);
+				rI.setPasswd(passwd);
 
 		//登録確定
 		if(request.getParameter("add") != null){
-
-
+			state = 0;
+			try {
+				sm.updateStaff(rI, state);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			content_page = "/Sotsuron/Jinji/Staff";
+			response.sendRedirect(content_page);
+			return;
 		}
-
-
 
 
 		//JSP送信データ準備

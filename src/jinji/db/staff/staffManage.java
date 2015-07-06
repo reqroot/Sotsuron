@@ -147,6 +147,31 @@ public class staffManage extends DBAccess {
 		return staff_id;
 	}
 
+	public void updateStaff(registInfo rI, int state) throws Exception {
+		connect();
+		switch(state){
+		case 0 : //INSERT
+			createStatement(insertSql);
+			getPstmt().setString(1, rI.getStaff_id());
+			getPstmt().setString(2,rI.getStaff_name());
+			getPstmt().setString(3, rI.getDepartment_id());
+			getPstmt().setString(4, rI.getPosition_id());
+			getPstmt().setString(5, rI.getEducation_id());
+			getPstmt().setString(6, rI.getBirthday());
+			getPstmt().setString(7, rI.getEnter_day());
+			getPstmt().setString(8, rI.getBase_salary());
+			getPstmt().setString(9, rI.getPasswd());
+			break;
+		case 1: //DELETE
+
+			break;
+		}//switch
+
+		updateExe();
+		disConnect();
+	}
+
+
 	/**
 
 	 *  ログイン用検索
