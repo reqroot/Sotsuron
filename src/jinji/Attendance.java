@@ -9,9 +9,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import jinji.db.attendance.attendanceInfo;
 import jinji.db.attendance.attendanceManage;
+import login.LoginInfo;
 import sotsuron.SotsuronHttpServlet;
 
 /**
@@ -20,6 +22,8 @@ import sotsuron.SotsuronHttpServlet;
 @WebServlet("/Jinji/Attendance")
 public class Attendance extends SotsuronHttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	LoginInfo logInfo = new LoginInfo();
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,9 +38,9 @@ public class Attendance extends SotsuronHttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		// セッション確認。ログイン済みでなければログイン画面へ
-				if (this.isLoginDone(request, response) == null ) {
-					return;
-				}
+		if (this.isLoginDone(request, response) == null ) {
+			return;
+		}
 
 		String page_title="";
 		String content_page = "";
@@ -47,6 +51,10 @@ public class Attendance extends SotsuronHttpServlet {
 		ArrayList<String> js = new ArrayList<String>(); //JavaScript用List
 
 
+		//session情報からStaffIDの取得
+		HttpSession session = request.getSession(true);
+		LoginInfo logInfo =  (LoginInfo) session.getAttribute("login_info");
+		aI.setStaff_id(logInfo.getStaffId());
 
 		//JavaScriptによる時刻表示
 		 page_title ="出退勤画面";
