@@ -29,14 +29,13 @@ public class Staff extends HttpServlet {
 
 		List<staffInfo> list = null; //スタッフ一覧取得用リスト
 		List<staffInfo> plist = null; //スタッフ個別取得
-		List<departmentInfo> depList ; //部署一覧取得
-		List<educationInfo> eduList; //学歴一覧取得
-		List<positionInfo> posList ; //役職一覧取得
+		List<departmentInfo> depList = null; //部署一覧取得
+		List<educationInfo> eduList = null; //学歴一覧取得
+		List<positionInfo> posList = null; //役職一覧取得
 		List<registInfo> regList = null;//登録用リスト
 
+
 		staffInfo sI = new staffInfo(); //スタッフid取得用
-
-
 
 	//DB操作Manager一覧
 		staffManage sm = new staffManage();
@@ -61,9 +60,6 @@ public class Staff extends HttpServlet {
 		String page_title="人事システム - 社員一覧";
 		String content_page = "/jinji/staff_list.jsp";
 		String page = request.getParameter("page");
-		List<departmentInfo> depList = null; //部署一覧取得
-		List<educationInfo> eduList = null; //学歴一覧取得
-		List<positionInfo> posList = null; //役職一覧取得
 
 		try {
 			 list = sm.staffSelect(); //スタッフ一覧取得
@@ -115,6 +111,7 @@ public class Staff extends HttpServlet {
 		//ディスパッチ処理
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 		dispatch.forward(request, response);
+
 	}
 
 	/**
@@ -129,19 +126,19 @@ public class Staff extends HttpServlet {
 		registInfo rI = new registInfo();
 
 		//登録確認
-		if( request.getParameter("add_conf") != null ){
+		if( request.getParameter("addConf") != null ){
 		page_title ="人事システム - 登録確認画面";
 		content_page="/jinji/staff_regist_confirm.jsp";
-		try {
-			depList =  dm.depnameSelect(rI);
-			eduList = em.edunameSelect(rI);
-			posList = pm.posnameSelect(rI);
+			try {
+				depList =  dm.depnameSelect(rI);
+				eduList = em.edunameSelect(rI);
+				posList = pm.posnameSelect(rI);
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
-
-	}
 		//TODO Valid処理をかける（getParameterに）
 
 		//staff_regist_view.jspから社員登録データ取得
@@ -178,6 +175,21 @@ public class Staff extends HttpServlet {
 			return;
 		}
 
+		//社員削除確認
+		if(request.getParameter("delConf") != null){
+			String[] staffidList = request.getParameterValues("staffidList");
+			if(staffidList != null){
+				try {
+					plist = sm.deleteViewSelect(staffidList);
+					request.setAttribute("plist", plist);
+					content_page ="/jinji/staff_delete_confirm.jsp";
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+
 
 		//JSP送信データ準備
 			request.setAttribute("page_title", page_title);
@@ -190,6 +202,13 @@ public class Staff extends HttpServlet {
 		//ディスパッチ処理
 				RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 				dispatch.forward(request, response);
+
+		//再読み込み時ドロップダウンの項目重複を避けるため
+				depList.clear();
+				posList.clear();
+				eduList.clear();
+		//削除重複を避ける
+				plist.clear();
 
 
 

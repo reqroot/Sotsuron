@@ -4,9 +4,10 @@
 <h1>${page_title}</h1>
 <a href="/Sotsuron/Jinji/Staff?page=regist">社員登録</a>
 <br />
-
+<form action="/Sotsuron/Jinji/Staff" method="post">
 <table border=1>
 <tr>
+<th></th>
 <th>社員番号</th>
 <th>社員名</th>
 <th>部署</th>
@@ -17,15 +18,18 @@
 </tr>
 <c:forEach var="item" items="${list }">
 <tr>
- <td><a href="/Sotsuron/Jinji/Staff?page=psearch&staff_id=${item.staff_id}" >${item.staff_id}</a></td>
+<td><input type="checkbox" value="${item.staff_id }" name="staffidList" /></td>
+<td><a href="/Sotsuron/Jinji/Staff?page=psearch&staff_id=${item.staff_id}" >${item.staff_id}</a></td>
 <td>${item.staff_name}</td>
 <td>${item.department_name}</td>
 <td>${item.position_name }</td>
 <td>${item.birthday}</td>
 <td>${item.enter_day }</td>
 <td>${item.base_salary }</td>
+
 </tr>
 </c:forEach>
 </table>
-<hr />
+<input type="submit" name="delConf" value="削除"/>
+</form>
 

@@ -38,6 +38,6 @@
 パスワード(4文字以上)：
 	<input type="password" name="passwd" size="10" minlength="4" maxlength="20" required="required" />
 </p>
-	<p><input type="submit" name="add_conf" value="登録" required="required" /></p>
+	<p><input type="submit" name="addConf" value="登録" required="required" /></p>
 </form>
 

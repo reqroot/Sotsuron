@@ -19,6 +19,7 @@ public class staffManage extends DBAccess {
 	private String insertSql; //社員追加用
 	private String updateSql;//社員更新用
 	private String deleteSql;//社員削除用
+	private String deleteViewSql;//社員削除確認用
 	private String idSql; //最新社員番号取得(社員登録用)
 	private String searchSql;//個別ページ用
 	private String loginSql; // 2015/6/8 add 鈴木 ログイン用SQL
@@ -44,6 +45,12 @@ public class staffManage extends DBAccess {
 		sb.append("LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id ");
 		sb.append("WHERE staff.staff_id=?");
 		searchSql = sb.toString();
+		sb.setLength(0);
+
+		sb.append("SELECT staff_id, staff_name ");
+		sb.append("FROM tbl_staff ");
+		sb.append("WHERE staff_id=?");
+		deleteViewSql = sb.toString();
 		sb.setLength(0);
 
 		sb.append("INSERT tbl_Staff(Staff_ID,Staff_Name,Department_ID,Position_ID,Education_ID,Birthday,Enter_Day,Base_Salary,Passwd) ");
@@ -170,6 +177,39 @@ public class staffManage extends DBAccess {
 		updateExe();
 		disConnect();
 	}
+
+	/**
+	 * 	個別社員情報取得用
+	 * @param staffInfo
+	 * @return
+	 * @throws Exception
+	 */
+		public List<staffInfo> deleteViewSelect(String[] staffidList) throws Exception{
+			List<staffInfo> plist = new ArrayList<staffInfo>();
+			staffInfo pstaff = null;
+			connect();
+			createStatement(deleteViewSql);
+			for(int i=0; i < staffidList.length;i++){
+			getPstmt().setString(1, staffidList[i]);
+			selectExe();
+			ResultSet rs = getRsResult();
+			while (rs.next()){
+				pstaff = new staffInfo(
+						rs.getString("staff_id"),
+						rs.getString("staff_name"),
+						"",
+						"",
+						"",
+						"",
+						"",
+						"",
+						"");
+				plist.add(pstaff);
+			}
+			}//for
+			disConnect();
+			return  plist;		//個人ページ取得
+		}
 
 
 	/**
