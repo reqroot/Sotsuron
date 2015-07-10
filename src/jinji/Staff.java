@@ -1,6 +1,7 @@
 package jinji;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -85,8 +86,25 @@ public class Staff extends HttpServlet {
 
 		//page遷移 社員登録ページ
 				if(page != null && page.equals("regist")){
+					Calendar nowDate =Calendar.getInstance();
+					int year = nowDate.get(Calendar.YEAR);
 					try {
+						//table状況に応じたStaff_id取得の分岐
+						if(sm.idSelect().equals("0") ){
+							staff_id = String.valueOf(year)+"001";
+
+						}//if（新規登録時）
+
+						 if(staff_id != "0" ){
+							 if(Integer.valueOf(sm.idSelect().substring(0, 4)).intValue() < year){
+							staff_id = String.valueOf(year)+"001";
+							 }
+						 }//if (年が変わったら)
+
+						else {
 						staff_id = sm.idSelect(); //社員番号連番取得
+						} //else（継続）
+
 						depList = dm.departmentSelect(); //部署一覧取得
 						eduList = em.educationSelect(); //学歴取得
 						posList = pm.positionSelect();//役職取得
@@ -187,7 +205,24 @@ public class Staff extends HttpServlet {
 					e.printStackTrace();
 				}
 			}
+		}
 
+		//社員削除確定
+		if(request.getParameter("delete") != null) {
+			String[] staffidList = request.getParameterValues("staffidList");
+			state=1;
+			for(int i = 0;i < staffidList.length;i++){
+				staff_id = staffidList[i];
+				rI.setStaff_id(staff_id);
+				try {
+					sm.updateStaff(rI, state);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			content_page = "/Sotsuron/Jinji/Staff";
+			response.sendRedirect(content_page);
+			return;
 		}
 
 
