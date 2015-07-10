@@ -17,6 +17,7 @@ public class SotsuronHttpServlet extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		LoginInfo loginInfo =  (LoginInfo) session.getAttribute("login_info");
 		if (loginInfo == null) {
+			request.setAttribute("request_servlet_path", request.getServletPath());
 			RequestDispatcher rd = request.getRequestDispatcher("/Login");
 			try {
 				rd.forward(request, response);

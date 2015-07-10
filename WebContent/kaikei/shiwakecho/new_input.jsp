@@ -36,4 +36,7 @@
 	<td><input type="text" name="karikata" /></td>
 </tr>
 </table>
+<p><input type="submit" name="shiwake_regist" value="登録">
+<input type="hidden" name="nendo" value="${nendo}">
+<input type="hidden" name="month" value="${month}"></p>
 </form>

@@ -63,7 +63,6 @@ public class Login extends HttpServlet {
 					// ログイン成功。セッションにログイン情報を埋め込んでシステムホームへ
 					HttpSession session = request.getSession(true);
 					session.setAttribute("login_info", loginInfo);
-
 					disp ="/Sotsuron/Home";
 					response.sendRedirect(disp);
 					return;

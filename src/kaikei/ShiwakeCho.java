@@ -94,7 +94,13 @@ public class ShiwakeCho extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		page_title = "会計システム - 仕訳帳";
+		content_page = "/kaikei/shiwakecho/shiwakecho.jsp";
+		String page = null;
+
+		sm = new ShiwakeChoManage();
+		new_regist(request, response);
+
 	}
 
 	private void show(HttpServletRequest request, HttpServletResponse response) {
@@ -164,8 +170,44 @@ public class ShiwakeCho extends HttpServlet {
 		request.setAttribute("kamoku_list", kamokuList);
 	}
 
-	public void new_regist(HttpServletRequest request, HttpServletResponse response) {
+	public void new_regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (request.getParameter("shiwake_regist") == null) {
+				response.sendRedirect("/Sotsuron/Kaikei/ShiwakeCho");
+		}
 
+		String[] k = request.getParameter("kamoku").split("_");
+		String kamoku_kbn = k[0];
+		String kamokuId = k[1];
+		String kashi = request.getParameter("kashikata");
+		int kashkata = 0;
+		if (kashi != null && !kashi.isEmpty()) {
+			kashkata = Integer.parseInt(kashi);
+		}
+		String kari = request.getParameter("karikata");
+		int karikata = 0;
+		if(kari != null && !kari.isEmpty()) {
+			karikata = Integer.parseInt(kari);
+		}
+		this.info = new ShiwakeChoInfo(Integer.parseInt(request.getParameter("nendo")),
+														Integer.parseInt(request.getParameter("month")),
+														Integer.parseInt(request.getParameter("day")),
+														0,
+														kamoku_kbn,
+														kamokuId,
+														"",
+														request.getParameter("kamoku_hojo_kbn"),
+														request.getParameter("kamoku_hojo"),
+														kashkata,
+														karikata);
+		try {
+			this.info.setRow(sm.getNextRow(this.info));
+
+			sm.insert(this.info);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		response.sendRedirect("/Sotsuron/Kaikei/ShiwakeCho");
 	}
 
 	public void update_input(HttpServletRequest request, HttpServletResponse response) {

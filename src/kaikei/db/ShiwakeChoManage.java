@@ -369,16 +369,17 @@ public class ShiwakeChoManage extends DBAccess {
 		// DB接続
 		connect();
 		// ステートメント
-		createStatement();
+		createStatement(this.nextRowSql);
 		// 実行
-		selectExe(this.nextRowSql);
 		this.getPstmt().setInt(1, si.getNendo());
 		this.getPstmt().setInt(2, si.getMonth());
 		this.getPstmt().setInt(3, si.getDay());
+		selectExe();
 		if (getRsResult().next()) {
 			nextRow = getRsResult().getInt("next");
 		}
 		disConnect();
+		if (nextRow == 0) return 1;
 		return nextRow;
 	}
 
