@@ -18,7 +18,7 @@
 		を削除しますか？
 	<p><input type="submit" name="delete" value="確定" />
 	</c:if>
-	<input type="submit" name="cancel" value="戻る" /></p>
+	<input type="submit" name="cancel" value="戻る"  onClick="history.go(-1)" /></p>
 	<input type="hidden" name="staff_id" value="${staff_id }" />
 	<input type="hidden" name="license_id" value="${license_id }" />
 	</form>

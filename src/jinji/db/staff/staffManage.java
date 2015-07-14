@@ -153,6 +153,7 @@ public class staffManage extends DBAccess {
 		while(rs.next()){
 		staff_id = String.valueOf(rs.getInt("MAX(staff_id)+1"));
 		}
+		disConnect();
 		return staff_id;
 	}
 

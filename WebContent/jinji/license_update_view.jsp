@@ -17,7 +17,7 @@
    	資格の追加・削除
 	<form action="/Sotsuron/Jinji/Staff/License"   method="get" >
    	<table border="1">
-    <tr><th>社員番号</th><td><input type="text" size="10" name="staff_id" value="${ plist[0].staff_id}" /></td></tr>
+    <tr><th>社員番号</th><td><input type="text" size="10" name="staff_id" value="${ plist[0].staff_id}" readonly="readonly" /></td></tr>
     <tr><th><label>資格コード</label></th>
     <td>
 	<select name="license_id">
@@ -28,6 +28,7 @@
 	</td></tr>
     </table>
     ${msg }
+     <input type="hidden" name="staff_id" value="${ plist[0].staff_id}" />
     <input type="hidden" name="staff_name" value="${plist[0].staff_name }" />
     <p><input type="submit" name="add_conf" value="追加" />
    	<input type="submit" name="delete_conf" value="削除" /></p>

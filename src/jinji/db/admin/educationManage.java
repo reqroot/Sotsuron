@@ -42,6 +42,7 @@ public class educationManage extends DBAccess {
 		);
 			eduList.add(educationInfo);
 		}
+		disConnect();
 		return eduList;
 	}
 

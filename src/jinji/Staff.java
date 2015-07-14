@@ -88,6 +88,7 @@ public class Staff extends HttpServlet {
 				if(page != null && page.equals("regist")){
 					Calendar nowDate =Calendar.getInstance();
 					int year = nowDate.get(Calendar.YEAR);
+
 					try {
 						//table状況に応じたStaff_id取得の分岐
 						if(sm.idSelect().equals("0") ){
@@ -95,15 +96,15 @@ public class Staff extends HttpServlet {
 
 						}//if（新規登録時）
 
-						 if(staff_id != "0" ){
-							 if(Integer.valueOf(sm.idSelect().substring(0, 4)).intValue() < year){
+						if(staff_id == null){
+						if(Integer.valueOf(sm.idSelect().substring(0, 4)).intValue() != year){
 							staff_id = String.valueOf(year)+"001";
-							 }
-						 }//if (年が変わったら)
-
+						}//年が変わっている場合
 						else {
 						staff_id = sm.idSelect(); //社員番号連番取得
 						} //else（継続）
+
+						}
 
 						depList = dm.departmentSelect(); //部署一覧取得
 						eduList = em.educationSelect(); //学歴取得
