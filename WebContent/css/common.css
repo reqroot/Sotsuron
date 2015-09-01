@@ -38,3 +38,8 @@ li a:hover {
 li a:active {/*クリック中*/
     text-decoration:none;
 }
+
+#home_info {
+	border : double 2px #ccccff;
+	padding : 2em;
+}

@@ -15,6 +15,7 @@
 <script type="text/javascript" src="${item}"></script>
 </c:forEach>
 </c:if>
+<link href="/Sotsuron/css/common.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<jsp:include page="./template/header.jsp"/>
