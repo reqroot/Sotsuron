@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+h1#root_h1 {
+	border-left : solid 10px #9999cc;
+	border-bottom : solid 5px #9999cc;
+}
+
+#login_info {
+	position : absolute;
+	top : 10px;
+	right : 10px;
+}
+
+h2#subsystem {
+	margin-left : 10px;
+	border-left : solid 7px #ccccff;
+	border-bottom : solid 3px #ccccff;
+}
+nav li {
+	display: inline-block;
+	background-color : #666666;
+	padding: 5px;
+}
+li a {
+	text-decoration : none;
+	background-color : #666666;
+	color : #ffffff;
+}
+li a:link {
+    color:#ffffff;
+}
+li a:visited {
+    color:#fffff;
+}
+li a:hover {
+    color:#ffffff;
+    background-color : #cccccc;
+}
+li a:active {/*クリック中*/
+    text-decoration:none;
+}
