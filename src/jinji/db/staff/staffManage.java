@@ -61,7 +61,7 @@ public class staffManage extends DBAccess {
 		idSql = "select MAX(staff_id)+1 from tbl_staff";
 
 		// 2015/6/8 add 鈴木 ログイン用SQL ここから
-		this.loginSql = "SELECT staff_id, passwd FROM tbl_staff where staff_id = ? and passwd = ?";
+		this.loginSql = "SELECT Staff_ID, Staff_Name, Department_ID, Position_ID, Education_ID, Birthday, Enter_Day, Base_Salary, Passwd  FROM tbl_staff where staff_id = ? and passwd = ?";
 		// 2015/6/8 add 鈴木 ログイン用SQL ここまで
 	}
 
@@ -231,7 +231,16 @@ public class staffManage extends DBAccess {
 		this.selectExe();
 		ResultSet rs = getRsResult();
 		if (rs.next()) {
-			info = new LoginInfo(rs.getString("staff_id"),rs.getString("passwd"));
+			info = new LoginInfo(
+					rs.getString("staff_id"),
+					rs.getString("passwd"),
+					rs.getString("staff_name"),
+					rs.getString("department_id"),
+					rs.getString("position_id"),
+					rs.getString("education_id"),
+					rs.getString("birthday"),
+					rs.getString("enter_day"),
+					rs.getString("base_salary"));
 		}
 
 		return info;
