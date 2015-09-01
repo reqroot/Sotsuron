@@ -42,6 +42,7 @@ public class positionManage extends DBAccess {
 				);
 				posList.add(positionInfo);
 			}
+			disConnect();
 			return posList;
 		}
 

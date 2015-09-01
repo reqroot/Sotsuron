@@ -44,6 +44,7 @@ public class departmentManage extends DBAccess {
 		);
 			depList.add(departmentInfo);
 		}
+		disConnect();
 		return depList;
 	}
 

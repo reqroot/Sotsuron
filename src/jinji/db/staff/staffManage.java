@@ -58,6 +58,8 @@ public class staffManage extends DBAccess {
 		insertSql = sb.toString();
 		sb.setLength(0);
 
+		deleteSql = "DELETE FROM tbl_staff WHERE staff_id = ?";
+
 		idSql = "select MAX(staff_id)+1 from tbl_staff";
 
 		// 2015/6/8 add 鈴木 ログイン用SQL ここから
@@ -151,6 +153,7 @@ public class staffManage extends DBAccess {
 		while(rs.next()){
 		staff_id = String.valueOf(rs.getInt("MAX(staff_id)+1"));
 		}
+		disConnect();
 		return staff_id;
 	}
 
@@ -170,7 +173,8 @@ public class staffManage extends DBAccess {
 			getPstmt().setString(9, rI.getPasswd());
 			break;
 		case 1: //DELETE
-
+			createStatement(deleteSql);
+			getPstmt().setString(1, rI.getStaff_id());
 			break;
 		}//switch
 

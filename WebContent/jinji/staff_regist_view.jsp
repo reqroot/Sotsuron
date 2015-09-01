@@ -29,12 +29,12 @@
 </p>
 
 <p>
-生年月日(例：1994-02-02)：
+生年月日：
 	<input type="date" name="birthday" required="required"/>
-入社年月日(例：1994-00-00)：
+入社年月日：
 	<label>:<input type="date" name="enter_day"  required="required"></label>
 基本給：
-	<input type="number" name="base_salary" required="required"/>
+	<input type="number" name="base_salary" step="1000" required="required"/>
 パスワード(4文字以上)：
 	<input type="password" name="passwd" size="10" minlength="4" maxlength="20" required="required" />
 </p>
