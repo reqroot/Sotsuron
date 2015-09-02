@@ -14,12 +14,14 @@ public class MemberDBManager extends DBAccess {
 	private final static String NAME = "name";
 	private final static String BIRTHDAY = "Birthday";
 	private final static String SEX = "sex";
+	private final static String POSTCODE = "postcode";
 	private final static String PREFECTURE = "prefecture";
 	private final static String CITY = "city";
 	private final static String ADDRESS = "Address";
 	private final static String TEL = "tel";
 	private final static String MAIL = "mail";
 	private final static String ENTRY_DATE = "entry_date";
+	private final static String UPDATE_DATE = "update_date";
 
 	private String selectSQL;
 	private String searchSQL;
@@ -35,13 +37,13 @@ public class MemberDBManager extends DBAccess {
 				+ "AND %s like ?"
 				, ID, NAME, ENTRY_DATE, TABLE, NAME);
 
-		searchSQL = String .format("SELECT %s, %s, %s, %s, %s, %s, %s, %s, %s, %s FROM %s "
+		searchSQL = String .format("SELECT %s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s FROM %s "
 				+ "WHERE %s = ?"
-				, ID, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ENTRY_DATE, TABLE, ID);
+				, ID, NAME, BIRTHDAY, POSTCODE, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ENTRY_DATE, UPDATE_DATE, TABLE, ID);
 
-		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ? "
+		updateSQL = String.format("UPDATE %s SET %s = ?, %s = ?, %s = ?,%s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = ?, %s = NOW() "
 									+ "WHERE %s = ?",
-									TABLE, NAME, BIRTHDAY, SEX, PREFECTURE, CITY, ADDRESS, TEL, MAIL, ID);
+									TABLE, NAME, BIRTHDAY, SEX, POSTCODE, PREFECTURE, CITY, ADDRESS, TEL, MAIL, UPDATE_DATE, ID);
 
 		deleteSQL = String.format("DELETE FROM %s WHERE %s = ?", TABLE, ID);
 
@@ -128,12 +130,14 @@ public class MemberDBManager extends DBAccess {
 			info.setName(rs.getString(NAME));
 			info.setBirthday(rs.getString(BIRTHDAY));
 			info.setSex(rs.getString(SEX).equals("1"));
+			info.setPostcode(rs.getString(POSTCODE));
 			info.setPrefecture(rs.getString(PREFECTURE));
 			info.setCity(rs.getString(CITY));
 			info.setAddress(rs.getString(ADDRESS));
 			info.setTel(rs.getString(TEL));
 			info.setMail(rs.getString(MAIL));
 			info.setEntry_date(rs.getString(ENTRY_DATE));
+			info.setUpdate_date(rs.getString(UPDATE_DATE));
 		}
 		disConnect();
 		return info;
@@ -156,12 +160,13 @@ public class MemberDBManager extends DBAccess {
 			getPstmt().setString(1, info.getName());
 			getPstmt().setString(2, info.getBirthday());
 			getPstmt().setInt(3, info.getSexInt());
-			getPstmt().setString(4, info.getPrefecture());
-			getPstmt().setString(5, info.getCity());
-			getPstmt().setString(6, info.getAddress());
-			getPstmt().setString(7, info.getTel());
-			getPstmt().setString(8, info.getMail());
-			getPstmt().setString(9, info.getMember_id());
+			getPstmt().setString(4, info.getPostcode());
+			getPstmt().setString(5, info.getPrefecture());
+			getPstmt().setString(6, info.getCity());
+			getPstmt().setString(7, info.getAddress());
+			getPstmt().setString(8, info.getTel());
+			getPstmt().setString(9, info.getMail());
+			getPstmt().setString(10, info.getMember_id());
 			//実行
 			this.updateExe();
 		}catch(SQLException e){

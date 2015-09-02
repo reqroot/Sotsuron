@@ -21,14 +21,18 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Member
  */
-@WebServlet("/hanbai/member")
+@WebServlet("/hanbai/MasterSystem/Member")
 public class Member extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String TITLE = "会員管理画面";
 	private static final String PAGE_VIEW = "/hanbai/member_view.jsp";
 	private static final String PAGE_DETAIL = "/hanbai/member_view_detail.jsp";
 	private static final String PAGE_EDIT = "/hanbai/member_view_edit.jsp";
+	private static final String PAGE_ADD = "/hanbai/member_add.jsp";
 
+	private static final String S_SELECT = "select";
+	private static final String S_ADD = "add";
+	private static final String S_EDIT = "edit";
 	private static final String S_DETAIL = "detail";
 	private static final String S_CONFIRM = "confirm";
 	private static final String S_COMMIT = "commit";
@@ -46,7 +50,7 @@ public class Member extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//ジャンルの一覧を取得する
+		/*//ジャンルの一覧を取得する
 		request.setCharacterEncoding("UTF-8");
 
 		//ページ情報の追加
@@ -54,7 +58,7 @@ public class Member extends HttpServlet {
 		request.setAttribute("content_page", PAGE_VIEW);
 		//ディスパッチャーを取得
 		RequestDispatcher rd = request.getRequestDispatcher("/template/layout.jsp");//Contextの値以降のアドレスを設定
-		rd.forward(request, response);
+		rd.forward(request, response);*/
 	}
 
 	/**
@@ -63,7 +67,7 @@ public class Member extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 
-		try{
+		/*try{
 			if(request.getParameter("searchBtn") != null){
 				//検索ボタンが押された場合
 				doSearch(request, response);
@@ -91,6 +95,49 @@ public class Member extends HttpServlet {
 			}else if(request.getParameter("backBtn") != null){
 				//一覧に戻るボタンが押された場合
 				redirectView(request, response);
+			}
+		}catch(Exception e){
+			//エラー処理
+			e.printStackTrace();
+		}*/
+
+		try{
+			//メニューボタン
+			if(request.getParameter("search") != null){
+				//検索ページに移動
+				request.setAttribute("page_title", TITLE);
+				request.setAttribute("content_page", PAGE_VIEW);
+				request.setAttribute("state", S_SELECT);
+			}else if(request.getParameter("add") != null){
+				//新規ページに移動
+				request.setAttribute("page_title", TITLE);
+				request.setAttribute("content_page", PAGE_VIEW);
+				request.setAttribute("state", S_ADD);
+			}else if(request.getParameter("edit") != null){
+				//編集ページに移動
+				request.setAttribute("page_title", TITLE);
+				request.setAttribute("content_page", PAGE_VIEW);
+				request.setAttribute("state", S_EDIT);
+			}else if(request.getParameter("delete") != null){
+				//削除ページに移動
+				request.setAttribute("page_title", TITLE);
+				request.setAttribute("content_page", PAGE_VIEW);
+				request.setAttribute("state", S_DELETE);
+			}
+			//その他ボタン
+			//検索ボタン
+			else if(request.getParameter("searchBtn") != null){
+				doSearch(request, response);
+			//詳細ボタン
+			}else if(request.getParameter("detailBtn") != null){
+				doDetail(request, response);
+			//編集ボタン
+			}else if(request.getParameter("editBtn") != null){
+				doEdit(request, response);
+			//編集確定ボタン
+			}else if(request.getParameter("confirmBtn") != null){
+				//確認ボタンが押された場合
+				doConfirm(request, response);
 			}
 		}catch(Exception e){
 			//エラー処理
@@ -131,6 +178,7 @@ public class Member extends HttpServlet {
 		//ページ情報の追加
 		request.setAttribute("page_title", TITLE);
 		request.setAttribute("content_page", PAGE_VIEW);
+		request.setAttribute("state", request.getParameter("state"));
 	}//doSearch
 
 	private void doDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -156,7 +204,7 @@ public class Member extends HttpServlet {
 
 	private void doEdit(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		doDetail(request, response);
-
+		request.setAttribute("state", S_EDIT);
 		request.setAttribute("content_page", PAGE_EDIT);
 	}
 
@@ -206,6 +254,7 @@ public class Member extends HttpServlet {
 			request.setAttribute("state", S_CONFIRM);
 			request.setAttribute("page_title", TITLE);
 			request.setAttribute("content_page", PAGE_DETAIL);
+			request.setAttribute("msg", "情報を更新しました");
 		}
 
 		request.setAttribute("item", info);

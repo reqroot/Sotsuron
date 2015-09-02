@@ -6,23 +6,26 @@ public class MemberInfo {
 	private String name;
 	private String birthday;
 	private boolean sex;
+	private String postcode;
 	private String prefecture;
 	private String city;
 	private String Address;
 	private String tel;
 	private String mail;
 	private String entry_date;
+	private String update_date;
 
 	public MemberInfo(){}
 
 	public MemberInfo(String member_id, String name, String birthday,
-			boolean sex, String prefecture, String city, String address,
+			boolean sex, String postcode, String prefecture, String city, String address,
 			String tel, String mail) {
 		super();
 		this.member_id = member_id;
 		this.name = name;
 		this.birthday = birthday;
 		this.sex = sex;
+		this.postcode = postcode;
 		this.prefecture = prefecture;
 		this.city = city;
 		Address = address;
@@ -109,6 +112,22 @@ public class MemberInfo {
 	 */
 	public void setSex(boolean sex) {
 		this.sex = sex;
+	}
+
+	/**
+	 * postcodeを取得します
+	 * @return postcode
+	 */
+	public String getPostcode() {
+		return postcode;
+	}
+
+	/**
+	 * postcodeを設定します
+	 * @param postcode 設定するpostcode
+	 */
+	public void setPostcode(String postcode) {
+		this.postcode = postcode;
 	}
 
 	/**
@@ -207,6 +226,22 @@ public class MemberInfo {
 	 */
 	public void setEntry_date(String entry_date) {
 		this.entry_date = entry_date;
+	}
+
+	/**
+	 * update_dateを取得します
+	 * @return update_date
+	 */
+	public String getUpdate_date() {
+		return update_date;
+	}
+
+	/**
+	 * update_dateを設定します
+	 * @param update_date 設定するupdate_date
+	 */
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
 	}
 
 	/* (非 Javadoc)

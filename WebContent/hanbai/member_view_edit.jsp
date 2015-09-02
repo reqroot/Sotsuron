@@ -4,7 +4,7 @@
 <div id ="msg">${msg}</div>
 
 
-<form action="/Sotsuron/hanbai/member" method="post">
+<form action="/Sotsuron/hanbai/MasterSystem/Member" method="post">
 	<input type="hidden" name="member_id" value="${item.member_id }"/>
 	<input type="hidden" name="entry_date" value="${item.entry_date }" />
 
@@ -33,7 +33,8 @@
 		<tr><th>登録年月日</th><td>${item.entry_date}</td></tr>
 	</table>
 
-	<input type="submit" name="confirmBtn" value="確認画面へ" />
-	<input type="submit" name="backBtn" value="キャンセル" />
+	<input type="submit" name="confirmBtn" value="変更確定" />
+	<hr />
+	<a href="javascript:history.back()">戻る</a>
 
 </form>

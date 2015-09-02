@@ -3,7 +3,8 @@
 
 
 
-<form id ="search_form" action="/Sotsuron/hanbai/member" method="post">
+<form id ="search_form" action="/Sotsuron/hanbai/MasterSystem/Member" method="post">
+	<input type="hidden" name="state" value="${state }" />
 	<p id="form_title">会員検索</p>
 	<p id = "input_form">
 		<span id ="input_title">ID</span>
@@ -26,20 +27,33 @@
 	</p>
 </form>
 <hr />
-<div id ="msg">${msg}</div>
+<div id ="msg">${msg} ${state }</div>
 <table >
 <c:if test="${!(empty list)}">
 <tr><th>会員ＩＤ</th><th>氏名</th><th>登録年月日</th></tr>
 </c:if>
 <c:forEach var="item" items="${list }">
 
-<form action="/Sotsuron/hanbai/member" method="post">
+<form action="/Sotsuron/hanbai/MasterSystem/Member" method="post">
 	<input type="hidden" name="member_id" value="${item.member_id }" />
+
 	<tr>
 		<td>${item.member_id }</td>
 		<td>${item.name }</td>
 		<td>${item.entry_date}</td>
-		<td><input type="submit" name="detailBtn" value="詳細" /></td>
+		<td>
+		<c:choose>
+			<c:when test="${state == 'select'}">
+				<input type="submit" name="detailBtn" value="詳細" />
+			</c:when>
+			<c:when test="${state == 'edit'}">
+				<input type="submit" name="editBtn" value="編集" />
+			</c:when>
+			<c:when test="${state == 'delete'}">
+				<input type="submit" name="deleteBtn" value="削除" />
+			</c:when>
+		</c:choose>
+		</td>
 	</tr>
 </form>
 
