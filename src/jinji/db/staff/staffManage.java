@@ -34,7 +34,7 @@ public class staffManage extends DBAccess {
 		sb.append("FROM tbl_staff staff ");
 		sb.append("INNER JOIN tbl_department department on staff.department_id = department.department_id ");
 		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
-		sb.append("WHERE 1=1");
+		sb.append("WHERE 1=1 order by staff.staff_id asc");
 		selectSql = sb.toString();
 		sb.setLength(0); //StringBuilderの初期化
 
@@ -43,7 +43,7 @@ public class staffManage extends DBAccess {
 		sb.append("INNER JOIN tbl_department department on staff. department_id = department.department_id ");
 		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
 		sb.append("LEFT OUTER JOIN(tbl_stafflicense slicense INNER JOIN tbl_license license on slicense.license_id = license.license_id) on staff.staff_id = slicense.staff_id ");
-		sb.append("WHERE staff.staff_id=?");
+		sb.append("WHERE staff.staff_id=? ");
 		searchSql = sb.toString();
 		sb.setLength(0);
 
