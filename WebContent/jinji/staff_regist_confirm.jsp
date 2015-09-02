@@ -13,7 +13,7 @@
 誕生日：${registInfo.birthday }<br/>
 入社年月日：${registInfo.enter_day }<br/>
 基本給：${registInfo.base_salary}<br/>
-
+pass(test用)：${registInfo.passwd}<br />
 
 上記の内容で登録しますか？
 <form method="post" action="/Sotsuron/Jinji/Staff">
@@ -25,6 +25,6 @@
 <input type="hidden" name="birthday" value="${registInfo.birthday}" />
 <input type="hidden" name="enter_day" value="${registInfo.enter_day }" />
 <input type="hidden" name="base_salary" value="${registInfo.base_salary}" />
-<input type="hidden" name="password" value="${registInfo.passwd}" />
+<input type="hidden" name="passwd" value="${registInfo.passwd}" />
 <input type="submit" value="登録確定" name="add">
 </form>

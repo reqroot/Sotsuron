@@ -131,7 +131,13 @@ public class Staff extends HttpServlet {
 		RequestDispatcher dispatch = request.getRequestDispatcher("/template/layout.jsp");
 		dispatch.forward(request, response);
 
+		//再読み込み時ドロップダウンの項目重複を避けるため
+		depList.clear();
+		posList.clear();
+		eduList.clear();
 	}
+
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -169,7 +175,7 @@ public class Staff extends HttpServlet {
 				String birthday =request.getParameter("birthday");
 				String enter_day = request.getParameter("enter_day");
 				String base_salary = request.getParameter("base_salary");
-				String passwd = request.getParameter("password");
+				String passwd = request.getParameter("passwd");
 
 				rI.setStaff_id(staff_id);
 				rI.setStaff_name(staff_name);
