@@ -7,12 +7,18 @@
 <%--
 ここらへんにメニューを記入
  --%>
+ <h2 id="subsystem">一般メニュー</h2>
+ <ul>
+ <li><a href="/Sotsuron/Jinji/Attendance">出退勤管理</a></li>
+ </ul>
+
  <c:choose>
 <c:when test="${login_info.departmentId == '1'}">
    <h2 id="subsystem">人事管理</h2>
  <ul>
    <li><a href="/Sotsuron/Jinji/Staff">社員一覧</a></li>
-   <li><a href="/Sotsuron/Jinji/Attendance">出退勤管理</a></li>
+   <li><a href="/Sotsuron/Jinji/Staff?page=regist">社員登録</a></li>
+	<li><a href="">給与計算</a></li>
  </ul>
 </c:when>
 <c:when test="${login_info.departmentId == '2'}">
