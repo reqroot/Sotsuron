@@ -18,9 +18,10 @@
 <c:when test="${login_info.departmentId == '2'}">
  <h2 id="subsystem">販売管理</h2>
  <ul>
-   <li><a href="/Sotsuron/hanbai/supplier">仕入先管理</a></li>
-   <li><a href="/Sotsuron/hanbai/genre">ジャンル管理</a></li>
-   <li><a href="/Sotsuron/hanbai/member">会員管理</a></li>
+   <li><a href="/Sotsuron/hanbai/stockSystem">在庫管理</a></li>
+   <li><a href="/Sotsuron/hanbai/SearchSystem">商品検索</a></li>
+   <li><a href="/Sotsuron/hanbai/salesSystem">売上管理</a></li>
+   <li><a href="/Sotsuron/hanbai/MasterSystem">マスタ管理</a></li>
  </ul>
 </c:when>
 <c:when test="${login_info.departmentId == '3'}">
