@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jinji.db.staff.registInfo;
+import jinji.db.staff.staffInfo;
 import db.DBAccess;
 
 public class positionManage extends DBAccess {
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
 	private String selectSql; //社員登録時>>役職一覧取得
 	private String nameSearchSql; //confirm 表示用
+	private String tranceIDSql; //name → id
 
 	List<positionInfo> posList = new ArrayList<positionInfo>();
 	positionInfo positionInfo =null;
@@ -27,6 +29,12 @@ public class positionManage extends DBAccess {
 		sb.append("from tbl_position ");
 		sb.append("where position_id = ?");
 		nameSearchSql = sb.toString();
+		sb.setLength(0);
+
+		sb.append("select position_id ");
+		sb.append("from tbl_position ");
+		sb.append("where position_name = ?");
+		tranceIDSql = sb.toString();
 		sb.setLength(0);
 	}
 		public List<positionInfo> positionSelect() throws Exception{
@@ -62,6 +70,20 @@ public class positionManage extends DBAccess {
 			}
 			disConnect();
 			return posList;
+		}
+
+		public String tranceID(staffInfo sI) throws Exception{
+			String position_id="";
+			connect();
+			createStatement(tranceIDSql);
+			getPstmt().setString(1, sI.getPosition_name());
+			selectExe();
+			ResultSet rs = getRsResult();
+			while(rs.next()){
+				position_id = rs.getString("position_id");
+			}
+			disConnect();
+			return position_id;
 		}
 
 }

@@ -18,6 +18,7 @@
  <ul>
    <li><a href="/Sotsuron/Jinji/Staff">社員一覧</a></li>
    <li><a href="/Sotsuron/Jinji/Staff?page=regist">社員登録</a></li>
+   <li><a href="/Sotsuron/Jinji/Staff?page=search">社員検索</a></li>
 	<li><a href="">給与計算</a></li>
  </ul>
 </c:when>

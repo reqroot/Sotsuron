@@ -29,9 +29,9 @@
 </p>
 
 <p>
-生年月日：
+生年月日(例　1999-01-01)：
 	<input type="date" name="birthday" required="required"/>
-入社年月日：
+入社年月日(例　1999-01-01)：
 	<label>:<input type="date" name="enter_day"  required="required"></label>
 基本給：
 	<input type="number" name="base_salary" step="1000" required="required"/>

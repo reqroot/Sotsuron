@@ -2,7 +2,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <title>${page_title}</title>
 <h1>${page_title}</h1>
-<a href="/Sotsuron/Jinji/Staff?page=regist">社員登録</a>
 <br />
 <form action="/Sotsuron/Jinji/Staff" method="post">
 <table border=1>

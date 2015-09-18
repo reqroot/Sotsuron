@@ -12,6 +12,7 @@ public class educationManage extends DBAccess {
 	private String selectSql; //社員登録時>>学歴一覧取得
 	private String nameSearchSql; //confirm 表示用
 
+
 	List<educationInfo> eduList = new ArrayList<educationInfo>();
 	educationInfo educationInfo =null;
 

@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jinji.db.staff.registInfo;
+import jinji.db.staff.staffInfo;
 import db.DBAccess;
 
 public class departmentManage extends DBAccess {
 	private final static String DRIVER_NAME = "java:comp/env/jdbc/MySqlCon";
 	private String selectSql; //社員登録時>>部署一覧取得
 	private String nameSearchSql; //confirm 表示用
+	private String tranceIDSql; //name → id
 
 	List<departmentInfo> depList = new ArrayList<departmentInfo>();
 	departmentInfo departmentInfo =null;
@@ -28,6 +30,12 @@ public class departmentManage extends DBAccess {
 		sb.append("from tbl_department ");
 		sb.append("where department_id = ?");
 		nameSearchSql = sb.toString();
+		sb.setLength(0);
+
+		sb.append("select department_id ");
+		sb.append("from tbl_department ");
+		sb.append("where department_name = ?");
+		tranceIDSql = sb.toString();
 		sb.setLength(0);
 	}
 
@@ -63,6 +71,20 @@ public class departmentManage extends DBAccess {
 		}
 		disConnect();
 		return depList;
+	}
+
+	public String tranceID(staffInfo sI) throws Exception{
+		String department_id="";
+		connect();
+		createStatement(tranceIDSql);
+		getPstmt().setString(1, sI.getDepartment_name());
+		selectExe();
+		ResultSet rs = getRsResult();
+		while(rs.next()){
+			department_id = rs.getString("department_id");
+		}
+		disConnect();
+		return department_id;
 	}
 
 }

@@ -21,6 +21,7 @@ public class staffManage extends DBAccess {
 	private String deleteSql;//社員削除用
 	private String deleteViewSql;//社員削除確認用
 	private String idSql; //最新社員番号取得(社員登録用)
+	private String staffSearchSql;//社員検索用(仮ver)
 	private String searchSql;//個別ページ用
 	private String loginSql; // 2015/6/8 add 鈴木 ログイン用SQL
 	private String msg;
@@ -62,6 +63,14 @@ public class staffManage extends DBAccess {
 
 		idSql = "select MAX(staff_id)+1 from tbl_staff";
 
+		sb.append("SELECT staff.staff_id, staff.staff_name, department.department_name, position.position_name, staff.birthday,staff.enter_day,staff.base_salary ");
+		sb.append("FROM tbl_staff staff ");
+		sb.append("INNER JOIN tbl_department department on staff.department_id = department.department_id ");
+		sb.append("INNER JOIN tbl_position position on staff.position_id = position.position_id ");
+		sb.append("WHERE staff.staff_id = ? order by staff.staff_id asc");
+		staffSearchSql = sb.toString();
+		sb.setLength(0); //StringBuilderの初期化
+
 		// 2015/6/8 add 鈴木 ログイン用SQL ここから
 		this.loginSql = "SELECT Staff_ID, Staff_Name, Department_ID, Position_ID, Education_ID, Birthday, Enter_Day, Base_Salary, Passwd  FROM tbl_staff where staff_id = ? and passwd = ?";
 		// 2015/6/8 add 鈴木 ログイン用SQL ここまで
@@ -89,6 +98,37 @@ public class staffManage extends DBAccess {
 		createStatement();
 		//SQL実行
 		selectExe(selectSql);
+
+		//データ抽出
+		ResultSet rs = getRsResult();
+		staffInfo info = null;
+		while(rs.next()) {
+			 info =new staffInfo(
+					rs.getString("staff_id"),
+					rs.getString("staff_name"),
+					rs.getString("department_name"),
+					rs.getString("position_name"),
+					rs.getString("birthday"),
+					rs.getString("enter_day"),
+					rs.getString("base_salary"),
+					"",
+					"");
+				list.add(info);
+		}
+		disConnect();
+		return list;
+	}
+
+	public List<staffInfo> staffSearch(staffInfo staffInfo) throws Exception{
+		List<staffInfo> list = new ArrayList<staffInfo>();
+
+		//DB接続
+		connect();
+		//ステートメント作成
+		createStatement(staffSearchSql);
+		getPstmt().setString(1, staffInfo.getStaff_id());
+		//SQL実行
+		selectExe();
 
 		//データ抽出
 		ResultSet rs = getRsResult();

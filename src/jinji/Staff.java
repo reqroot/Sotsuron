@@ -69,9 +69,13 @@ public class Staff extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		//staffList.jspからのstaff_idのデータ取得
+		//staffList.jspからのstaff_idのデータ取得(部署・役職の編集時のID取得用も)
 				String staff_id = (request.getParameter("staff_id"));
 				sI.setStaff_id(staff_id);
+				String department_name = (request.getParameter("department_name"));
+				sI.setDepartment_name(department_name);
+				String position_name = request.getParameter("position_name");
+				sI.setPosition_name(position_name);
 
 		//page遷移 個人ページ
 				if(page != null && page.equals("psearch")){
@@ -120,6 +124,61 @@ public class Staff extends HttpServlet {
 					request.setAttribute("posList", posList);
 					request.setAttribute("staff_id", staff_id); //連番社員ID
 				}
+		//page遷移 社員検索
+				if(page != null && page.equals("search")){
+				try {
+					depList = dm.departmentSelect(); //部署一覧取得
+					eduList = em.educationSelect(); //学歴取得
+					posList = pm.positionSelect();//役職取得
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				page_title = "人事システム - 社員検索";
+				content_page = "/jinji/staff_search.jsp";
+				request.setAttribute("depList", depList);
+				request.setAttribute("eduList", eduList);
+				request.setAttribute("posList", posList);
+			}
+
+		//page遷移 社員結果
+				if(request.getParameter("result") != null){
+					try {
+						list = sm.staffSearch(sI);
+						depList = dm.departmentSelect();//部署一覧取得
+						eduList = em.educationSelect(); //学歴取得
+						posList = pm.positionSelect();//役職取得
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					page_title = "人事システム - 社員検索結果";
+					content_page = "/jinji/staff_search_result.jsp";
+					request.setAttribute("depList", depList);
+					request.setAttribute("eduList", eduList);
+					request.setAttribute("posList", posList);
+				}
+
+				//page遷移 個別編集
+				if(page != null && page.equals("personalEdit")){
+					page_title = "人事システム - 個別編集画面";
+					content_page = "/jinji/staff_personal_edit.jsp";
+					try {
+						depList = dm.departmentSelect();//部署一覧取得
+						eduList = em.educationSelect(); //学歴取得
+						posList = pm.positionSelect();//役職取得
+						plist = sm.pstaffSelect(sI);
+						String department_ID = dm.tranceID(sI);
+						String position_ID = pm.tranceID(sI);
+						request.setAttribute("depList", depList);
+						request.setAttribute("posList", posList);
+						request.setAttribute("department_id", department_ID);
+						request.setAttribute("position_id", position_ID);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+
+				}
 
 		//JSPへデータの送る準備
 		request.setAttribute("page_title", page_title);
@@ -135,6 +194,7 @@ public class Staff extends HttpServlet {
 		depList.clear();
 		posList.clear();
 		eduList.clear();
+
 	}
 
 
